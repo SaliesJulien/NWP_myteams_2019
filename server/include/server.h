@@ -44,12 +44,20 @@ typedef struct server_s {
 
 }server_t;
 
+typedef struct cmds_s {
+
+    char *command;
+    void (*ptr)(server_t *, int, int);
+
+}cmds_t;
+
 void help(int, char **);
 void error_handling(int, char **);
 void start_server(char **);
 void reading(server_t *);
 void exec_commands(server_t *, int, int);
 char *generate_id(void);
-void new_client_struct(server_t *server, int fd);
+void new_client_struct(server_t *, int);
+void remove_client(server_t *, int, int);
 
 #endif /* !SERVER_H_ */
