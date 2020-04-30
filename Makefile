@@ -5,42 +5,22 @@
 ## Teams
 ##
 
-SRCFOLDER = ./src/
-
-SRCSERVER =	$(SRCFOLDER)server/main.c \
-			$(SRCFOLDER)server/server.c \
-
-SRCCLIENT =	$(SRCFOLDER)client/main.c \
-			$(SRCFOLDER)client/client.c \
-
-CXX = gcc
-CFLAGS = -Wall -Werror -Wextra -I./include
-
-BINARYNAMESERVER = myteams_server
-
-BINARYNAMECLIENT = myteams_client
-
-OBJSERVER = $(SRCSERVER:.c=.o)
-
-OBJCLIENT = $(SRCCLIENT:.c=.o)
-
-all: $(BINARYNAMESERVER) $(BINARYNAMECLIENT)
-
-$(BINARYNAMESERVER) $(BINARYNAMECLIENT): $(OBJSERVER) $(OBJCLIENT)
-	$(CXX) -o $(BINARYNAMESERVER) $(OBJSERVER) $(CFLAGS)
-	$(CXX) -o $(BINARYNAMECLIENT) $(OBJCLIENT) $(CFLAGS)
+all:
+	make --no-print-directory -C ./server
+	make --no-print-directory -C ./client
 
 clean:
-	$(RM) $(OBJSERVER)
-	$(RM) $(OBJCLIENT)
+	make clean --no-print-directory -C ./server
+	make clean --no-print-directory -C ./client
 
 fclean: clean
-	$(RM) $(BINARYNAMESERVER)
-	$(RM) $(BINARYNAMECLIENT)
+	make fclean --no-print-directory -C ./server
+	make fclean --no-print-directory -C ./client
 
 re: fclean all
 
-.PHONY: all clean fclean re
-
-debug:	CFLAGS += -g3
+debug:	make debug --no-print-directory -C ./server
+debug:	make debug --no-print-directory -C ./client
 debug:	fclean all
+
+.PHONY: all clean fclean re debug

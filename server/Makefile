@@ -1,0 +1,40 @@
+##
+## EPITECH PROJECT, 2020
+## Makefile
+## File description:
+## server
+##
+
+SRCS = ./src/
+
+SRCSERVER =	$(SRCS)main.c 					\
+			$(SRCS)arguments.c 				\
+			$(SRCS)server.c 				\
+			$(SRCS)read_client.c 			\
+			$(SRCS)exec_commands.c 			\
+
+CC = gcc
+
+CFLAGS = -Wall -Werror -Wextra -I./include
+
+BINARYNAME_SERVER = ../myteams_server
+
+OBJSERVER = $(SRCSERVER:.c=.o)
+
+all: $(BINARYNAME_SERVER)
+
+$(BINARYNAME_SERVER): $(OBJSERVER)
+	$(CC) -o $(BINARYNAME_SERVER) $(OBJSERVER) $(CFLAGS)
+
+clean:
+	$(RM) $(OBJSERVER)
+
+fclean: clean
+	$(RM) $(BINARYNAME_SERVER)
+
+re: fclean all
+
+debug:	SERVERFLAGS += -g3
+debug:	fclean all
+
+.PHONY: all clean fclean re debug
