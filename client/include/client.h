@@ -14,6 +14,6 @@
 
 void help(int, char **);
 void error_handling(int, char **);
-
+int client_side(char **);
 
 #endif /* !CLIENT_H_ */
