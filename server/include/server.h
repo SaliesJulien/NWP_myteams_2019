@@ -30,6 +30,9 @@
 #define MAX_CLIENT 10
 #define READING 0
 #define WRITING 1
+#define DEFAULT_NAME_LENGTH 32
+#define DEFAULT_DESCRIPTION_LENGTH 255
+#define DEFAULT_BODY_LENGTH 512
 
 typedef struct clients_s {
 
