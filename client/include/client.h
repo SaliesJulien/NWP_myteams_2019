@@ -8,5 +8,12 @@
 #ifndef CLIENT_H_
 #define CLIENT_H_
 
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+
+void help(int, char **);
+void error_handling(int, char **);
+
 
 #endif /* !CLIENT_H_ */
