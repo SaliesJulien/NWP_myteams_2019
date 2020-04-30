@@ -12,10 +12,13 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)server.c 				\
 			$(SRCS)read_client.c 			\
 			$(SRCS)exec_commands.c 			\
+			$(SRCS)new_client.c 			\
+			$(SRCS)generate_id.c 			\
+
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -I./include
+CFLAGS = -Wall -Werror -Wextra -I./include -luuid
 
 BINARYNAME_SERVER = ../myteams_server
 

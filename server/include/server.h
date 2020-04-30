@@ -25,6 +25,7 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <uuid/uuid.h>
 
 #define MAX_CLIENT 10
 #define READING 0
@@ -33,6 +34,7 @@
 typedef struct clients_s {
 
     int fd_client;
+    char *user_id;
 
 }clients_t;
 
@@ -53,5 +55,7 @@ void error_handling(int, char **);
 void start_server(char **);
 void reading(server_t *);
 void exec_commands(server_t *, int, int);
+char *generate_id(void);
+void new_client_struct(server_t *server, int fd);
 
 #endif /* !SERVER_H_ */
