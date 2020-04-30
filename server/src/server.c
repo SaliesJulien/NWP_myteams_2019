@@ -34,6 +34,7 @@ void init_sets(server_t *server)
     FD_SET(server->fd_server, &server->set[READING]);
     FD_SET(server->fd_server, &server->set[WRITING]);
     for (int i = 0; i < server->nb_clients; i++) {
+        for (; server->clients[i].fd_client == 0; i++);
         FD_SET(server->clients[i].fd_client, &server->set[READING]);
         FD_SET(server->clients[i].fd_client, &server->set[WRITING]);
     }
