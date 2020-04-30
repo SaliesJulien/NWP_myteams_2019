@@ -7,9 +7,10 @@
 
 #include "client.h"
 
-int main(int argc, char **argv)
+int main(int ac, char **av)
 {
-    (void)argc;
-    (void)argv;
+    help(ac, av);
+    error_handling(ac, av);
+    client_side(av);
     return (0);
 }
