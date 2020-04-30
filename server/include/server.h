@@ -9,22 +9,13 @@
 #define SERVER_H_
 
 #include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
 #include <sys/socket.h>
-#include <sys/stat.h>
-#include <netdb.h>
 #include <netinet/in.h>
-#include <arpa/inet.h>
+#include <netinet/ip.h>
 #include <string.h>
-#include <signal.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <dirent.h>
+#include <unistd.h>
 #include <uuid/uuid.h>
 
 #define MAX_CLIENT 10

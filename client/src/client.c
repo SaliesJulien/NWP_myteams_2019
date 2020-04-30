@@ -5,15 +5,7 @@
 ** client
 */
 
-#include <stdlib.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netinet/ip.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <stdio.h>
+#include "client.h"
 
 void init_struct_sockaddr(struct sockaddr_in *name, int port, const char *ip)
 {
