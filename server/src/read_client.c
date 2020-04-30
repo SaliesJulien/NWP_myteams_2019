@@ -11,12 +11,14 @@ void new_clients(server_t *server)
 {
     socklen_t len_cin = sizeof(server->inf);
 
+    server->nb_clients++;
+    server->clients = realloc(server->clients, sizeof(clients_t) *\
+        server->nb_clients);
     server->clients[server->nb_clients].fd_client =
         accept(server->fd_server, (struct sockaddr *)&server->inf, &len_cin);
     dprintf(server->clients[server->nb_clients].fd_client,
         "220 Service ready for new user\r\n");
     printf("New connection\r\n");
-    server->nb_clients++;
 }
 
 void remove_client(server_t *server, int client, int id)
