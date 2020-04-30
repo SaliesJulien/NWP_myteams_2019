@@ -11,8 +11,8 @@ void help(int ac, char **av)
 {
     if (ac == 2 && (!strcmp(av[1], "-h") ||
         !strcmp(av[1], "-help") || !strcmp(av[1], "--help"))) {
-        puts("USAGE: ./teams port");
-        puts("\t\tport is the port number on wich the server socket listens");
+        puts("USAGE: ./myteams_server port");
+        puts("\t\tport is the port number on wich the server socket listens.");
         exit(0);
     }
 }
