@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-/*void new_clients(server_t *server)
+void new_clients(server_t *server)
 {
     int fd = 0;
     socklen_t len_cin = sizeof(server->inf);
@@ -20,17 +20,6 @@
     dprintf(server->clients[server->nb_clients].fd_client,
         "220 Service ready for new user\r\n");
     printf("New user -> %s\r\n", server->clients[server->nb_clients].user_id);
-}*/
-
-void new_clients(server_t *server)
-{
-    socklen_t len_cin = sizeof(server->inf);
-
-    server->clients[server->nb_clients].fd_client =
-        accept(server->fd_server, (struct sockaddr *)&server->inf, &len_cin);
-    dprintf(server->clients[server->nb_clients].fd_client,
-        "220 Service ready for new user\r\n");
-    printf("New connection\r\n");
     server->nb_clients++;
 }
 
