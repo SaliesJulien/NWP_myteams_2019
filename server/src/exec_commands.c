@@ -30,11 +30,12 @@ void command_not_found(server_t *server, int client, int id)
 char *format_cmd(char *str)
 {
     char *cmd = NULL;
+    char *temp = strdup(str);
 
-    if (index(str, ' ') != NULL) {
-        cmd = strtok(str, " ");
+    if (index(temp, ' ') != NULL) {
+        cmd = strtok(temp, " ");
     } else {
-        cmd = strdup(str);
+        cmd = strdup(temp);
         cmd[strlen(cmd)-2] = 0;
     }
     return (cmd);
@@ -44,11 +45,12 @@ void exec_commands(server_t *server, int client, int id)
 {
     char *cmd = NULL;
     bool found = false;
-    cmds_t ptr_command[3] = {{"/logout", remove_client},
-        {"/help", help_client}, {"/messages", client_mess}};
+    cmds_t ptr_command[5] = {{"/logout", remove_client},
+        {"/help", help_client}, {"/messages", client_mess},
+        {"/login", login_user}, {"/users", users_list}};
 
     cmd = format_cmd(server->command);
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 5; i++) {
         if (strcmp(ptr_command[i].command, cmd) == 0) {
             ptr_command[i].ptr(server, client, id);
             found = true;
