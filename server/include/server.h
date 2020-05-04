@@ -38,7 +38,7 @@ typedef struct clients_s {
     char *user_id;
     char *user_name;
     bool logged;
-    messages_t *messages;
+    messages_t *conversation;
 
 }clients_t;
 

@@ -21,14 +21,14 @@ char *get_command_id(server_t *server)
 
 void print(int client, int id, server_t *server, int i)
 {
-    for (int k = 0; server->clients[id].messages[i].message[k]; k++)
-        dprintf(client, "%s\n", server->clients[id].messages[i].message[k]);
+    for (int k = 0; server->clients[id].conversation[i].message[k]; k++)
+        dprintf(client, "%s\n", server->clients[id].conversation[i].message[k]);
 }
 
 void print_messages(server_t *server, int id, char *cmd_id, int client)
 {
-    for (int i = 0; server->clients[id].messages[i].client_id; i++) {
-        if (strcmp(server->clients[id].messages[i].client_id, cmd_id) == 0) {
+    for (int i = 0; server->clients[id].conversation[i].client_id; i++) {
+        if (strcmp(server->clients[id].conversation[i].client_id, cmd_id) == 0) {
             print(client, id, server, i);
             return;
         }
