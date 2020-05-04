@@ -37,10 +37,13 @@ void remove_client(server_t *server, int client, int id)
 
 void old_clients(server_t *server, int client)
 {
-    server->command = calloc(0, 256);
+    server->command = calloc(256, sizeof(char));
     for (int i = 0; i < server->nb_clients; i++) {
         if (server->clients[i].fd_client == client) {
             read(server->clients[i].fd_client, server->command, 256);
+            if (strlen(server->command) != 0) {
+                dprintf(1, "User send: %s", server->command);
+            }
             exec_commands(server, server->clients[i].fd_client, i);
         }
     }

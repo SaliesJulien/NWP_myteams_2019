@@ -29,16 +29,19 @@ void main_loop(int sock, struct sockaddr_in name)
 {
     int server_sock = 0;
     socklen_t size = sizeof(name);
-    char *str = malloc(256);
+    char *str = calloc(256, sizeof(char));
 
     server_sock = connect(sock, (struct sockaddr *)&name, size);
     if (server_sock == -1) {
         perror("Connect");
         exit(84);
     }
-    dprintf(sock, "Hello world\n");
-    read(sock, str, 256);
-    printf("Server said: %s", str);
+    dprintf(sock, "Salut !\n");
+    while (strcmp(str, "STOP") != 0) {
+        read(server_sock, str, 256);
+        dprintf(sock, str);
+        str = calloc(256, sizeof(char));
+    }
     close(server_sock);
     close(sock);
 }
