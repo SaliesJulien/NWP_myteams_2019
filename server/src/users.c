@@ -11,8 +11,7 @@ void get_list(server_t *server, int client)
 {
     dprintf(client, "List of all users that exist on the domain :\r\n");
     for (int i = 0; i < server->nb_clients; i++)
-        dprintf(client, "Name -> %s, ID -> %s\r\n",
-            server->clients[i].user_name, server->clients[i].user_id);
+        dprintf(client, "ID -> %s\r\n", server->clients[i].user_id);
 }
 
 void users_list(server_t *server, int client, int id)
