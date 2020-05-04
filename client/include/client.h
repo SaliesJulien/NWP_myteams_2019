@@ -20,6 +20,10 @@
 #include <unistd.h>
 #include <stdbool.h>
 
+#define DEFAULT_NAME_LENGTH 32
+#define DEFAULT_DESCRIPTION_LENGTH 255
+#define DEFAULT_BODY_LENGTH 512
+
 void help(int, char **);
 void error_handling(int, char **);
 int client_side(char **);
