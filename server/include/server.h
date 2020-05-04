@@ -29,6 +29,8 @@ typedef struct clients_s {
 
     int fd_client;
     char *user_id;
+    char *user_name;
+    bool logged;
 
 }clients_t;
 
@@ -59,5 +61,7 @@ void exec_commands(server_t *, int, int);
 char *generate_id(void);
 void new_client_struct(server_t *, int);
 void remove_client(server_t *, int, int);
+void login_user(server_t *, int, int);
+void users_list(server_t *, int, int);
 
 #endif /* !SERVER_H_ */

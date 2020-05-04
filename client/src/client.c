@@ -14,7 +14,7 @@ void init_struct_sockaddr(struct sockaddr_in *name, int port, const char *ip)
     name->sin_family = AF_INET;
 }
 
-int create_client_socket()
+int create_client_socket(void)
 {
     int sock = socket(AF_INET, SOCK_STREAM, 0);
 
