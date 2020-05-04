@@ -27,7 +27,18 @@ char *parse_messages(server_t *server)
     message[compt] = '\0';
     return (message);
 }
-// /send [“user_uuid”] [“message_body”] : send a message to a user
+
+void send_notif(server_t *server, int id, char *uuid_str)
+{
+    int i = 0;
+
+    for (; i < server->nb_clients; i++) {
+        if (!strcmp(server->clients[i].user_id, uuid_str))
+            break;
+    }
+    dprintf(server->clients[i].fd_client, "\"%s\" send you a message.\n",
+        server->clients[id].user_id);
+}
 
 void send_messages(server_t *server, int client, int id)
 {
@@ -65,4 +76,5 @@ void send_messages(server_t *server, int client, int id)
         strcpy(server->clients[id].conversation[i].message[0], message);
     }
     dprintf(1, "Finish\n");
+    send_notif(server, id, uuid_str);
 }
