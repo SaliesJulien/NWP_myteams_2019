@@ -39,7 +39,6 @@ typedef struct clients_s {
     char *user_name;
     bool logged;
     messages_t *messages;
-    int conv_nb;
 
 }clients_t;
 

@@ -27,7 +27,7 @@ void print(int client, int id, server_t *server, int i)
 
 void print_messages(server_t *server, int id, char *cmd_id, int client)
 {
-    for (int i = 0; i < server->clients[id].conv_nb; i++) {
+    for (int i = 0; server->clients[id].messages[i].client_id; i++) {
         if (strcmp(server->clients[id].messages[i].client_id, cmd_id) == 0) {
             print(client, id, server, i);
             return;
@@ -38,7 +38,7 @@ void print_messages(server_t *server, int id, char *cmd_id, int client)
 
 bool does_id_exist(server_t *server, int id, int client)
 {
-    bool id_exist = true;
+    bool id_exist = false;
     char *cmd_id = get_command_id(server);
 
     for (int i = 0; i < server->nb_clients; i++) {
