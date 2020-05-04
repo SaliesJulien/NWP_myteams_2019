@@ -27,7 +27,7 @@
 
 typedef struct messages_s {
 
-    char *name;
+    char *client_id;
     char **message;
 
 }messages_t;
@@ -38,7 +38,8 @@ typedef struct clients_s {
     char *user_id;
     char *user_name;
     bool logged;
-    messages_t *message;
+    messages_t *messages;
+    int conv_nb;
 
 }clients_t;
 
@@ -75,5 +76,11 @@ void send_messages(server_t *, int, int);
 bool uuid_exit(server_t *, char *);
 int uuid_index(server_t *, char *);
 char *parse_first_args(server_t *);
+
+//In user_messages.c
+char *get_command_id(server_t *server);
+void print_messages(server_t *server, int id, char *cmd_id, int client);
+bool does_id_exist(server_t *server, int id, int client);
+void client_mess(server_t *server, int client, int id);
 
 #endif /* !SERVER_H_ */

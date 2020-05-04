@@ -31,15 +31,16 @@ void main_loop(int sock, struct sockaddr_in name)
     socklen_t size = sizeof(name);
     char *str = calloc(256, sizeof(char));
 
-    server_sock = connect(sock, (struct sockaddr *)&name, size);
-    if (server_sock == -1) {
-        perror("Connect");
+    if ((server_sock = connect(sock, (struct sockaddr *)&name, size) == -1))
         exit(84);
-    }
-    dprintf(sock, "Salut !\n");
-    while (strcmp(str, "STOP") != 0) {
+    while (true) {
+        read(sock, str, 256);
+        str[strlen(str)-1] = 0;
+        printf("%s\r\n", str);
+        str = calloc(256, sizeof(char));
         read(server_sock, str, 256);
-        dprintf(sock, str);
+        str[strlen(str)-1] = 0;
+        dprintf(sock, "%s\r\n", str);
         str = calloc(256, sizeof(char));
     }
     close(server_sock);

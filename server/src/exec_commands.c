@@ -7,33 +7,6 @@
 
 #include "server.h"
 
-//bool does_id_exist(server_t *server, int id)
-//{
-    //bool id_exist = false;
-
-    //for (int i = 0; i < server->nb_clients; i++) {
-    //    if (strcmp(, server->clients[i].user_id))
-    //        id_exist = true;
-    //}
-    //return (id_exist);
-//}
-
-//void print_messages(server_t *server)
-//{
-//    for (int i = 0; server->clients[id].messages[i])
-//}
-
-void client_mess(server_t *server, int client, int id)
-{
-    (void)id;
-    //if (!does_id_exist(server, id)) {
-    //    dprintf(client, "xxx client's ID unknow.\r\n")
-    //    return;
-    //}
-    //print_messages(server);
-    dprintf(client, "%s\r\n", server->command);
-}
-
 void help_client(server_t *server, int client, int id)
 {
     (void)server;

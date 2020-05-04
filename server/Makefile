@@ -18,6 +18,8 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)login.c					\
 			$(SRCS)users.c					\
 			$(SRCS)tools.c					\
+			$(SRCS)user_messages.c			\
+
 
 CC = gcc
 
