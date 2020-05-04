@@ -43,8 +43,8 @@ void old_clients(server_t *server, int client)
 {
     for (int i = 0; i < server->nb_clients; i++) {
         if (server->clients[i].fd_client == client) {
-            server->command = calloc(256, sizeof(char));
-            read(server->clients[i].fd_client, server->command, 256);
+            server->command = calloc(DEFAULT_BODY_LENGTH, sizeof(char));
+            read(server->clients[i].fd_client, server->command, DEFAULT_BODY_LENGTH);
             exec_commands(server, server->clients[i].fd_client, i);
         }
     }

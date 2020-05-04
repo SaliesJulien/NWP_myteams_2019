@@ -25,12 +25,25 @@ int create_client_socket(void)
     return (sock);
 }
 
-void print_end(int sock, char *str)
+void cmd_loop(int server_sock, int sock, char *str)
 {
-    str = calloc(256, sizeof(char));
-    read(sock, str, 256);
-    str[strlen(str)-1] = 0;
-    printf("%s\r\n", str);
+    int i = 256;
+
+    while (true) {
+        read(sock, str, i);
+        str[strlen(str)-1] = 0;
+        printf("%s\r\n", str);
+        i = 256;
+        str = calloc(i, sizeof(char));
+        read(server_sock, str, i);
+        str[strlen(str)-1] = 0;
+        dprintf(sock, "%s\r\n", str);
+        if ((strcmp(str, "/logout")) == 0)
+            break;
+        if ((strcmp(str, "/help")) == 0)
+            i = 1085;
+        str = calloc(i, sizeof(char));
+    }
 }
 
 void main_loop(int sock, struct sockaddr_in name)
@@ -41,19 +54,11 @@ void main_loop(int sock, struct sockaddr_in name)
 
     if ((server_sock = connect(sock, (struct sockaddr *)&name, size) == -1))
         exit(84);
-    while (true) {
-        read(sock, str, 256);
-        str[strlen(str)-1] = 0;
-        printf("%s\r\n", str);
-        str = calloc(256, sizeof(char));
-        read(server_sock, str, 256);
-        str[strlen(str)-1] = 0;
-        dprintf(sock, "%s\r\n", str);
-        if ((strcmp(str, "/logout")) == 0)
-            break;
-        str = calloc(256, sizeof(char));
-    }
-    print_end(sock, str);
+    cmd_loop(server_sock, sock, str);
+    str = calloc(256, sizeof(char));
+    read(sock, str, 256);
+    str[strlen(str)-1] = 0;
+    printf("%s\r\n", str);
 }
 
 int client_side(char **argv)
