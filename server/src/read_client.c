@@ -25,21 +25,25 @@ void new_clients(server_t *server)
 
 void remove_client(server_t *server, int client, int id)
 {
-    dprintf(client, "221 Service closing control connection.\r\n");
-    while (id + 1 < server->nb_clients) {
-        server->clients[id] = server->clients[id + 1];
-        id++;
+    if (strcmp(server->command, "/logout\r\n") == 0) {
+        dprintf(client, "221 Service closing control connection.\r\n");
+        while (id + 1 < server->nb_clients) {
+            server->clients[id] = server->clients[id + 1];
+            id++;
+        }
+        close(client);
+        server->nb_clients--;
+        printf("Client disconnected\r\n");
+    } else {
+        dprintf(client, "Bad argument\r\n");
     }
-    close(client);
-    server->nb_clients--;
-    printf("Client disconnected\r\n");
 }
 
 void old_clients(server_t *server, int client)
 {
-    server->command = calloc(256, sizeof(char));
     for (int i = 0; i < server->nb_clients; i++) {
         if (server->clients[i].fd_client == client) {
+            server->command = calloc(256, sizeof(char));
             read(server->clients[i].fd_client, server->command, 256);
             exec_commands(server, server->clients[i].fd_client, i);
         }
