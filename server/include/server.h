@@ -72,6 +72,9 @@ void remove_client(server_t *, int, int);
 void login_user(server_t *, int, int);
 void users_list(server_t *, int, int);
 void send_messages(server_t *, int, int);
+bool uuid_exit(server_t *, char *);
+int uuid_index(server_t *, char *);
+char *parse_first_args(server_t *);
 
 //In user_messages.c
 char *get_command_id(server_t *server);
