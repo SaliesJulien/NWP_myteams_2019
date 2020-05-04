@@ -36,12 +36,9 @@ typedef struct clients_s {
 
     int fd_client;
     char *user_id;
-<<<<<<< HEAD
     char *user_name;
     bool logged;
-=======
     messages_t *message;
->>>>>>> origin/feature/messagesCommand
 
 }clients_t;
 
