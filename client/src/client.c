@@ -25,6 +25,14 @@ int create_client_socket(void)
     return (sock);
 }
 
+void print_end(int sock, char *str)
+{
+    str = calloc(256, sizeof(char));
+    read(sock, str, 256);
+    str[strlen(str)-1] = 0;
+    printf("%s\r\n", str);
+}
+
 void main_loop(int sock, struct sockaddr_in name)
 {
     int server_sock = 0;
@@ -41,10 +49,11 @@ void main_loop(int sock, struct sockaddr_in name)
         read(server_sock, str, 256);
         str[strlen(str)-1] = 0;
         dprintf(sock, "%s\r\n", str);
+        if ((strcmp(str, "/logout")) == 0)
+            break;
         str = calloc(256, sizeof(char));
     }
-    close(server_sock);
-    close(sock);
+    print_end(sock, str);
 }
 
 int client_side(char **argv)
