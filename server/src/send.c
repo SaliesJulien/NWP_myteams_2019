@@ -47,8 +47,11 @@ void send_messages(server_t *server, int client, int id)
             conversation_found = true;
             for (; server->clients[id].messages[i].message[a] ; a++);
             server->clients[id].messages[i].message = realloc(
-            server->clients[id].messages[i].message, sizeof(char *) * (a + 1));
+            server->clients[id].messages[i].message, (sizeof(char *) * (a + 1)));
+            server->clients[id].messages[i].message[a] = malloc(sizeof(char *)
+            * strlen(message));
             strcpy(server->clients[id].messages[i].message[a], message);
+            break;
         }
     }
     if (conversation_found == false) {
@@ -61,4 +64,5 @@ void send_messages(server_t *server, int client, int id)
         strlen(message));
         strcpy(server->clients[id].messages[i].message[0], message);
     }
+    dprintf(1, "Finish\n");
 }
