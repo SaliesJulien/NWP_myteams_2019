@@ -14,13 +14,10 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)exec_commands.c 			\
 			$(SRCS)new_client.c 			\
 			$(SRCS)generate_id.c 			\
-<<<<<<< HEAD
 			$(SRCS)send.c 					\
-=======
 			$(SRCS)login.c					\
 			$(SRCS)users.c					\
 
->>>>>>> dev
 
 CC = gcc
 

@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-void send(server_t *server, int client, int id)
+void send_messages(server_t *server, int client, int id)
 {
     (void)id;
     dprintf(client, "Messages %s.\r\n", server->command);

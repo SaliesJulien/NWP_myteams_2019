@@ -63,5 +63,6 @@ void new_client_struct(server_t *, int);
 void remove_client(server_t *, int, int);
 void login_user(server_t *, int, int);
 void users_list(server_t *, int, int);
+void send_messages(server_t *, int, int);
 
 #endif /* !SERVER_H_ */
