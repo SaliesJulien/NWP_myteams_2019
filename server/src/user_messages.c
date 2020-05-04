@@ -19,27 +19,26 @@ char *get_command_id(server_t *server)
     return (id);
 }
 
+void print(int client, int id, server_t *server, int i)
+{
+    for (int k = 0; server->clients[id].messages[i].message[k]; k++)
+        dprintf(client, "%s\n", server->clients[id].messages[i].message[k]);
+}
+
 void print_messages(server_t *server, int id, char *cmd_id, int client)
 {
-    //(void)server;
-    //(void)id;
-    //(void)cmd_id;
-    int i = 0;
-
-    while (strcmp(server->clients[id].message[i].client_id, cmd_id)) {
-        if (i > server->nb_clients) {
-            dprintf(client, "xxx You don't have conversation with this user.\r\n");
+    for (int i = 0; i < server->clients[id].conv_nb; i++) {
+        if (strcmp(server->clients[id].messages[i].client_id, cmd_id) == 0) {
+            print(client, id, server, i);
             return;
         }
-        i++;
     }
-    for (int k = 0; server->clients[id].message[i].message[k]; k++)
-        dprintf(client, "message %d: %s\n", k, server->clients[id].message[i].message[k]);
+    dprintf(client, "xxx You don't have conversation with this user.\n");
 }
 
 bool does_id_exist(server_t *server, int id, int client)
 {
-    bool id_exist = false;
+    bool id_exist = true;
     char *cmd_id = get_command_id(server);
 
     for (int i = 0; i < server->nb_clients; i++) {
@@ -50,10 +49,25 @@ bool does_id_exist(server_t *server, int id, int client)
     return (id_exist);
 }
 
+void init_mock(server_t *server, int id)
+{
+    server->clients[id].conv_nb = 0;
+    server->clients[id].messages = malloc(sizeof(messages_t) * 50);
+    server->clients[id].messages[0].client_id = "cc";
+    server->clients[id].messages[0].message = malloc(sizeof(char *) * 10);
+
+    server->clients[id].messages[0].message[0] = malloc(sizeof(char) * 10);
+    strcpy(server->clients[id].messages[0].message[0], "Julien");
+    server->clients[id].messages[0].message[1] = malloc(sizeof(char) * 10);
+    strcpy(server->clients[id].messages[0].message[1], "Lucas");
+    server->clients[id].messages[0].message[2] = malloc(sizeof(char) * 10);
+    strcpy(server->clients[id].messages[0].message[2], "Hugo");
+    server->clients[id].conv_nb++;
+}
+
 void client_mess(server_t *server, int client, int id)
 {
-    //server->clients[id].message[1] = {{"cc", "coucou"}};
-    (void)id;
+    init_mock(server, id);
     if (!does_id_exist(server, id, client))
-        dprintf(client, "xxx client's ID unknow.\r\n");
+        dprintf(client, "xxx client's ID unknow.\n");
 }
