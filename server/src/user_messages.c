@@ -51,7 +51,6 @@ bool does_id_exist(server_t *server, int id, int client)
 
 void init_mock(server_t *server, int id)
 {
-    server->clients[id].conv_nb = 0;
     server->clients[id].messages = malloc(sizeof(messages_t) * 50);
     server->clients[id].messages[0].client_id = "cc";
     server->clients[id].messages[0].message = malloc(sizeof(char *) * 10);
@@ -62,7 +61,6 @@ void init_mock(server_t *server, int id)
     strcpy(server->clients[id].messages[0].message[1], "Lucas");
     server->clients[id].messages[0].message[2] = malloc(sizeof(char) * 10);
     strcpy(server->clients[id].messages[0].message[2], "Hugo");
-    server->clients[id].conv_nb++;
 }
 
 void client_mess(server_t *server, int client, int id)
