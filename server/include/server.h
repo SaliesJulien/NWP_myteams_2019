@@ -25,10 +25,18 @@
 #define DEFAULT_DESCRIPTION_LENGTH 255
 #define DEFAULT_BODY_LENGTH 512
 
+typedef struct messages_s {
+
+    char *name;
+    char **message;
+
+}messages_t;
+
 typedef struct clients_s {
 
     int fd_client;
     char *user_id;
+    messages_t *message;
 
 }clients_t;
 
