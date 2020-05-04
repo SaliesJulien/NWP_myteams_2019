@@ -17,6 +17,7 @@ char *parse_messages(server_t *server)
         if (server->command[i] == '"')
             quotes++;
         if (quotes > 2) {
+            i++;
             for (size_t j = i; server->command[j] != '"'; j++) {
                 message[compt] = server->command[j];
                 compt++;
