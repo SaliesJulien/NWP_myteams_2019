@@ -45,7 +45,8 @@ void exec_commands(server_t *server, int client, int id)
     char *cmd = NULL;
     bool found = false;
     cmds_t ptr_command[3] = {{"/logout", remove_client},
-        {"/help", help_client}, {"/messages", client_mess}};
+        {"/help", help_client}, {"/messages", client_mess},
+        {"/send", send}};
 
     cmd = format_cmd(server->command);
     for (int i = 0; i < 3; i++) {

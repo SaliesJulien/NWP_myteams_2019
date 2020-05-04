@@ -14,7 +14,7 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)exec_commands.c 			\
 			$(SRCS)new_client.c 			\
 			$(SRCS)generate_id.c 			\
-
+			$(SRCS)send.c 					\
 
 CC = gcc
 

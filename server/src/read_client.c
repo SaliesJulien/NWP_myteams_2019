@@ -41,9 +41,6 @@ void old_clients(server_t *server, int client)
     for (int i = 0; i < server->nb_clients; i++) {
         if (server->clients[i].fd_client == client) {
             read(server->clients[i].fd_client, server->command, 256);
-            if (strlen(server->command) != 0) {
-                dprintf(1, "User send: %s", server->command);
-            }
             exec_commands(server, server->clients[i].fd_client, i);
         }
     }
