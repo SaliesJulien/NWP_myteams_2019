@@ -49,7 +49,7 @@ bool does_id_exist(server_t *server, int id, int client)
     return (id_exist);
 }
 
-void init_mock(server_t *server, int id)
+/*void init_mock(server_t *server, int id)
 {
     server->clients[id].conv_nb = 0;
     server->clients[id].messages = malloc(sizeof(messages_t) * 50);
@@ -63,11 +63,11 @@ void init_mock(server_t *server, int id)
     server->clients[id].messages[0].message[2] = malloc(sizeof(char) * 10);
     strcpy(server->clients[id].messages[0].message[2], "Hugo");
     server->clients[id].conv_nb++;
-}
+}*/
 
 void client_mess(server_t *server, int client, int id)
 {
-    init_mock(server, id);
+    //init_mock(server, id);
     if (!does_id_exist(server, id, client))
         dprintf(client, "xxx client's ID unknow.\n");
 }
