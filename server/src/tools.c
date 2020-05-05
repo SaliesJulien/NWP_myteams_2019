@@ -23,21 +23,28 @@ int uuid_index(server_t *server, char *uuid_find)
     return (-1);
 }
 
+char *get_sec(char *str)
+{
+    char *tmp = strdup(str);
+    char *arg = NULL;
+
+    if ((arg = strchr(tmp, ' ')) == NULL)
+        return (NULL);
+    tmp = strdup(arg);
+    if (tmp[1] != '"')
+        return (NULL);
+    if ((tmp = strchr(tmp + 2, '"')) == NULL)
+        return (NULL);
+    arg[strlen(arg) - strlen(tmp)] = 0;
+    return (arg + 2);
+}
+
 char *parse_first_args(server_t *server)
 {
+    bool check = false;
     char *uuid_str = calloc(DEFAULT_BODY_LENGTH, sizeof(char));
-    int compt = 0;
 
-    for (size_t i = 0; i < strlen(server->command); i++) {
-        if (server->command[i] == '"') {
-            i++;
-            for (size_t j = i; server->command[j] != '"'; j++) {
-                uuid_str[compt] = server->command[j];
-                compt++;
-            }
-            break;
-        }
-    }
-    uuid_str[compt] = '\0';
-    return (uuid_str);
+    if ((uuid_str = get_sec(server->command)) != NULL)
+        check = true;
+    return (check = true) ? (uuid_str) : (NULL);
 }

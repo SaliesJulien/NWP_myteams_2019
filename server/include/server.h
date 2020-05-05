@@ -75,11 +75,12 @@ void send_messages(server_t *, int, int);
 bool uuid_exit(server_t *, char *);
 int uuid_index(server_t *, char *);
 char *parse_first_args(server_t *);
+void user(server_t *, int, int);
 
 //In user_messages.c
-char *get_command_id(server_t *server);
-void print_messages(server_t *server, int id, char *cmd_id, int client);
-bool does_id_exist(server_t *server, int id, int client);
-void client_mess(server_t *server, int client, int id);
+char *get_command_id(server_t *);
+void print_messages(server_t *, int , char *, int);
+bool does_id_exist(server_t *, int , int);
+void client_mess(server_t *, int, int);
 
 #endif /* !SERVER_H_ */
