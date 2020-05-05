@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-char *get_arg(char *str)
+char *get_sec_arg(char *str)
 {
     char *tmp = strdup(str);
     char *arg = NULL;
@@ -21,7 +21,7 @@ char *get_arg(char *str)
 
 void login_user(server_t *server, int client, int id)
 {
-    if ((server->clients[id].user_name = get_arg(server->command)) != NULL) {
+    if ((server->clients[id].user_name = get_sec_arg(server->command)) != NULL) {
         server->clients[id].logged = true;
         dprintf(client, "Client logged in.\r\n");
     } else {

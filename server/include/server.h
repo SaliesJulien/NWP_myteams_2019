@@ -75,6 +75,7 @@ void send_messages(server_t *, int, int);
 bool uuid_exit(server_t *, char *);
 int uuid_index(server_t *, char *);
 char *parse_first_args(server_t *);
+void user(server_t *, int, int);
 
 //In user_messages.c
 char *get_command_id(server_t *);
