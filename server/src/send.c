@@ -68,6 +68,33 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
         strlen(message));
         strcpy(server->clients[id].conversation[i].message[0], message);
     }
+
+    conversation_found = false;
+    i = 0;
+    a = 0;
+    id = uuid_index(server, uuid_str);
+    for (; &server->clients[id].conversation[i] ; i++) {
+        if (strcmp(server->clients[id].conversation[i].client_id, uuid_str) == 0) {
+            conversation_found = true;
+            for (; server->clients[id].conversation[i].message[a] ; a++);
+            server->clients[id].conversation[i].message = realloc(
+            server->clients[id].conversation[i].message, (sizeof(char *) * (a + 1)));
+            server->clients[id].conversation[i].message[a] = malloc(sizeof(char *)
+            * strlen(message));
+            strcpy(server->clients[id].conversation[i].message[a], message);
+            break;
+        }
+    }
+    if (conversation_found == false) {
+        server->clients[id].conversation = realloc(server->clients[id].conversation,
+        sizeof(messages_t) * (i + 1));
+        server->clients[id].conversation[i].client_id = malloc(sizeof(char) * 37);
+        strcpy(server->clients[id].conversation[i].client_id, uuid_str);
+        server->clients[id].conversation[i].message = malloc(sizeof(char *));
+        server->clients[id].conversation[i].message[0] = malloc(sizeof(char *) *
+        strlen(message));
+        strcpy(server->clients[id].conversation[i].message[0], message);
+    }
 }
 
 void send_messages(server_t *server, int client, int id)
