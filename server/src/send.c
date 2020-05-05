@@ -49,10 +49,11 @@ bool if_conversation_exist(server_t *server, int id, char *uuid_str, char *messa
         if (strcmp(server->clients[id].conversation[i].client_id, uuid_str) == 0) {
             for (; server->clients[id].conversation[i].message[a] ; a++);
             server->clients[id].conversation[i].message = realloc(
-            server->clients[id].conversation[i].message, (sizeof(char *) * (a + 1)));
-            server->clients[id].conversation[i].message[a] = malloc(sizeof(char *)
+            server->clients[id].conversation[i].message, (sizeof(char *) * (a + 2)));
+            server->clients[id].conversation[i].message[a] = malloc(sizeof(char)
             * strlen(message));
             strcpy(server->clients[id].conversation[i].message[a], message);
+            server->clients[id].conversation[i].message[a + 1] = NULL;
             return (true);
         }
     return (false);

@@ -30,7 +30,6 @@ void client_mess(server_t *server, int client, int id)
     bool id_exist = false;
     char *cmd_id = parse_first_args(server);
 
-    dprintf(client, "%s\n", cmd_id);
     for (int i = 0; i < server->nb_clients; i++) {
         if (strcmp(cmd_id, server->clients[i].user_id) == 0)
             id_exist = true;
