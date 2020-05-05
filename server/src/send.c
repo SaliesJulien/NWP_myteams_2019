@@ -76,6 +76,10 @@ void send_messages(server_t *server, int client, int id)
         dprintf(1, "User pas trouvé");
         exit (84);
     }
+    else if (uuid_str == NULL || message == NULL) {
+        dprintf(1, "UUID OU MESSAGE ERROR");
+        exit (84);
+    }
     fill_messages(server, id, uuid_str, message);
     send_notif(server, id, uuid_str);
 }
