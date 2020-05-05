@@ -74,7 +74,7 @@ void users_list(server_t *, int, int);
 void send_messages(server_t *, int, int);
 bool uuid_exit(server_t *, char *);
 int uuid_index(server_t *, char *);
-char *parse_first_args(server_t *);
+char *parse_args(server_t *, int);
 void user(server_t *, int, int);
 
 //In user_messages.c

@@ -28,7 +28,7 @@ void print_messages(server_t *server, int id, char *cmd_id, int client)
 void client_mess(server_t *server, int client, int id)
 {
     bool id_exist = false;
-    char *cmd_id = parse_first_args(server);
+    char *cmd_id = parse_args(server, 0);
 
     dprintf(client, "%s\n", cmd_id);
     for (int i = 0; i < server->nb_clients; i++) {
