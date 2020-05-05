@@ -18,7 +18,7 @@ bool uuid_exit(server_t *server, char *uuid_find)
 int uuid_index(server_t *server, char *uuid_find)
 {
     for (int i = 0; i < server->nb_clients; i++)
-        if (strcmp(server->clients->user_id, uuid_find) == 0)
+        if (strcmp(server->clients[i].user_id, uuid_find) == 0)
             return (i);
     return (-1);
 }
