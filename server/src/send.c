@@ -40,19 +40,12 @@ void send_notif(server_t *server, int id, char *uuid_str)
         server->clients[id].user_id);
 }
 
-void send_messages(server_t *server, int client, int id)
+void fill_messages(server_t *server, int id, char *uuid_str, char *message)
 {
-    (void)client;
-    char *uuid_str = parse_first_args(server);
-    char *message = parse_messages(server);
+    bool conversation_found = false;
     int i = 0;
     int a = 0;
-    bool conversation_found = false;
 
-    if (!uuid_exit(server, uuid_str)) {
-        dprintf(1, "User pas trouvé");
-        exit (84);
-    }
     for (; &server->clients[id].conversation[i] ; i++) {
         if (strcmp(server->clients[id].conversation[i].client_id, uuid_str) == 0) {
             conversation_found = true;
@@ -75,6 +68,19 @@ void send_messages(server_t *server, int client, int id)
         strlen(message));
         strcpy(server->clients[id].conversation[i].message[0], message);
     }
+}
+
+void send_messages(server_t *server, int client, int id)
+{
+    (void)client;
+    char *uuid_str = parse_first_args(server);
+    char *message = parse_messages(server);
+
+    if (!uuid_exit(server, uuid_str)) {
+        dprintf(1, "User pas trouvé");
+        exit (84);
+    }
+    fill_messages(server, id, uuid_str, message);
     dprintf(1, "Finish\n");
     send_notif(server, id, uuid_str);
 }
