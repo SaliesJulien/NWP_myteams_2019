@@ -25,7 +25,7 @@ void user(server_t *server, int client, int id)
 
     if (server->clients[id].logged == false) {
         dprintf(client, "Not logged in.\r\n");
-    } else if ((user_id = parse_first_args(server)) != NULL) {
+    } else if ((user_id = parse_args(server, 0)) != NULL) {
         if ((find_user(server, user_id, id)) == false)
             dprintf(client, "User ID unknown.\r\n");
     } else {

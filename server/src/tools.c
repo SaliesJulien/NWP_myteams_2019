@@ -23,28 +23,37 @@ int uuid_index(server_t *server, char *uuid_find)
     return (-1);
 }
 
-char *get_sec(char *str)
+char *get_args(char *str, int wich_args)
 {
     char *tmp = strdup(str);
     char *arg = NULL;
+    size_t i = 0;
+    int quotes = 0;
 
     if ((arg = strchr(tmp, ' ')) == NULL)
         return (NULL);
     tmp = strdup(arg);
-    if (tmp[1] != '"')
+    for (; i < strlen(tmp) && tmp[i] == ' '; i++);
+    if (tmp[i] != '"')
         return (NULL);
-    if ((tmp = strchr(tmp + 2, '"')) == NULL)
-        return (NULL);
+    for (; i < strlen(tmp); i++) {
+        quotes += (tmp[i] == '"') ? 1 : 0;
+        if (quotes > wich_args) {
+            if ((tmp = strchr(tmp + i + 2, '"')) == NULL)
+                return (NULL);
+            break;
+        }
+    }
     arg[strlen(arg) - strlen(tmp)] = 0;
-    return (arg + 2);
+    return (arg + i + 1);
 }
+// wich_args = 0 si on veux le premier argument
+// wich_args = 2 si on veux le deuxieme argument
+// wich_args = 4 si on veux le troisieme argument
 
-char *parse_first_args(server_t *server)
+char *parse_args(server_t *server, int wich_args)
 {
-    bool check = false;
-    char *uuid_str = calloc(DEFAULT_BODY_LENGTH, sizeof(char));
+    char *uuid_str = get_args(server->command, wich_args);
 
-    if ((uuid_str = get_sec(server->command)) != NULL)
-        check = true;
-    return (check = true) ? (uuid_str) : (NULL);
+    return (uuid_str != NULL) ? (uuid_str) : (NULL);
 }

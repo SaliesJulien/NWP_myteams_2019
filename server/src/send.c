@@ -7,27 +7,6 @@
 
 #include "server.h"
 
-char *parse_messages(server_t *server)
-{
-    char *message = calloc(DEFAULT_BODY_LENGTH, sizeof(char));
-    int quotes = 0;
-    int compt = 0;
-
-    for (size_t i = 0; i < strlen(server->command) && quotes < 3; i++) {
-        if (server->command[i] == '"')
-            quotes++;
-        if (quotes > 2) {
-            i++;
-            for (size_t j = i; server->command[j] != '"'; j++) {
-                message[compt] = server->command[j];
-                compt++;
-            }
-        }
-    }
-    message[compt] = '\0';
-    return (message);
-}
-
 void send_notif(server_t *server, int id, char *uuid_str)
 {
     int i = 0;
@@ -85,8 +64,8 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
 void send_messages(server_t *server, int client, int id)
 {
     (void)client;
-    char *uuid_str = parse_first_args(server);
-    char *message = parse_messages(server);
+    char *uuid_str = parse_args(server, 0);
+    char *message = parse_args(server, 2);
 
     if (!uuid_exit(server, uuid_str)) {
         dprintf(1, "User pas trouvé");
