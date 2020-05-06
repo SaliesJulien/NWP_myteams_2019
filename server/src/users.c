@@ -9,9 +9,15 @@
 
 void get_list(server_t *server, int client)
 {
-    dprintf(client, "List of all users that exist on the domain :\r\n");
-    for (int i = 0; i < server->nb_clients; i++)
-        dprintf(client, "ID -> %s\r\n", server->clients[i].user_id);
+    char *str = calloc(DEFAULT_BODY_LENGTH, sizeof(char));
+
+    strcat(str, "List of all users that exist on the domain :\n");
+    for (int i = 0; i < server->nb_clients; i++) {
+        strcat(str, "ID -> ");
+        strcat(str, server->clients[i].user_id);
+        strcat(str, "\r\n");
+    }
+    dprintf(client, "%s", str);
 }
 
 void users_list(server_t *server, int client, int id)
