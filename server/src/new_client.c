@@ -15,4 +15,5 @@ void new_client_struct(server_t *server, int fd)
     server->clients[server->nb_clients].user_id = generate_id();
     server->clients[server->nb_clients].logged = false;
     server->clients[server->nb_clients].user_name = "";
+    server->clients[server->nb_clients].active = true;
 }

@@ -34,13 +34,23 @@ void init_sets(server_t *server)
     FD_SET(server->fd_server, &server->set[READING]);
     FD_SET(server->fd_server, &server->set[WRITING]);
     for (int i = 0; i < server->nb_clients; i++) {
-        FD_SET(server->clients[i].fd_client, &server->set[READING]);
-        FD_SET(server->clients[i].fd_client, &server->set[WRITING]);
+        if (server->clients[i].active == true) {
+            FD_SET(server->clients[i].fd_client, &server->set[READING]);
+            FD_SET(server->clients[i].fd_client, &server->set[WRITING]);
+        }
     }
 }
 
-void read_struct(server_t *server)
+server_t *read_struct(server_t *server)
 {
+    FILE *file_server = fopen("server_log", "rb");
+
+    if (file_server != NULL) {
+        server = malloc(sizeof(server_t));
+        fread(server, sizeof(server_t), 1, file_server);
+        fclose(file_server);
+    }
+
     FILE *file_client = fopen("client_log", "rb");
 
     if (file_client != NULL) {
@@ -48,6 +58,9 @@ void read_struct(server_t *server)
         fread(server->clients, sizeof(clients_t), 1, file_client);
         fclose(file_client);
     }
+    dprintf(1, "nb_clients: %d\n", server->nb_clients);
+    dprintf(1, "user_id: %s\n", server->clients[0].user_id);
+    return (server);
 }
 
 void save_struct(server_t *server)
@@ -58,6 +71,15 @@ void save_struct(server_t *server)
         fwrite(server->clients, sizeof(clients_t), 1, file_client);
         fclose(file_client);
     }
+
+    FILE *file_server = fopen("server_log", "wb");
+
+    if (file_server != NULL) {
+        fwrite(server, sizeof(server_t), 1, file_server);
+        fclose(file_server);
+    }
+    for (int i = 0; i < server->nb_clients; i++)
+        server->clients[i].active = false;
 }
 
 void start_server(char **av)
@@ -68,7 +90,7 @@ void start_server(char **av)
     keepRunning = true;
     server->port = atoi(av[1]);
     init_server(server);
-    read_struct(server);
+    server = read_struct(server);
     while (true) {
         init_sets(server);
         signal(SIGINT, control_c);
