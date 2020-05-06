@@ -20,6 +20,7 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)tools.c					\
 			$(SRCS)user_messages.c			\
 			$(SRCS)user.c					\
+			$(SRCS)teams_gestion.c 			\
 
 
 CC = gcc

@@ -18,6 +18,7 @@
 #include <unistd.h>
 #include <uuid/uuid.h>
 #include <signal.h>
+#include "teams.h"
 
 #define MAX_CLIENT 10
 #define READING 0
@@ -40,6 +41,8 @@ typedef struct clients_s {
     char *user_name;
     bool logged;
     messages_t *conversation;
+    team_t *teams;
+    team_statement_t use_state;
 
 }clients_t;
 
@@ -86,5 +89,9 @@ void client_mess(server_t *, int, int);
 
 //In exec_command.c
 void control_c(int __attribute__((unused)) contrl);
+
+//In teams_gestion.c
+void create(server_t *server, int client, int id);
+void use(server_t *server, int client, int id);
 
 #endif /* !SERVER_H_ */
