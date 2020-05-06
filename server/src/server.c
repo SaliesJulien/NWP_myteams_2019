@@ -41,42 +41,22 @@ void init_sets(server_t *server)
 
 void read_struct(server_t *server)
 {
-    FILE *file_server = fopen("server_log", "rb");
     FILE *file_client = fopen("client_log", "rb");
-    FILE *file_set = fopen("set_log", "rb");
 
-    if (file_server != NULL) {
-        fread(server, sizeof(server_t), 1, file_server);
-        fclose(file_server);
-    }
     if (file_client != NULL) {
         server->clients = malloc(sizeof(clients_t));
         fread(server->clients, sizeof(clients_t), 1, file_client);
         fclose(file_client);
     }
-    if (file_set != NULL) {
-        fread(server, sizeof(server_t), 1, file_set);
-        fclose(file_set);
-    }
 }
 
 void save_struct(server_t *server)
 {
-    FILE *file_server = fopen("server_log", "wb");
     FILE *file_client = fopen("client_log", "wb");
-    FILE *file_set = fopen("set_log", "wb");
 
-    if (file_server != NULL) {
-        fwrite(server, sizeof(server_t), 1, file_server);
-        fclose(file_server);
-    }
     if (file_client != NULL) {
         fwrite(server->clients, sizeof(clients_t), 1, file_client);
         fclose(file_client);
-    }
-    if (file_set != NULL) {
-        fwrite(server->set, sizeof(clients_t), 1, file_set);
-        fclose(file_set);
     }
 }
 
