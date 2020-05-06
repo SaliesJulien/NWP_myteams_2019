@@ -39,20 +39,50 @@ void init_sets(server_t *server)
     }
 }
 
+void read_struct(server_t *server)
+{
+    FILE *file = fopen("output", "rb");
+
+    if (file != NULL) {
+        fread(server, sizeof(server_t), 1, file);
+        fclose(file);
+    }
+}
+
+void save_struct(server_t *server)
+{
+    FILE *file = fopen("output", "wb");
+
+    if (file != NULL) {
+        fwrite(server, sizeof(server_t), 1, file);
+        fclose(file);
+    }
+}
+
 void start_server(char **av)
 {
     server_t *server = malloc(sizeof(server_t));
     server->clients = malloc(sizeof(clients_t));
 
+    keepRunning = true;
     server->port = atoi(av[1]);
     init_server(server);
+    read_struct(server);
     while (true) {
+        dprintf(1, "1\n");
         init_sets(server);
         signal(SIGINT, control_c);
+        if (keepRunning == false) {
+            save_struct(server);
+            break;
+        }
+        dprintf(1, "2\n");
         if ((select(FD_SETSIZE, &server->set[READING],
             &server->set[WRITING], NULL, NULL)) == -1)
             break;
+        dprintf(1, "3\n");
         reading(server);
+        dprintf(1, "4\n");
     }
     free(server);
     free(server->clients);
