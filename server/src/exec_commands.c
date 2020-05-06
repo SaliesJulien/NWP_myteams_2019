@@ -70,3 +70,8 @@ void exec_commands(server_t *server, int client, int id)
     }
     (found == false) ? command_not_found(server, client, id) : (0);
 }
+
+void control_c(int __attribute__((unused)) contrl)
+{
+    printf("HUGO SAUVEGARDE TOUT ÇA GOOOOO\n");
+}

@@ -48,6 +48,7 @@ void start_server(char **av)
     init_server(server);
     while (true) {
         init_sets(server);
+        signal(SIGINT, control_c);
         if ((select(FD_SETSIZE, &server->set[READING],
             &server->set[WRITING], NULL, NULL)) == -1)
             break;

@@ -17,6 +17,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <uuid/uuid.h>
+#include <signal.h>
 
 #define MAX_CLIENT 10
 #define READING 0
@@ -82,5 +83,8 @@ char *get_command_id(server_t *);
 void print_messages(server_t *, int, char *, int);
 bool does_id_exist(server_t *, int, int);
 void client_mess(server_t *, int, int);
+
+//In exec_command.c
+void control_c(int __attribute__((unused)) contrl);
 
 #endif /* !SERVER_H_ */
