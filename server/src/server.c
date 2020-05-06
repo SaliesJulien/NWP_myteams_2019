@@ -58,14 +58,15 @@ server_t *read_struct(server_t *server)
         fread(server->clients, sizeof(clients_t), 1, file_client);
         fclose(file_client);
     }
-    dprintf(1, "nb_clients: %d\n", server->nb_clients);
-    dprintf(1, "user_id: %s\n", server->clients[0].user_id);
     return (server);
 }
 
 void save_struct(server_t *server)
 {
     FILE *file_client = fopen("client_log", "wb");
+
+    for (int i = 0; i < server->nb_clients; i++)
+        server->clients[i].active = false;
 
     if (file_client != NULL) {
         fwrite(server->clients, sizeof(clients_t), 1, file_client);
@@ -78,8 +79,6 @@ void save_struct(server_t *server)
         fwrite(server, sizeof(server_t), 1, file_server);
         fclose(file_server);
     }
-    for (int i = 0; i < server->nb_clients; i++)
-        server->clients[i].active = false;
 }
 
 void start_server(char **av)

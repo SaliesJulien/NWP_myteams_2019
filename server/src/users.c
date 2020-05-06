@@ -12,7 +12,7 @@ void get_list(server_t *server, int client)
     char *str = calloc(DEFAULT_BODY_LENGTH, sizeof(char));
 
     strcat(str, "List of all users that exist on the domain :\n");
-    for (int i = 0; server->clients[i].user_id; i++) {
+    for (int i = 0; i < server->nb_clients; i++) {
         strcat(str, "ID -> ");
         strcat(str, server->clients[i].user_id);
         strcat(str, "\r\n");
