@@ -30,6 +30,7 @@ void cmd_loop(int server_sock, int sock, char *str)
     int i = 256;
 
     while (true) {
+        signal(SIGINT, control_c);
         read(sock, str, i);
         str[strlen(str)-1] = 0;
         printf("%s\r\n", str);

@@ -10,6 +10,7 @@ SRCS = ./src/
 SRCCLIENT =	$(SRCS)main.c 					\
 			$(SRCS)client.c 				\
 			$(SRCS)arguments.c 				\
+			$(SRCS)catch_sigint.c 			\
 
 CC = gcc
 
