@@ -26,8 +26,7 @@ char *message)
     int a = 0;
 
     for (; &server->clients[id].conversation[i] ; i++)
-        if (strcmp(server->clients[id].conversation[i].client_id, uuid_str)
-        == 0) {
+        if (!strcmp(server->clients[id].conversation[i].client_id, uuid_str)) {
             for (; server->clients[id].conversation[i].message[a] ; a++);
             server->clients[id].conversation[i].message = realloc(
             server->clients[id].conversation[i].message, (sizeof(char *) *
@@ -50,6 +49,8 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
     for (int y = 0; y < 2; y++) {
         conv_found = if_conversation_exist(server, id, uuid_str, message);
         if (conv_found == false) {
+            for (; &server->clients[id].conversation[i]; i++);
+            dprintf(server->clients[id].fd_client, "%d\n", i);
             server->clients[id].conversation = realloc(
             server->clients[id].conversation, sizeof(messages_t) * (i + 1));
             server->clients[id].conversation[i].client_id = malloc(sizeof(char)

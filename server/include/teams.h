@@ -19,6 +19,8 @@ typedef struct channel_s {
 
 typedef struct team_s {
 
+    char *team_name;
+    char *team_desc;
     char *team_id;
     channel_t *channel;
 
@@ -29,6 +31,7 @@ typedef enum team_statement_s {
     TEAM,
     CHANNEL,
     THREAD,
+    COMMENT,
 }team_statement_t;
 
 #endif /* !TEAMS_H_ */

@@ -16,4 +16,5 @@ void new_client_struct(server_t *server, int fd)
     server->clients[server->nb_clients].logged = false;
     server->clients[server->nb_clients].user_name = "";
     server->clients[server->nb_clients].use_state = UNDEFINED;
+    server->clients[server->nb_clients].teams = malloc(sizeof(team_t) * 1);
 }
