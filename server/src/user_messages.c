@@ -16,7 +16,7 @@ void print(int client, int id, server_t *server, int i)
 
 void print_messages(server_t *server, int id, char *cmd_id, int client)
 {
-    for (int i = 0; &server->clients[id].conversation[i]; i++) {
+    for (int i = 0; server->clients[id].conversation[i].client_id != NULL; i++) {
         if (!strcmp(server->clients[id].conversation[i].client_id, cmd_id)) {
             print(client, id, server, i);
             return;
