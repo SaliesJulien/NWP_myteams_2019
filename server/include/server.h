@@ -38,8 +38,8 @@ typedef struct messages_s {
 typedef struct clients_s {
 
     int fd_client;
-    char *user_id;
-    char *user_name;
+    char user_id[37];
+    char user_name[DEFAULT_NAME_LENGTH];
     bool logged;
     bool active;
     messages_t *conversation;

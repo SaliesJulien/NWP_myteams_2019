@@ -32,7 +32,7 @@ void help_client(server_t *server, int client, int id)
         dprintf(client, "Fd_client -> %d\r\n",
             server->clients[i].fd_client);
         dprintf(client, "Name_client -> %s\r\n",
-            server->clients[i].user_name);
+            server->clients[i].user_id);
     }
 }
 
