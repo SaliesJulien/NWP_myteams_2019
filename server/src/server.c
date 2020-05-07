@@ -54,8 +54,8 @@ server_t *read_struct(server_t *server)
     FILE *file_client = fopen("client_log", "rb");
 
     if (file_client != NULL) {
-        server->clients = malloc(sizeof(clients_t));
-        fread(server->clients, sizeof(clients_t), 1, file_client);
+        server->clients = malloc(server->nb_clients * sizeof(clients_t));
+        fread(server->clients, sizeof(clients_t), server->nb_clients, file_client);
         fclose(file_client);
     }
     return (server);
@@ -69,7 +69,7 @@ void save_struct(server_t *server)
         server->clients[i].active = false;
 
     if (file_client != NULL) {
-        fwrite(server->clients, sizeof(clients_t), 1, file_client);
+        fwrite(server->clients, sizeof(clients_t), server->nb_clients, file_client);
         fclose(file_client);
     }
 
