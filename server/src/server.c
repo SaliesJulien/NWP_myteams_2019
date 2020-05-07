@@ -87,6 +87,7 @@ void start_server(char **av)
     server->port = atoi(av[1]);
     init_server(server);
     server = read_struct(server);
+    server->fp = fopen("messages","w");
     while (true) {
         init_sets(server);
         signal(SIGINT, control_c);
@@ -101,4 +102,5 @@ void start_server(char **av)
     }
     free(server);
     free(server->clients);
+    fclose(server->fp);
 }

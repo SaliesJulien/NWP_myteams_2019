@@ -56,6 +56,7 @@ typedef struct server_s {
     int fd_server;
     int nb_clients;
     char *command;
+    FILE *fp;
     fd_set set[2];
     clients_t *clients;
     char *a;

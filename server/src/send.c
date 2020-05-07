@@ -51,6 +51,7 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
     int i = 0;
     int id_default = id;
 
+    fprintf(server->fp, "%s %s %s\n", server->clients[id].user_id, uuid_str, message);
     for (int y = 0; y < 2; y++) {
         if (!if_conversation_exist(server, id, uuid_str, message)) {
             for (; server->clients[id].conversation[i].client_id != NULL; i++);
