@@ -31,8 +31,8 @@ void help_client(server_t *server, int client, int id)
     for (int i = 0; i < server->nb_clients; i++) {
         dprintf(client, "Fd_client -> %d\r\n",
             server->clients[i].fd_client);
-        dprintf(client, "Name_client -> %s\r\n",
-            server->clients[i].user_name);
+        dprintf(client, "User_id_client -> %s\r\n",
+            server->clients[i].user_id);
     }
 }
 
