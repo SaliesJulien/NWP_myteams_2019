@@ -27,14 +27,14 @@ int create_client_socket(void)
 
 void cmd_loop(int server_sock, int sock, char *str)
 {
-    int i = 256;
+    int i = 512;
 
     while (true) {
         //signal(SIGINT, control_c);
         read(sock, str, i);
         str[strlen(str)-1] = 0;
         printf("%s\r\n", str);
-        i = 256;
+        i = 512;
         str = calloc(i, sizeof(char));
         read(server_sock, str, i);
         str[strlen(str)-1] = 0;
@@ -55,11 +55,11 @@ void main_loop(int sock, struct sockaddr_in name)
 
     if ((server_sock = connect(sock, (struct sockaddr *)&name, size) == -1))
         exit(84);
-    cmd_loop(server_sock, sock, str);
+    cmd_loop(server_sock, sock, str);/*
     str = calloc(256, sizeof(char));
     read(sock, str, 256);
     str[strlen(str)-1] = 0;
-    printf("%s\r\n", str);
+    printf("%s\r\n", str);*/
 }
 
 int client_side(char **argv)

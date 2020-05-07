@@ -58,6 +58,14 @@ server_t *read_struct(server_t *server)
     }
     for (int i = 0; i < server->nb_clients; i++)
         server->clients[i].fd_client = 0;
+/*
+    server->fp = fopen("messages","r");
+    char *line = NULL;
+    size_t len = 0;
+    while(getline(&line, &len, server->fp) != -1) {
+        printf("%s", line);
+    }
+*/
     return (server);
 }
 
@@ -87,7 +95,7 @@ void start_server(char **av)
     server->port = atoi(av[1]);
     init_server(server);
     server = read_struct(server);
-    server->fp = fopen("messages","w");
+    server->fp = fopen("messages","a+");
     while (true) {
         init_sets(server);
         signal(SIGINT, control_c);

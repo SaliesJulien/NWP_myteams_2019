@@ -88,4 +88,5 @@ void send_messages(server_t *server, int client, int id)
     }
     fill_messages(server, id, uuid_str, message);
     send_notif(server, id, uuid_str);
+    dprintf(client, "Message sent\n");
 }
