@@ -7,9 +7,16 @@
 
 #include "server.h"
 
+void init_next_team(server_t *server, int id, int i)
+{
+    server->clients[id].teams[i].team_name = NULL;
+    server->clients[id].teams[i].team_desc = NULL;
+    server->clients[id].teams[i].team_id = NULL;
+}
+
 void print_team(server_t *server, int id, int client)
 {
-    for (int i = 0; server->clients[id].teams != NULL; i++) {
+    for (int i = 0; server->clients[id].teams[i].team_id != NULL; i++) {
         dprintf(client, "%s\n", server->clients[id].teams[i].team_name);
         dprintf(client, "%s\n", server->clients[id].teams[i].team_desc);
         dprintf(client, "%s\n", server->clients[id].teams[i].team_id);
@@ -20,11 +27,7 @@ void create_new_team(server_t *server, int id, char *team_name, char *team_desc)
 {
     int i = 0;
 
-    //dprintf(server->clients[id].fd_client, "%d\n", i);
-    for (i = 0; &server->clients[id].teams[i] != NULL; i++) {
-        dprintf(server->clients[id].fd_client, "boucle\n");
-    }
-    //dprintf(server->clients[id].fd_client, "%d\n", i);
+    for (i = 0; server->clients[id].teams[i].team_id != NULL; i++);
     server->clients[id].teams = realloc(server->clients[id].teams, sizeof(team_t) * (i + 2));
     server->clients[id].teams[i].team_name = malloc(sizeof(char) * strlen(team_name));
     server->clients[id].teams[i].team_desc = malloc(sizeof(char) * strlen(team_desc));
@@ -33,6 +36,17 @@ void create_new_team(server_t *server, int id, char *team_name, char *team_desc)
     strcpy(server->clients[id].teams[i].team_name, team_name);
     strcpy(server->clients[id].teams[i].team_desc, team_desc);
     strcpy(server->clients[id].teams[i].team_id, generate_id());
+    init_next_team(server, id, i + 1);
+}
+
+void create_new_channel(server_t *server, int id)
+{
+    int i = 0;
+
+    for (i = 0; server->clients[id].teams[i].team_id !=
+                server->clients[id].use_state[0]; i++);
+    server->clients[id].teams[i].channel =
+        realloc(server->clients[id].teams[i].channel, sizeof(channel_t) * (i + 2));
 }
 
 void create(server_t *server, int client, int id)
@@ -42,15 +56,8 @@ void create(server_t *server, int client, int id)
 
     if (team_desc == NULL || team_name == NULL)
         dprintf(client, "501 Syntax error in parameters or arguments.\n");
-    if (server->clients[id].use_state == UNDEFINED) {
+    if (server->clients[id].use_state[0] == NULL)
         create_new_team(server, id, team_name, team_desc);
-        print_team(server, id, client);
-    }
-}
-
-void use(server_t *server, int client, int id)
-{
-    (void)server;
-    (void)client;
-    (void)id;
+    if (server->clients[id].use_state[0] != NULL)
+        create_new_channel(server, id);
 }

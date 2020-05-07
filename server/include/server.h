@@ -42,7 +42,7 @@ typedef struct clients_s {
     bool logged;
     messages_t *conversation;
     team_t *teams;
-    team_statement_t use_state;
+    char **use_state;
 
 }clients_t;
 
