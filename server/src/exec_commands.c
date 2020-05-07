@@ -61,13 +61,14 @@ void exec_commands(server_t *server, int client, int id)
 {
     char *cmd = NULL;
     bool found = false;
-    cmds_t ptr_command[7] = {{"/logout", remove_client},
+    cmds_t ptr_command[9] = {{"/logout", remove_client},
         {"/help", help_client}, {"/messages", client_mess},
         {"/login", login_user}, {"/users", users_list},
-        {"/send", send_messages}, {"/user", user}};
+        {"/send", send_messages}, {"/user", user}, {"/create", create},
+        {"/use", use}};
 
     cmd = format_cmd(server->command);
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 9; i++) {
         if (strcmp(ptr_command[i].command, cmd) == 0) {
             ptr_command[i].ptr(server, client, id);
             found = true;
