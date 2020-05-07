@@ -28,8 +28,12 @@ void help_client(server_t *server, int client, int id)
         /create : based on what is being used create the sub resource\n\
         /list : based on what is being used list all the sub resources\n\
         /info : based on what is being used list the current\r\n");*/
-    for (int i = 0; i < server->nb_clients; i++)
-        dprintf(client, "%d\r\n", server->clients[i].fd_client);
+    for (int i = 0; i < server->nb_clients; i++) {
+        dprintf(client, "Fd_client -> %d\r\n",
+            server->clients[i].fd_client);
+        dprintf(client, "Name_client -> %s\r\n",
+            server->clients[i].user_name);
+    }
 }
 
 void command_not_found(server_t *server, int client, int id)
