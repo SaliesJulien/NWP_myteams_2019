@@ -41,6 +41,17 @@ void init_sets(server_t *server)
     }
 }
 
+void parse_messages(server_t *server, char *command)
+{
+    char *receiver = strtok(command, "|");
+    char *sender = strtok(NULL, "|");
+    char *message = strtok(NULL, "|");
+
+    server->clients[uuid_index(server, sender)].conversation = malloc(sizeof(messages_t));
+    server->clients[uuid_index(server, receiver)].conversation = malloc(sizeof(messages_t));
+    fill_messages(server, uuid_index(server, sender), receiver, message);
+}
+
 server_t *read_struct(server_t *server)
 {
     FILE *file_server = fopen("server_log", "rb");
@@ -58,14 +69,15 @@ server_t *read_struct(server_t *server)
     }
     for (int i = 0; i < server->nb_clients; i++)
         server->clients[i].fd_client = 0;
-/*
+
     server->fp = fopen("messages","r");
-    char *line = NULL;
-    size_t len = 0;
-    while(getline(&line, &len, server->fp) != -1) {
-        printf("%s", line);
+    if (server->fp != NULL) {
+        char *line = NULL;
+        size_t len = 0;
+        while(getline(&line, &len, server->fp) != -1) {
+            parse_messages(server, line);
+        }
     }
-*/
     return (server);
 }
 

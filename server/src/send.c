@@ -51,7 +51,6 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
     int i = 0;
     int id_default = id;
 
-    fprintf(server->fp, "%s %s %s\n", server->clients[id].user_id, uuid_str, message);
     for (int y = 0; y < 2; y++) {
         if (!if_conversation_exist(server, id, uuid_str, message)) {
             for (; server->clients[id].conversation[i].client_id != NULL; i++);
@@ -86,6 +85,7 @@ void send_messages(server_t *server, int client, int id)
         dprintf(1, "UUID OU MESSAGE ERROR");
         exit (84);
     }
+    fprintf(server->fp, "%s|%s|%s|\n", server->clients[id].user_id, uuid_str, message);
     fill_messages(server, id, uuid_str, message);
     send_notif(server, id, uuid_str);
     dprintf(client, "Message sent\n");
