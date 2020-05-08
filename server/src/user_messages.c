@@ -30,6 +30,10 @@ void client_mess(server_t *server, int client, int id)
     bool id_exist = false;
     char *cmd_id = parse_args(server, 0);
 
+    if (cmd_id == NULL || strlen(cmd_id) < 1) {
+        dprintf(client, "501 Syntax error in parameters or arguments.\n");
+        return;
+    }
     for (int i = 0; i < server->nb_clients; i++) {
         if (strcmp(cmd_id, server->clients[i].user_id) == 0)
             id_exist = true;
