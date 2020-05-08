@@ -94,16 +94,18 @@ void client_mess(server_t *, int, int);
 //In exec_command.c
 void control_c(int __attribute__((unused)) contrl);
 
-//In teams_gestion.c
+//In teams_handling.c
 void init_next_team(server_t *, int, int);
 void create(server_t *, int, int);
 void use(server_t *, int, int);
+void create_new_comment(server_t *, int, char *);
+void comment_error(server_t *, char *, char *, int);
 
 //In channel_handling.c
 void create_new_channel(server_t *, int, char *, char *);
 void init_next_channel(server_t *, int, int, int);
 
-//In threa_handling.c
+//In thread_handling.c
 void create_new_thread(server_t *, int, char *, char *);
 void init_next_thread(clients_t, int, int, int);
 

@@ -23,7 +23,8 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)teams_handling.c  		\
 			$(SRCS)thread_handling.c 		\
 			$(SRCS)channel_handling.c 		\
-			$(SRCS)use_gestion.c 			\
+			$(SRCS)comment_handling.c 		\
+			$(SRCS)use_handling.c 			\
 
 
 CC = gcc
