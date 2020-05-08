@@ -19,7 +19,6 @@ void new_clients(server_t *server)
         new_client_struct(server, fd);
     dprintf(server->clients[server->nb_clients].fd_client,
         "220 Service ready for new user\r\n");
-    printf("New user -> %s\r\n", server->clients[server->nb_clients].user_id);
     server->nb_clients++;
 }
 

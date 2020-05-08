@@ -50,12 +50,12 @@ bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
         return (true);
     for (int i = 0; i < FD_SETSIZE; i++) {
         if (FD_ISSET(i, &set[READING]) == true) {
+            str = calloc(1085, sizeof(char));
             read(i, str, 1085);
             str[strlen(str)-1] = 0;
             print_fd(server_sock, sock, str, i);
             if ((strcmp(str, "/logout")) == 0)
                 return (true);
-            str = calloc(1085, sizeof(char));
         }
     }
     return (false);
