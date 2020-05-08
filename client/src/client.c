@@ -54,8 +54,13 @@ bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
             read(i, str, 1085);
             str[strlen(str)-1] = 0;
             print_fd(server_sock, sock, str, i);
-            if ((strcmp(str, "/logout")) == 0)
+            if ((strcmp(str, "/logout")) == 0) {
+                str = calloc(1085, sizeof(char));
+                read(sock, str, 1085);
+                str[strlen(str)-1] = 0;
+                dprintf(server_sock, "%s\n", str);
                 return (true);
+            }
         }
     }
     return (false);
