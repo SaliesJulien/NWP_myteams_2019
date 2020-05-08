@@ -13,9 +13,12 @@ void get_list(server_t *server, int client)
 
     strcat(str, "List of all users that exist on the domain :\n");
     for (int i = 0; i < server->nb_clients; i++) {
-        strcat(str, "ID -> ");
-        strcat(str, server->clients[i].user_id);
-        strcat(str, "\r\n");
+        if ((strcmp(server->clients[i].user_id, "Deleted") != 0) &&
+            (strcmp(server->clients[i].user_id, "") != 0)) {
+            strcat(str, "ID -> ");
+            strcat(str, server->clients[i].user_id);
+            strcat(str, "\r\n");
+        }
     }
     dprintf(client, "%s", str);
 }
