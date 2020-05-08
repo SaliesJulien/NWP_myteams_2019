@@ -11,7 +11,7 @@ void help_client(server_t *server, int client, int id)
 {
     (void)server;
     (void)id;
-    /*dprintf(client, "\
+    dprintf(client, "\
         /login [“username”] : set the username used by client\n\
         /logout : disconnect the client from the server\n\
         /users : get the list of all users that exist on the domain\n\
@@ -27,13 +27,7 @@ void help_client(server_t *server, int client, int id)
         specify a context team/channel/thread\n\
         /create : based on what is being used create the sub resource\n\
         /list : based on what is being used list all the sub resources\n\
-        /info : based on what is being used list the current\r\n");*/
-    for (int i = 0; i < server->nb_clients; i++) {
-        dprintf(client, "Fd_client -> %d\r\n",
-            server->clients[i].fd_client);
-        dprintf(client, "User_id_client -> %s\r\n",
-            server->clients[i].user_id);
-    }
+        /info : based on what is being used list the current\r\n");
 }
 
 void command_not_found(server_t *server, int client, int id)

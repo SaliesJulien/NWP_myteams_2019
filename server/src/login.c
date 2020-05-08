@@ -7,11 +7,46 @@
 
 #include "server.h"
 
+bool check_exist(server_t *server, int client, int id, int i)
+{
+    if ((strcmp(server->clients[i].user_name,
+        server->clients[id].user_name) == 0) && (i != id)) {
+        if ((server->clients[i].active == false) &&
+            (strcmp(server->clients[i].user_id, "Deleted") != 0)) {
+            dprintf(client, "Client logged in.\r\n");
+            server->clients[id].logged = true;
+            strcpy(server->clients[id].user_id, server->clients[i].user_id);
+            strcpy(server->clients[i].user_id, "Deleted");
+            return (true);
+        } else {
+            dprintf(client, "This client is already logged in.\r\n");
+            return (true);
+        }
+    }
+    return (false);
+}
+
+void find_uuid(server_t *server, int client, int id)
+{
+    bool check = false;
+
+    for (int i = 0; i < server->nb_clients; i++) {
+        if ((check_exist(server, client, id, i)) == true) {
+            check = true;
+            break;
+        }
+    }
+    if (check == false) {
+        strcpy(server->clients[id].user_id, generate_id());
+        dprintf(client, "Client logged in.\r\n");
+        server->clients[id].logged = true;
+    }
+}
+
 void login_user(server_t *server, int client, int id)
 {
     if ((strcpy(server->clients[id].user_name, parse_args(server, 0))) != NULL) {
-        server->clients[id].logged = true;
-        dprintf(client, "Client logged in.\r\n");
+        find_uuid(server, client, id);
     } else {
         dprintf(client, "Bad arguments\r\n");
     }
