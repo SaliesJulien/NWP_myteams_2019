@@ -77,13 +77,14 @@ void send_messages(server_t *server, int client, int id)
     char *uuid_str = parse_args(server, 0);
     char *message = parse_args(server, 2);
 
-    if (!uuid_exit(server, uuid_str)) {
-        dprintf(1, "User pas trouvé");
-        exit (84);
+    if ((!strcmp(uuid_str, "Bad cmd") || strlen(uuid_str) < 1) ||
+        (!strcmp(message, "Bad cmd") || strlen(message) < 1)) {
+        dprintf(client, "501 Syntax error in parameters or arguments.\n");
+        return;
     }
-    else if (strcmp(uuid_str, "Bad cmd") == 0 || strcmp(message, "Bad cmd") == 0) {
-        dprintf(1, "UUID OU MESSAGE ERROR");
-        exit (84);
+    if (!uuid_exit(server, uuid_str)) {
+        dprintf(client, "User unknown.\n");
+        return;
     }
     fprintf(server->fp, "%s|%s|%s|\n", server->clients[id].user_id, uuid_str, message);
     fill_messages(server, id, uuid_str, message);
