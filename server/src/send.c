@@ -73,7 +73,6 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
 
 void send_messages(server_t *server, int client, int id)
 {
-    (void)client;
     char *uuid_str = parse_args(server, 0);
     char *message = parse_args(server, 2);
 
