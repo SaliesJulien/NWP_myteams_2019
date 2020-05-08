@@ -55,5 +55,5 @@ char *parse_args(server_t *server, int wich_args)
 {
     char *uuid_str = get_args(server->command, wich_args);
 
-    return (uuid_str != NULL) ? (uuid_str) : (NULL);
+    return (uuid_str != NULL) ? (uuid_str) : ("Bad cmd");
 }

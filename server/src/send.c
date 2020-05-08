@@ -81,7 +81,7 @@ void send_messages(server_t *server, int client, int id)
         dprintf(1, "User pas trouvé");
         exit (84);
     }
-    else if (uuid_str == NULL || message == NULL) {
+    else if (strcmp(uuid_str, "Bad cmd") == 0 || strcmp(message, "Bad cmd") == 0) {
         dprintf(1, "UUID OU MESSAGE ERROR");
         exit (84);
     }

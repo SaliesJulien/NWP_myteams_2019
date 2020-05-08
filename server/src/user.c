@@ -10,9 +10,9 @@
 bool find_user(server_t *server, char *user_id, int id)
 {
     for (int i = 0; i < server->nb_clients; i++) {
-        if (strcmp(user_id, server->clients[id].user_id) == 0) {
+        if (strcmp(user_id, server->clients[i].user_id) == 0) {
             dprintf(server->clients[id].fd_client,
-                "User name -> %s.\r\n", server->clients[id].user_name);
+                "User name -> %s.\r\n", server->clients[i].user_name);
             return (true);
         }
     }
@@ -21,11 +21,11 @@ bool find_user(server_t *server, char *user_id, int id)
 
 void user(server_t *server, int client, int id)
 {
-    char *user_id = calloc(DEFAULT_BODY_LENGTH, sizeof(char));
+    char *user_id = parse_args(server, 0);
 
     if (server->clients[id].logged == false) {
         dprintf(client, "Not logged in.\r\n");
-    } else if ((user_id = parse_args(server, 0)) != NULL) {
+    } else if (strcmp(user_id, "Bad cmd") != 0) {
         if ((find_user(server, user_id, id)) == false)
             dprintf(client, "User ID unknown.\r\n");
     } else {

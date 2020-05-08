@@ -46,9 +46,9 @@ void find_uuid(server_t *server, int client, int id)
 
 void login_user(server_t *server, int client, int id)
 {
-    if ((strcpy(server->clients[id].user_name, parse_args(server, 0))) != NULL) {
+    strcpy(server->clients[id].user_name, parse_args(server, 0));
+    if (strcmp(server->clients[id].user_name, "Bad cmd") != 0)
         find_uuid(server, client, id);
-    } else {
+    else
         dprintf(client, "Bad arguments\r\n");
-    }
 }
