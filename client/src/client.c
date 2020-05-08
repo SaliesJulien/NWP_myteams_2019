@@ -46,8 +46,7 @@ void print_fd(int server_sock, int sock, char *str, int i)
 bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
 {
     init_fd(set, server_sock, sock);
-    if ((select(FD_SETSIZE, &set[READING], &set[WRITING], NULL, NULL))
-    == -1)
+    if ((select(FD_SETSIZE, &set[READING], &set[WRITING], NULL, NULL)) == -1)
         return (true);
     for (int i = 0; i < FD_SETSIZE; i++) {
         if (FD_ISSET(i, &set[READING]) == true) {
