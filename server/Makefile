@@ -20,7 +20,9 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)tools.c					\
 			$(SRCS)user_messages.c			\
 			$(SRCS)user.c					\
-			$(SRCS)teams_gestion.c 			\
+			$(SRCS)teams_handling.c  		\
+			$(SRCS)thread_handling.c 		\
+			$(SRCS)channel_handling.c 		\
 			$(SRCS)use_gestion.c 			\
 
 
