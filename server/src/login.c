@@ -13,6 +13,7 @@ bool check_exist(server_t *server, int client, int id, int i)
         server->clients[id].user_name) == 0) && (i != id)) {
         if (server->clients[i].active == false) {
             server->clients[i].active = true;
+            server->clients[i].logged = true;
             server->clients[i].fd_client = server->clients[id].fd_client;
             server->clients[id].fd_client = -1;
             server->clients[id].active = false;

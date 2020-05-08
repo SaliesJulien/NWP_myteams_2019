@@ -26,12 +26,15 @@ void remove_client(server_t *server, int client, int id)
 {
     if (strcmp(server->command, "/logout\r\n") == 0) {
         dprintf(client, "221 Service closing control connection.\r\n");
-        while (id + 1 < server->nb_clients) {
-            server->clients[id] = server->clients[id + 1];
-            id++;
+        if (server->clients[id].logged == false) {
+            while (id + 1 < server->nb_clients) {
+                server->clients[id] = server->clients[id + 1];
+                id++;
+            }
+            server->nb_clients--;
         }
-        close(client);
-        server->nb_clients--;
+        else
+            server->clients[id].active = false;
         printf("Client disconnected\r\n");
     } else {
         dprintf(client, "Bad argument\r\n");
