@@ -10,10 +10,21 @@
 
 #include "server.h"
 
+typedef struct thread_s {
+
+    char *thread_title;
+    char *thread_content;
+    char *thread_id;
+    char **comment;
+
+}thread_t;
+
 typedef struct channel_s {
 
+    char *channel_name;
+    char *channel_desc;
     char *channel_id;
-    char **messages;
+    thread_t *thread;
 
 }channel_t;
 
