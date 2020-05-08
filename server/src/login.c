@@ -11,12 +11,12 @@ bool check_exist(server_t *server, int client, int id, int i)
 {
     if ((strcmp(server->clients[i].user_name,
         server->clients[id].user_name) == 0) && (i != id)) {
-        if ((server->clients[i].active == false) &&
-            (strcmp(server->clients[i].user_id, "Deleted") != 0)) {
+        if (server->clients[i].active == false) {
+            server->clients[i].active = true;
+            server->clients[i].fd_client = server->clients[id].fd_client;
+            server->clients[id].fd_client = -1;
+            server->clients[id].active = false;
             dprintf(client, "Client logged in.\r\n");
-            server->clients[id].logged = true;
-            strcpy(server->clients[id].user_id, server->clients[i].user_id);
-            strcpy(server->clients[i].user_id, "Deleted");
             return (true);
         } else {
             dprintf(client, "This client is already logged in.\r\n");
