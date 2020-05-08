@@ -54,7 +54,7 @@ void create(server_t *server, int client, int id)
     char *team_name = parse_args(server, 0);
     char *team_desc = parse_args(server, 2);
 
-    if (team_desc == NULL || team_name == NULL)
+    if (strcmp(team_desc, "Bad cmd") == 0 || strcmp(team_name, "Bad cmd") == 0)
         dprintf(client, "501 Syntax error in parameters or arguments.\n");
     if (server->clients[id].use_state[0] == NULL)
         create_new_team(server, id, team_name, team_desc);
