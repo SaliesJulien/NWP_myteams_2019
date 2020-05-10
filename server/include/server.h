@@ -95,6 +95,8 @@ void client_mess(server_t *, int, int);
 
 //In exec_command.c
 void control_c(int __attribute__((unused)) contrl);
+void list(server_t *, int, int);
+void info(server_t *, int, int);
 
 //In teams_handling.c
 void init_next_team(server_t *, int, int);
