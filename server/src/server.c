@@ -56,6 +56,7 @@ server_t *read_struct(server_t *server)
 {
     FILE *file_server = fopen("server_log", "rb");
     FILE *file_client = fopen("client_log", "rb");
+    FILE *file_teams = fopen("teams_log", "rb");
 
     if (file_server != NULL) {
         server = malloc(sizeof(server_t));
@@ -74,9 +75,16 @@ server_t *read_struct(server_t *server)
     if (server->fp != NULL) {
         char *line = NULL;
         size_t len = 0;
-        while(getline(&line, &len, server->fp) != -1) {
+        while(getline(&line, &len, server->fp) != -1)
             parse_messages(server, line);
-        }
+    }
+
+    if (file_teams != NULL) {
+        server->clients[0].teams = malloc(server->nb_clients * sizeof(team_t));
+        fread(server->clients[0].teams, sizeof(team_t), server->nb_clients, file_teams);
+        server->clients[1].teams = malloc(server->nb_clients * sizeof(team_t));
+        fread(server->clients[1].teams, sizeof(team_t), server->nb_clients, file_teams);
+        fclose(file_teams);
     }
     return (server);
 }
@@ -85,16 +93,23 @@ void save_struct(server_t *server)
 {
     FILE *file_client = fopen("client_log", "wb");
     FILE *file_server = fopen("server_log", "wb");
+    FILE *file_teams = fopen("teams_log", "wb");
+    //FILE *channel_teams = fopen("channel_log", "wb");
+    //FILE *thread_teams = fopen("thread_log", "wb");
 
     for (int i = 0; i < server->nb_clients; i++)
         server->clients[i].active = false;
+    if (file_server != NULL) {
+        fwrite(server, sizeof(server_t), 1, file_server);
+        fclose(file_server);
+    }
     if (file_client != NULL) {
         fwrite(server->clients, sizeof(clients_t), server->nb_clients, file_client);
         fclose(file_client);
     }
-    if (file_server != NULL) {
-        fwrite(server, sizeof(server_t), 1, file_server);
-        fclose(file_server);
+    if (file_teams != NULL) {
+        fwrite(server->clients[0].teams, sizeof(team_t), server->nb_clients, file_teams);
+        fclose(file_teams);
     }
 }
 
