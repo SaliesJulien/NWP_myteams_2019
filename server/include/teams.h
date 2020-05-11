@@ -37,12 +37,4 @@ typedef struct team_s {
 
 }team_t;
 
-typedef enum team_statement_s {
-    UNDEFINED,
-    TEAM,
-    CHANNEL,
-    THREAD,
-    COMMENT,
-}team_statement_t;
-
 #endif /* !TEAMS_H_ */

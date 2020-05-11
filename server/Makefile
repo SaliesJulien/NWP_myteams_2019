@@ -27,6 +27,7 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)use_handling.c 			\
 			$(SRCS)list.c 					\
 			$(SRCS)info.c 					\
+			$(SRCS)unsubscribe.c 			\
 
 
 CC = gcc

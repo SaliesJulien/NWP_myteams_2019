@@ -70,7 +70,7 @@ void use(server_t *server, int client, int id)
 {
     char *team = parse_args(server, 0);
 
-    if (team != NULL || strlen(team) > 0) {
+    if (strcmp(team, "Bad cmd") || strlen(team) > 0) {
         if (server->clients[id].use_state[1] &&
             !server->clients[id].use_state[2])
             if (!use_thread(server, client, id, team))

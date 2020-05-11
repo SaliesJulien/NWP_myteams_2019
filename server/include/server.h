@@ -113,4 +113,7 @@ void init_next_channel(server_t *, int, int, int);
 void create_new_thread(server_t *, int, char *, char *);
 void init_next_thread(clients_t, int, int, int);
 
+//In unsubscribe.c
+void unsubscribe(server_t *, int, int);
+
 #endif /* !SERVER_H_ */
