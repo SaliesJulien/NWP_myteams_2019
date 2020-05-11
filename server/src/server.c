@@ -80,10 +80,8 @@ server_t *read_struct(server_t *server)
     }
 
     if (file_teams != NULL) {
-        server->clients[0].teams = malloc(server->nb_clients * sizeof(team_t));
-        fread(server->clients[0].teams, sizeof(team_t), server->nb_clients, file_teams);
-        server->clients[1].teams = malloc(server->nb_clients * sizeof(team_t));
-        fread(server->clients[1].teams, sizeof(team_t), server->nb_clients, file_teams);
+        server->clients[0].teams = malloc(1 * sizeof(team_t));
+        fread(server->clients[0].teams, sizeof(team_t), 1, file_teams);
         fclose(file_teams);
     }
     return (server);
@@ -97,8 +95,10 @@ void save_struct(server_t *server)
     //FILE *channel_teams = fopen("channel_log", "wb");
     //FILE *thread_teams = fopen("thread_log", "wb");
 
-    for (int i = 0; i < server->nb_clients; i++)
+    for (int i = 0; i < server->nb_clients; i++) {
         server->clients[i].active = false;
+        dprintf(server->clients[i].fd_client, "deco plz\r\n");
+    }
     if (file_server != NULL) {
         fwrite(server, sizeof(server_t), 1, file_server);
         fclose(file_server);
@@ -108,7 +108,7 @@ void save_struct(server_t *server)
         fclose(file_client);
     }
     if (file_teams != NULL) {
-        fwrite(server->clients[0].teams, sizeof(team_t), server->nb_clients, file_teams);
+        fwrite(server->clients[0].teams, sizeof(team_t), 1, file_teams);
         fclose(file_teams);
     }
 }
