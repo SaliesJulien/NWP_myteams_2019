@@ -9,9 +9,10 @@
 
 void init_next_team(server_t *server, int id, int i)
 {
-    server->clients[id].teams[i].team_name = NULL;
-    server->clients[id].teams[i].team_desc = NULL;
-    server->clients[id].teams[i].team_id = NULL;
+    strcpy(server->clients[id].teams[i].team_name, "NULL");
+    strcpy(server->clients[id].teams[i].team_desc, "NULL");
+    strcpy(server->clients[id].teams[i].team_id, "NULL");
+
 }
 
 void create_new_team(server_t *server, int id, char *team_name,
@@ -19,14 +20,9 @@ void create_new_team(server_t *server, int id, char *team_name,
 {
     int i = 0;
 
-    for (i = 0; server->clients[id].teams[i].team_id != NULL; i++);
+    for (i = 0; strcmp(server->clients[id].teams[i].team_id, "NULL") != 0; i++);
     server->clients[id].teams =
         realloc(server->clients[id].teams, sizeof(team_t) * (i + 2));
-    server->clients[id].teams[i].team_name =
-        malloc(sizeof(char) * strlen(team_name));
-    server->clients[id].teams[i].team_desc =
-        malloc(sizeof(char) * strlen(team_desc));
-    server->clients[id].teams[i].team_id = malloc(sizeof(char) * 37);
     server->clients[id].teams[i].channel = malloc(sizeof(channel_t));
     init_next_channel(server, id, i, 0);
     strcpy(server->clients[id].teams[i].team_name, team_name);
