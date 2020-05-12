@@ -80,8 +80,8 @@ server_t *read_struct(server_t *server)
     }
 
     if (file_teams != NULL) {
-        server->clients[0].teams = malloc(1 * sizeof(team_t));
-        fread(server->clients[0].teams, sizeof(team_t), 1, file_teams);
+        server->clients[0].teams = malloc(2 * sizeof(team_t));
+        fread(server->clients[0].teams, sizeof(team_t), 2, file_teams);
         fclose(file_teams);
     }
     return (server);
@@ -108,7 +108,7 @@ void save_struct(server_t *server)
         fclose(file_client);
     }
     if (file_teams != NULL) {
-        fwrite(server->clients[0].teams, sizeof(team_t), 1, file_teams);
+        dprintf(1, "%ld\n", fwrite(server->clients[0].teams, sizeof(team_t), 2, file_teams));
         fclose(file_teams);
     }
 }
