@@ -10,7 +10,8 @@
 void list_teams(server_t *server, int client, int id)
 {
     dprintf(client, "list of all teams that you are in :\n");
-    for (int i = 0; server->clients[id].teams[i].team_id != NULL; i++)
+    for (int i = 0; strcmp(server->clients[id].teams[i].team_id, "NULL") != 0
+    ; i++)
         dprintf(client, "Team name -> \"%s\"    Team ID -> \"%s\"\n",
             server->clients[id].teams[i].team_name,
             server->clients[id].teams[i].team_id);
@@ -71,14 +72,6 @@ void list_replies(server_t *server, int client, int id)
 
 void list(server_t *server, int client, int id)
 {
-    dprintf(client, "list of all teams that you are in :\n");
-    for (int i = 0; strcmp(server->clients[id].teams[i].team_id, "NULL") != 0; i++) {
-        dprintf(client, "id: %d / i: %d\n", id, i);
-        dprintf(client, "Team name -> \"%s\"    Team ID -> \"%s\"\n",
-            server->clients[id].teams[i].team_name,
-            server->clients[id].teams[i].team_id);
-    }
-/*
     if (server->clients[id].use_state[2])
         list_replies(server, client, id);
     if (server->clients[id].use_state[1] &&
@@ -89,5 +82,4 @@ void list(server_t *server, int client, int id)
         list_channel(server, client, id);
     if (!server->clients[id].use_state[0])
         list_teams(server, client, id);
-*/
 }

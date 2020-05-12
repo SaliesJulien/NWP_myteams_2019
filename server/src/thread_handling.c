@@ -9,16 +9,13 @@
 
 void init_next_thread(clients_t client, int i, int k, int j)
 {
-    client.teams[i].channel[k].thread[j].thread_content = NULL;
-    client.teams[i].channel[k].thread[j].thread_title = NULL;
-    client.teams[i].channel[k].thread[j].thread_id = NULL;
+    strcpy(client.teams[i].channel[k].thread[j].thread_content, "NULL");
+    strcpy(client.teams[i].channel[k].thread[j].thread_title, "NULL");
+    strcpy(client.teams[i].channel[k].thread[j].thread_id, "NULL");
 }
 
 void set_next_thread(thread_t *thread, char *name, char *desc)
 {
-    thread->thread_id = malloc(sizeof(char) * 37);
-    thread->thread_title = malloc(sizeof(char) * strlen(name));
-    thread->thread_content = malloc(sizeof(char) * strlen(desc));
     thread->comment = malloc(sizeof(char *));
     strcpy(thread->thread_id, generate_id());
     strcpy(thread->thread_title, name);
@@ -35,8 +32,9 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
         server->clients[id].use_state[0]); i++);
     for (k = 0; strcmp(server->clients[id].teams[i].channel[k].channel_id,
         server->clients[id].use_state[1]); k++);
-    for (j = 0; server->clients[id].teams[i].channel[k].thread[j].thread_id
-        != NULL; j++);
+    for (j = 0; strcmp(
+        server->clients[id].teams[i].channel[k].thread[j].thread_id, "NULL")
+        != 0; j++);
     server->clients[id].teams[i].channel[k].thread =
         realloc(server->clients[id].teams[i].channel[k].thread,
         sizeof(channel_t) * (j + 2));
