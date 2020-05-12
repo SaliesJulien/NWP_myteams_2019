@@ -46,6 +46,7 @@ typedef struct clients_s {
     messages_t *conversation;
     team_t *teams;
     char **use_state;
+    int nb_teams;
 
 }clients_t;
 

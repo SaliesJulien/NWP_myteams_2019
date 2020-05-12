@@ -68,8 +68,13 @@ server_t *read_struct(server_t *server)
         fread(server->clients, sizeof(clients_t), server->nb_clients, file_client);
         fclose(file_client);
     }
-    for (int i = 0; i < server->nb_clients; i++)
-        server->clients[i].fd_client = 0;
+    for (int j = 0; j < server->nb_clients; j++) {
+        server->clients[j].use_state = malloc(sizeof(char*) * 3);
+        server->clients[j].use_state[0] = NULL;
+        server->clients[j].use_state[1] = NULL;
+        server->clients[j].use_state[2] = NULL;
+        server->clients[j].fd_client = 0;
+    }
 
     server->fp = fopen("messages","r");
     if (server->fp != NULL) {
@@ -80,8 +85,8 @@ server_t *read_struct(server_t *server)
     }
 
     if (file_teams != NULL) {
-        server->clients[0].teams = malloc(2 * sizeof(team_t));
-        fread(server->clients[0].teams, sizeof(team_t), 2, file_teams);
+        server->clients[0].teams = malloc((server->clients[0].nb_teams + 1) * sizeof(team_t));
+        fread(server->clients[0].teams, sizeof(team_t), (server->clients[0].nb_teams + 1), file_teams);
         fclose(file_teams);
     }
     return (server);
@@ -95,9 +100,9 @@ void save_struct(server_t *server)
     //FILE *channel_teams = fopen("channel_log", "wb");
     //FILE *thread_teams = fopen("thread_log", "wb");
 
-    for (int i = 0; i < server->nb_clients; i++) {
-        server->clients[i].active = false;
-        dprintf(server->clients[i].fd_client, "deco plz\r\n");
+    for (int j = 0; j < server->nb_clients; j++) {
+        server->clients[j].active = false;
+        dprintf(server->clients[j].fd_client, "deco plz\r\n");
     }
     if (file_server != NULL) {
         fwrite(server, sizeof(server_t), 1, file_server);
@@ -108,7 +113,7 @@ void save_struct(server_t *server)
         fclose(file_client);
     }
     if (file_teams != NULL) {
-        dprintf(1, "%ld\n", fwrite(server->clients[0].teams, sizeof(team_t), 2, file_teams));
+        fwrite(server->clients[0].teams, sizeof(team_t), (server->clients[0].nb_teams + 1), file_teams);
         fclose(file_teams);
     }
 }
