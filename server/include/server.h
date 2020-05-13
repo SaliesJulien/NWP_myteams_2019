@@ -51,6 +51,7 @@ typedef struct clients_s {
 typedef struct server_s {
 
     struct sockaddr_in inf;
+    int nb_teams;
     int port;
     int fd_server;
     int nb_clients;

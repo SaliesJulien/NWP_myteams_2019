@@ -41,6 +41,7 @@ void create_new_team(server_t *server, int id, char *team_name,
     init_next_team(server, i + 1);
     dprintf(server->clients[id].fd_client, "New team \"%s\" created.\n",
             server->teams[i].team_id);
+    server->nb_teams++;
 }
 
 void create(server_t *server, int client, int id)

@@ -41,6 +41,7 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
     strcpy(server->teams[i].channel[k].thread[j].thread_content, desc);
     init_first_comment(server, i, k, j);
     dprintf(server->clients[id].fd_client, "New thread \"%s\" created.\n",
-            server->teams[i].channel[k].thread[j].thread_id);
+    server->teams[i].channel[k].thread[j].thread_id);
     init_next_thread(server, i, k, j + 1);
+    server->teams[i].channel[k].nb_thread++;
 }

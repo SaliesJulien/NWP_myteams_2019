@@ -57,6 +57,8 @@ server_t *read_struct(server_t *server)
     FILE *file_server = fopen("server_log", "rb");
     FILE *file_client = fopen("client_log", "rb");
     FILE *file_teams = fopen("teams_log", "rb");
+    FILE *channel_teams = fopen("channel_log", "rb");
+    FILE *thread_teams = fopen("thread_log", "rb");
 
     if (file_server != NULL) {
         server = malloc(sizeof(server_t));
@@ -74,13 +76,29 @@ server_t *read_struct(server_t *server)
         server->clients[j].use_state[1] = NULL;
         server->clients[j].use_state[2] = NULL;
         server->clients[j].fd_client = 0;
-        //if (file_teams != NULL) {
-        //    server->clients[j].teams = malloc((server->clients[j].nb_teams + 1) * sizeof(team_t));
-        //    fread(server->clients[j].teams, sizeof(team_t), (server->clients[j].nb_teams + 1), file_teams);
-        //}
+    }
+    if (file_teams != NULL) {
+        server->teams = malloc((server->nb_teams + 1) * sizeof(team_t));
+        fread(server->teams, sizeof(team_t), (server->nb_teams + 1), file_teams);
+        if (channel_teams != NULL) {
+            for (int i = 0; i < server->nb_teams; i++) {
+                server->teams[i].channel = malloc((server->teams[i].nb_channel + 1) * sizeof(channel_t));
+                fread(server->teams[i].channel, sizeof(channel_t), (server->teams[i].nb_channel + 1), channel_teams);
+                if (thread_teams != NULL) {
+                    for (int a = 0; a < server->teams[i].channel[a].nb_thread; a++) {
+                        server->teams[i].channel[a].thread = malloc((server->teams[i].channel[a].nb_thread + 1) * sizeof(thread_t));
+                        fread(server->teams[i].channel[a].thread, sizeof(thread_t), (server->teams[i].channel[a].nb_thread + 1), thread_teams);
+                    }
+                }
+            }
+        }
     }
     if (file_teams != NULL)
         fclose(file_teams);
+    if (channel_teams != NULL)
+        fclose(channel_teams);
+    if (thread_teams != NULL)
+        fclose(thread_teams);
 
     server->fp = fopen("messages","r");
     if (server->fp != NULL) {
@@ -94,12 +112,11 @@ server_t *read_struct(server_t *server)
 
 void save_struct(server_t *server)
 {
-    int k = 0;
     FILE *file_client = fopen("client_log", "wb");
     FILE *file_server = fopen("server_log", "wb");
     FILE *file_teams = fopen("teams_log", "wb");
-    //FILE *channel_teams = fopen("channel_log", "wb");
-    //FILE *thread_teams = fopen("thread_log", "wb");
+    FILE *channel_teams = fopen("channel_log", "wb");
+    FILE *thread_teams = fopen("thread_log", "wb");
 
     for (int j = 0; j < server->nb_clients; j++) {
         server->clients[j].active = false;
@@ -114,16 +131,24 @@ void save_struct(server_t *server)
         fclose(file_client);
     }
     if (file_teams != NULL) {
-        for (; strcmp(server->teams[k].team_id, "NULL"); k++);
-        for (int j = 0; strcmp(server->teams[j].team_id, "NULL"); j++)
-            fwrite(server->teams, sizeof(team_t), (k + 1), file_teams);
+        for (int j = 0; j < server->nb_clients; j++) {
+            fwrite(server->teams, sizeof(team_t), (server->nb_teams + 1), file_teams);
+            if (channel_teams != NULL) {
+                for (int i = 0; i < server->nb_teams; i++) {
+                    fwrite(server->teams[i].channel, sizeof(channel_t), (server->teams[i].nb_channel + 1), channel_teams);
+                    if (thread_teams != NULL) {
+                        for (int a = 0; a < server->teams[i].channel[a].nb_thread; a++)
+                            fwrite(server->teams[i].channel[a].thread, sizeof(thread_t), (server->teams[i].channel[a].nb_thread + 1), thread_teams);
+                    }
+                }
+            }
+        }
         fclose(file_teams);
+        if (channel_teams != NULL)
+            fclose(channel_teams);
+        if (thread_teams != NULL)
+            fclose(thread_teams);
     }
-    //if (file_teams != NULL) {
-    //    for (int j = 0; j < server->nb_clients; j++)
-    //        fwrite(server->clients[j].teams, sizeof(team_t), (server->clients[j].nb_teams + 1), file_teams);
-    //    fclose(file_teams);
-    //}
 }
 
 void init_teams(server_t *server)
