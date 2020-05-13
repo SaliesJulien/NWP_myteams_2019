@@ -56,6 +56,7 @@ server_t *read_struct(server_t *server)
 {
     FILE *file_server = fopen("server_log", "rb");
     FILE *file_client = fopen("client_log", "rb");
+    FILE *file_teams = fopen("teams_log", "rb");
 
     if (file_server != NULL) {
         server = malloc(sizeof(server_t));
@@ -67,16 +68,26 @@ server_t *read_struct(server_t *server)
         fread(server->clients, sizeof(clients_t), server->nb_clients, file_client);
         fclose(file_client);
     }
-    for (int i = 0; i < server->nb_clients; i++)
-        server->clients[i].fd_client = 0;
+    for (int j = 0; j < server->nb_clients; j++) {
+        server->clients[j].use_state = malloc(sizeof(char*) * 3);
+        server->clients[j].use_state[0] = NULL;
+        server->clients[j].use_state[1] = NULL;
+        server->clients[j].use_state[2] = NULL;
+        server->clients[j].fd_client = 0;
+        //if (file_teams != NULL) {
+        //    server->clients[j].teams = malloc((server->clients[j].nb_teams + 1) * sizeof(team_t));
+        //    fread(server->clients[j].teams, sizeof(team_t), (server->clients[j].nb_teams + 1), file_teams);
+        //}
+    }
+    if (file_teams != NULL)
+        fclose(file_teams);
 
     server->fp = fopen("messages","r");
     if (server->fp != NULL) {
         char *line = NULL;
         size_t len = 0;
-        while(getline(&line, &len, server->fp) != -1) {
+        while(getline(&line, &len, server->fp) != -1)
             parse_messages(server, line);
-        }
     }
     return (server);
 }
@@ -85,17 +96,35 @@ void save_struct(server_t *server)
 {
     FILE *file_client = fopen("client_log", "wb");
     FILE *file_server = fopen("server_log", "wb");
+    //FILE *file_teams = fopen("teams_log", "wb");
+    //FILE *channel_teams = fopen("channel_log", "wb");
+    //FILE *thread_teams = fopen("thread_log", "wb");
 
-    for (int i = 0; i < server->nb_clients; i++)
-        server->clients[i].active = false;
-    if (file_client != NULL) {
-        fwrite(server->clients, sizeof(clients_t), server->nb_clients, file_client);
-        fclose(file_client);
+    for (int j = 0; j < server->nb_clients; j++) {
+        server->clients[j].active = false;
+        dprintf(server->clients[j].fd_client, "deco plz\r\n");
     }
     if (file_server != NULL) {
         fwrite(server, sizeof(server_t), 1, file_server);
         fclose(file_server);
     }
+    if (file_client != NULL) {
+        fwrite(server->clients, sizeof(clients_t), server->nb_clients, file_client);
+        fclose(file_client);
+    }
+    //if (file_teams != NULL) {
+    //    for (int j = 0; j < server->nb_clients; j++)
+    //        fwrite(server->clients[j].teams, sizeof(team_t), (server->clients[j].nb_teams + 1), file_teams);
+    //    fclose(file_teams);
+    //}
+}
+
+void init_teams(server_t *server)
+{
+    server->teams = malloc(sizeof(team_t));
+    strcpy(server->teams[0].team_id, "NULL");
+    strcpy(server->teams[0].team_desc, "NULL");
+    strcpy(server->teams[0].team_name, "NULL");
 }
 
 void start_server(char **av)
@@ -103,6 +132,7 @@ void start_server(char **av)
     server_t *server = malloc(sizeof(server_t));
     server->clients = malloc(sizeof(clients_t));
 
+    init_teams(server);
     keepRunning = true;
     server->port = atoi(av[1]);
     init_server(server);

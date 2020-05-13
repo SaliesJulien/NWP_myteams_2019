@@ -7,11 +7,18 @@
 
 #include "server.h"
 
-void init_next_team(server_t *server, int id, int i)
+void init_next_team(server_t *server, int i)
 {
-    server->clients[id].teams[i].team_name = NULL;
-    server->clients[id].teams[i].team_desc = NULL;
-    server->clients[id].teams[i].team_id = NULL;
+    strcpy(server->teams[i].team_name, "NULL");
+    strcpy(server->teams[i].team_desc, "NULL");
+    strcpy(server->teams[i].team_id, "NULL");
+}
+
+void init_first_channel(server_t *server, int i)
+{
+    strcpy(server->teams[i].channel[0].channel_id, "NULL");
+    strcpy(server->teams[i].channel[0].channel_name, "NULL");
+    strcpy(server->teams[i].channel[0].channel_desc, "NULL");
 }
 
 void create_new_team(server_t *server, int id, char *team_name,
@@ -19,22 +26,21 @@ void create_new_team(server_t *server, int id, char *team_name,
 {
     int i = 0;
 
-    for (i = 0; server->clients[id].teams[i].team_id != NULL; i++);
-    server->clients[id].teams =
-        realloc(server->clients[id].teams, sizeof(team_t) * (i + 2));
-    server->clients[id].teams[i].team_name =
-        malloc(sizeof(char) * strlen(team_name));
-    server->clients[id].teams[i].team_desc =
-        malloc(sizeof(char) * strlen(team_desc));
-    server->clients[id].teams[i].team_id = malloc(sizeof(char) * 37);
-    server->clients[id].teams[i].channel = malloc(sizeof(channel_t));
-    init_next_channel(server, id, i, 0);
-    strcpy(server->clients[id].teams[i].team_name, team_name);
-    strcpy(server->clients[id].teams[i].team_desc, team_desc);
-    strcpy(server->clients[id].teams[i].team_id, generate_id());
+    for (; strcmp(server->teams[i].team_id, "NULL"); i++);
+    server->teams = realloc(server->teams, sizeof(team_t) * (i + 2));
+    server->teams[i].members = malloc(sizeof(char *) * 2);
+    server->teams[i].members[0] = malloc(sizeof(char) *
+        strlen(server->clients[id].user_name));
+    server->teams[i].channel = malloc(sizeof(channel_t));
+    strcpy(server->teams[i].team_id, generate_id());
+    strcpy(server->teams[i].team_name, team_name);
+    strcpy(server->teams[i].team_desc, team_desc);
+    strcpy(server->teams[i].members[0], server->clients[id].user_name);
+    server->teams[i].members[1] = NULL;
+    init_first_channel(server, i);
+    init_next_team(server, i + 1);
     dprintf(server->clients[id].fd_client, "New team \"%s\" created.\n",
-            server->clients[id].teams[i].team_id);
-    init_next_team(server, id, i + 1);
+            server->teams[i].team_id);
 }
 
 void create(server_t *server, int client, int id)

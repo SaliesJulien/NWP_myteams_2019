@@ -37,10 +37,12 @@ void init_fd(fd_set *set, int server_sock, int sock)
 
 void print_fd(int server_sock, int sock, char *str, int i)
 {
-    if (i == server_sock)
-        dprintf(sock, "%s\r\n", str);
-    else
-        dprintf(server_sock, "%s\r\n", str);
+    if (strlen(str) > 0) {
+        if (i == server_sock)
+            dprintf(sock, "%s\r\n", str);
+        else
+            dprintf(server_sock, "%s\r\n", str);
+    }
 }
 
 bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
@@ -54,6 +56,8 @@ bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
             read(i, str, 1085);
             str[strlen(str)-1] = 0;
             print_fd(server_sock, sock, str, i);
+            if ((strncmp(str, "deco plz", 8)) == 0)
+                return (true);
             if ((strcmp(str, "/logout")) == 0) {
                 str = calloc(1085, sizeof(char));
                 read(sock, str, 1085);

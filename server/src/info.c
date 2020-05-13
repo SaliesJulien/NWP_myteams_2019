@@ -22,11 +22,11 @@ void list_team_info(server_t *server, int client, int id)
     int i = 0;
 
     dprintf(client, "Team infos :\n");
-    for (i = 0; strcmp(server->clients[id].teams[i].team_id,
+    for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
     dprintf(client, "Team name : \"%s\"    Team description : \"%s\"\n",
-        server->clients[id].teams[i].team_name,
-        server->clients[id].teams[i].team_desc);
+        server->teams[i].team_name,
+        server->teams[i].team_desc);
 }
 
 void list_channel_info(server_t *server, int client, int id)
@@ -35,13 +35,13 @@ void list_channel_info(server_t *server, int client, int id)
     int k = 0;
 
     dprintf(client, "Channel infos :\n");
-    for (i = 0; strcmp(server->clients[id].teams[i].team_id,
+    for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
-    for (k = 0; strcmp(server->clients[id].teams[i].channel[k].channel_id,
+    for (k = 0; strcmp(server->teams[i].channel[k].channel_id,
         server->clients[id].use_state[1]); k++);
     dprintf(client, "Channel name : \"%s\"    Channel description : \"%s\"\n",
-        server->clients[id].teams[i].channel[k].channel_name,
-        server->clients[id].teams[i].channel[k].channel_desc);
+        server->teams[i].channel[k].channel_name,
+        server->teams[i].channel[k].channel_desc);
 }
 
 void list_thread_info(server_t *server, int client, int id)
@@ -50,15 +50,15 @@ void list_thread_info(server_t *server, int client, int id)
     int k = 0;
     int j = 0;
 
-    for (i = 0; strcmp(server->clients[id].teams[i].team_id,
+    for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
-    for (k = 0; strcmp(server->clients[id].teams[i].channel[k].channel_id,
+    for (k = 0; strcmp(server->teams[i].channel[k].channel_id,
         server->clients[id].use_state[1]); k++);
-    for (; strcmp(server->clients[id].teams[i].channel[k].thread[j].thread_id,
+    for (; strcmp(server->teams[i].channel[k].thread[j].thread_id,
         server->clients[id].use_state[2]); j++);
     dprintf(client, "Thread title : \"%s\"    Thread description : \"%s\"\n",
-        server->clients[id].teams[i].channel[k].thread[j].thread_title,
-        server->clients[id].teams[i].channel[k].thread[j].thread_content);
+        server->teams[i].channel[k].thread[j].thread_title,
+        server->teams[i].channel[k].thread[j].thread_content);
 }
 
 void info(server_t *server, int client, int id)

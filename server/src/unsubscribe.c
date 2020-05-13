@@ -10,22 +10,36 @@
 void leave_team(server_t *server, char *team_id, int id)
 {
     int i = 0;
+    int k = 0;
 
-    for (i = 0; server->clients[id].teams[i].team_id; i++)
-        if (!strcmp(server->clients[id].teams[i].team_id, team_id))
-            break;
+    for (i = 0; strcmp(server->teams[i].team_id, team_id); i++);
+    for (k = 0; strcmp(server->teams[i].members[k],
+        server->clients[id].user_name); k++);
     dprintf(server->clients[id].fd_client,
         "You succesfully left the team \"%s\".\n",
-        server->clients[id].teams[i].team_name);
-    for (; server->clients[id].teams[i].team_id; i++)
-        server->clients[id].teams[i] = server->clients[id].teams[i + 1];
-    init_next_team(server, id, i);
+        server->teams[i].team_name);
+    for (; server->teams[i].members[k] != NULL; k++)
+        server->teams[i].members[k] = server->teams[i].members[k + 1];
+    server->teams[i].members[k + 1] = NULL;
 }
 
-bool team_exist(server_t *server, char *team_id, int id)
+bool team_exist(server_t *server, char *team_id)
 {
-    for (int i = 0; server->clients[id].teams[i].team_id; i++)
-        if (!strcmp(server->clients[id].teams[i].team_id, team_id))
+    for (int i = 0; server->teams[i].team_id; i++)
+        if (!strcmp(server->teams[i].team_id, team_id))
+            return (true);
+    return (false);
+}
+
+bool user_is_in_team(server_t *server, char *team_id, int id)
+{
+    int i = 0;
+    int k = 0;
+
+    for (i = 0; strcmp(server->teams[i].team_id, team_id); i++);
+    for (k = 0; server->teams[i].members[k] != NULL; k++)
+        if (!strcmp(server->teams[i].members[k],
+            server->clients[id].user_name))
             return (true);
     return (false);
 }
@@ -37,8 +51,10 @@ void unsubscribe(server_t *server, int client, int id)
     if (!strcmp(team_id, "Bad cmd") || strlen(team_id) < 1)
         dprintf(client, "501 Syntax error in parameters or arguments.\n");
     else {
-        if (!team_exist(server, team_id, id))
-            dprintf(client, "You don't are in this team.\n");
+        if (!team_exist(server, team_id))
+            dprintf(client, "This team doesn't exist.\n");
+        else if (!user_is_in_team(server, team_id, id))
+            dprintf(client, "You are not in this team.\n");
         else
             leave_team(server, team_id, id);
     }

@@ -7,32 +7,19 @@
 
 #include "server.h"
 
-void init_next_channel(server_t *server, int id, int i, int k)
+void init_next_channel(server_t *server, int i, int k)
 {
-    server->clients[id].teams[i].channel[k].channel_name = NULL;
-    server->clients[id].teams[i].channel[k].channel_desc = NULL;
-    server->clients[id].teams[i].channel[k].channel_id = NULL;
-    server->clients[id].teams[i].channel[k].thread = NULL;
+    strcpy(server->teams[i].channel[k].channel_name, "NULL");
+    strcpy(server->teams[i].channel[k].channel_desc, "NULL");
+    strcpy(server->teams[i].channel[k].channel_id, "NULL");
+    server->teams[i].channel[k].thread = NULL;
 }
 
-void print_channel(server_t *server, int id, int client)
+void init_first_thread(server_t *server, int i, int k)
 {
-    int i = 0;
-
-    for (i = 0; strcmp(server->clients[id].teams[i].team_id,
-        server->clients[id].use_state[0]); i++);
-    for (int j = 0; server->clients[id].teams[i].channel[j].channel_id
-        != NULL; j++) {
-        dprintf(client, "%s\n",
-            server->clients[id].teams[i].channel[j].channel_id);
-    }
-}
-
-void save_channel_infos(channel_t *channel, char *name, char *desc)
-{
-    strcpy(channel->channel_id, generate_id());
-    strcpy(channel->channel_name, name);
-    strcpy(channel->channel_desc, desc);
+    strcpy(server->teams[i].channel[k].thread[0].thread_content, "NULL");
+    strcpy(server->teams[i].channel[k].thread[0].thread_title, "NULL");
+    strcpy(server->teams[i].channel[k].thread[0].thread_id, "NULL");
 }
 
 void create_new_channel(server_t *server, int id, char *name, char *desc)
@@ -40,22 +27,17 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
     int i = 0;
     int k = 0;
 
-    for (i = 0; strcmp(server->clients[id].teams[i].team_id,
+    for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
-    for (; server->clients[id].teams[i].channel[k].channel_id != NULL; k++);
-    server->clients[id].teams[i].channel =
-        realloc(server->clients[id].teams[i].channel,
-            sizeof(channel_t) * (k + 2));
-    server->clients[id].teams[i].channel[k].channel_id =
-        malloc(sizeof(char) * 37);
-    server->clients[id].teams[i].channel[k].channel_name =
-        malloc(sizeof(char) * strlen(name));
-    server->clients[id].teams[i].channel[k].channel_desc =
-        malloc(sizeof(char) * strlen(desc));
-    server->clients[id].teams[i].channel[k].thread = malloc(sizeof(thread_t));
-    init_next_thread(server->clients[id], i, k, 0);
-    save_channel_infos(&server->clients[id].teams[i].channel[k], name, desc);
+    for (; strcmp(server->teams[i].channel[k].channel_id, "NULL"); k++);
+    server->teams[i].channel = realloc(server->teams[i].channel,
+        sizeof(channel_t) * (k + 2));
+    server->teams[i].channel[k].thread = malloc(sizeof(thread_t));
+    strcpy(server->teams[i].channel[k].channel_name, name);
+    strcpy(server->teams[i].channel[k].channel_id, generate_id());
+    strcpy(server->teams[i].channel[k].channel_desc, desc);
+    init_first_thread(server, i, k);
+    init_next_channel(server, i, k + 1);
     dprintf(server->clients[id].fd_client, "New channel \"%s\" created.\n",
-            server->clients[id].teams[i].channel[k].channel_id);
-    init_next_channel(server, id, i, k + 1);
+            server->teams[i].channel[k].channel_id);
 }

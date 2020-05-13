@@ -44,8 +44,8 @@ typedef struct clients_s {
     bool logged;
     bool active;
     messages_t *conversation;
-    team_t *teams;
     char **use_state;
+    int nb_teams;
 
 }clients_t;
 
@@ -59,6 +59,8 @@ typedef struct server_s {
     FILE *fp;
     fd_set set[2];
     clients_t *clients;
+    int nb_teams;
+    team_t *teams;
     char *a;
 
 }server_t;
@@ -99,21 +101,23 @@ void list(server_t *, int, int);
 void info(server_t *, int, int);
 
 //In teams_handling.c
-void init_next_team(server_t *, int, int);
 void create(server_t *, int, int);
+void init_next_team(server_t *, int);
 void use(server_t *, int, int);
 void create_new_comment(server_t *, int, char *);
 void comment_error(server_t *, char *, char *, int);
 
 //In channel_handling.c
 void create_new_channel(server_t *, int, char *, char *);
-void init_next_channel(server_t *, int, int, int);
+void init_next_channel(server_t *, int, int);
 
 //In thread_handling.c
 void create_new_thread(server_t *, int, char *, char *);
-void init_next_thread(clients_t, int, int, int);
+void init_next_thread(server_t *, int, int, int);
 
 //In unsubscribe.c
 void unsubscribe(server_t *, int, int);
+void subscribed(server_t *, int, int);
+void subscribe(server_t *, int, int);
 
 #endif /* !SERVER_H_ */

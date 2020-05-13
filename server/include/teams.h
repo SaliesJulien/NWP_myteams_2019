@@ -10,29 +10,33 @@
 
 #include "server.h"
 
+#define DEFAULT_NAME_LENGTH 32
+#define DEFAULT_DESCRIPTION_LENGTH 255
+#define DEFAULT_BODY_LENGTH 512
+
 typedef struct thread_s {
 
-    char *thread_title;
-    char *thread_content;
-    char *thread_id;
+    char thread_title[DEFAULT_NAME_LENGTH];
+    char thread_content[DEFAULT_BODY_LENGTH];
+    char thread_id[37];
     char **comment;
 
 }thread_t;
 
 typedef struct channel_s {
 
-    char *channel_name;
-    char *channel_desc;
-    char *channel_id;
+    char channel_name[DEFAULT_NAME_LENGTH];
+    char channel_desc[DEFAULT_DESCRIPTION_LENGTH];
+    char channel_id[37];
     thread_t *thread;
 
 }channel_t;
 
 typedef struct team_s {
-
-    char *team_name;
-    char *team_desc;
-    char *team_id;
+    char **members;
+    char team_name[DEFAULT_NAME_LENGTH];
+    char team_desc[DEFAULT_DESCRIPTION_LENGTH];
+    char team_id[37];
     channel_t *channel;
 
 }team_t;
