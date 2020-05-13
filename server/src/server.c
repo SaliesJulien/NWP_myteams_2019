@@ -74,7 +74,13 @@ server_t *read_struct(server_t *server)
         server->clients[j].use_state[1] = NULL;
         server->clients[j].use_state[2] = NULL;
         server->clients[j].fd_client = 0;
+        if (file_teams != NULL) {
+            server->clients[j].teams = malloc((server->clients[j].nb_teams + 1) * sizeof(team_t));
+            fread(server->clients[j].teams, sizeof(team_t), (server->clients[j].nb_teams + 1), file_teams);
+        }
     }
+    if (file_teams != NULL)
+        fclose(file_teams);
 
     server->fp = fopen("messages","r");
     if (server->fp != NULL) {
@@ -82,12 +88,6 @@ server_t *read_struct(server_t *server)
         size_t len = 0;
         while(getline(&line, &len, server->fp) != -1)
             parse_messages(server, line);
-    }
-
-    if (file_teams != NULL) {
-        server->clients[0].teams = malloc((server->clients[0].nb_teams + 1) * sizeof(team_t));
-        fread(server->clients[0].teams, sizeof(team_t), (server->clients[0].nb_teams + 1), file_teams);
-        fclose(file_teams);
     }
     return (server);
 }
@@ -113,7 +113,8 @@ void save_struct(server_t *server)
         fclose(file_client);
     }
     if (file_teams != NULL) {
-        fwrite(server->clients[0].teams, sizeof(team_t), (server->clients[0].nb_teams + 1), file_teams);
+        for (int j = 0; j < server->nb_clients; j++)
+            fwrite(server->clients[j].teams, sizeof(team_t), (server->clients[j].nb_teams + 1), file_teams);
         fclose(file_teams);
     }
 }
