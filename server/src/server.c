@@ -94,9 +94,10 @@ server_t *read_struct(server_t *server)
 
 void save_struct(server_t *server)
 {
+    int k = 0;
     FILE *file_client = fopen("client_log", "wb");
     FILE *file_server = fopen("server_log", "wb");
-    //FILE *file_teams = fopen("teams_log", "wb");
+    FILE *file_teams = fopen("teams_log", "wb");
     //FILE *channel_teams = fopen("channel_log", "wb");
     //FILE *thread_teams = fopen("thread_log", "wb");
 
@@ -111,6 +112,12 @@ void save_struct(server_t *server)
     if (file_client != NULL) {
         fwrite(server->clients, sizeof(clients_t), server->nb_clients, file_client);
         fclose(file_client);
+    }
+    if (file_teams != NULL) {
+        for (; strcmp(server->teams[k].team_id, "NULL"); k++);
+        for (int j = 0; strcmp(server->teams[j].team_id, "NULL"); j++)
+            fwrite(server->teams, sizeof(team_t), (k + 1), file_teams);
+        fclose(file_teams);
     }
     //if (file_teams != NULL) {
     //    for (int j = 0; j < server->nb_clients; j++)

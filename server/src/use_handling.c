@@ -51,7 +51,8 @@ bool use_thread(server_t *server, int client, int id, char *thread)
         server->clients[id].use_state[0]); i++);
     for (k = 0; strcmp(server->teams[i].channel[k].channel_id,
         server->clients[id].use_state[1]); k++);
-    for (; server->teams[i].channel[k].thread[j].thread_id; j++)
+    for (; strcmp(server->teams[i].channel[k].thread[j].thread_id, "NULL");
+        j++)
         if (!strcmp(server->teams[i].channel[k].thread[j].thread_id, thread)) {
             server->clients[id].use_state[2] =
                 malloc(sizeof(char) * strlen(thread));
