@@ -10,9 +10,9 @@
 void init_team_and_conv(server_t *server)
 {
     server->clients[server->nb_clients].teams = malloc(sizeof(team_t));
-    server->clients[server->nb_clients].teams[0].team_name = NULL;
-    server->clients[server->nb_clients].teams[0].team_desc = NULL;
-    server->clients[server->nb_clients].teams[0].team_id = NULL;
+    strcpy(server->clients[server->nb_clients].teams[0].team_name, "NULL");
+    strcpy(server->clients[server->nb_clients].teams[0].team_desc, "NULL");
+    strcpy(server->clients[server->nb_clients].teams[0].team_id, "NULL");
     server->clients[server->nb_clients].conversation =
         malloc(sizeof(messages_t));
     server->clients[server->nb_clients].conversation[0].client_id = NULL;

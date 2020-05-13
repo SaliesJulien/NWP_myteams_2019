@@ -12,7 +12,8 @@ void list_teams(server_t *server, int client, int id)
     int i = 0;
 
     dprintf(client, "list of all teams that you are in :\n");
-    for (i = 0; server->clients[id].teams[i].team_id != NULL; i++)
+    for (i = 0; strcmp(server->clients[id].teams[i].team_id, "NULL") != 0
+    ; i++)
         dprintf(client, "Team name -> \"%s\"    Team ID -> \"%s\"\n",
             server->clients[id].teams[i].team_name,
             server->clients[id].teams[i].team_id);

@@ -9,7 +9,7 @@
 
 bool use_team(server_t *server, int client, int id, char *team)
 {
-    for (int i = 0; server->clients[id].teams[i].team_id != NULL; i++) {
+    for (int i = 0; strcmp(server->clients[id].teams[i].team_id, "NULL") != 0; i++) {
         if (!strcmp(server->clients[id].teams[i].team_id, team)) {
             server->clients[id].use_state[0] =
                 malloc(sizeof(char) * strlen(team));
@@ -28,8 +28,8 @@ bool use_channel(server_t *server, int client, int id, char *channel)
 
     for (i = 0; strcmp(server->clients[id].teams[i].team_id,
         server->clients[id].use_state[0]); i++);
-    for (int k = 0; server->clients[id].teams[i].channel[k].channel_id
-        != NULL; k++)
+    for (int k = 0; strcmp(server->clients[id].teams[i].channel[k].channel_id,
+    "NULL") != 0; k++)
         if (!strcmp(server->clients[id].teams[i].channel[k].channel_id,
                 channel)) {
             server->clients[id].use_state[1] =

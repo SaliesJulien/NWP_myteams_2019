@@ -9,9 +9,9 @@
 
 void init_next_channel(server_t *server, int id, int i, int k)
 {
-    server->clients[id].teams[i].channel[k].channel_name = NULL;
-    server->clients[id].teams[i].channel[k].channel_desc = NULL;
-    server->clients[id].teams[i].channel[k].channel_id = NULL;
+    strcpy(server->clients[id].teams[i].channel[k].channel_name, "NULL");
+    strcpy(server->clients[id].teams[i].channel[k].channel_desc, "NULL");
+    strcpy(server->clients[id].teams[i].channel[k].channel_id, "NULL");
     server->clients[id].teams[i].channel[k].thread = NULL;
 }
 
@@ -21,8 +21,8 @@ void print_channel(server_t *server, int id, int client)
 
     for (i = 0; strcmp(server->clients[id].teams[i].team_id,
         server->clients[id].use_state[0]); i++);
-    for (int j = 0; server->clients[id].teams[i].channel[j].channel_id
-        != NULL; j++) {
+    for (int j = 0; strcmp(server->clients[id].teams[i].channel[j].channel_id,
+    "NULL") != 0; j++) {
         dprintf(client, "%s\n",
             server->clients[id].teams[i].channel[j].channel_id);
     }
@@ -42,16 +42,11 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
 
     for (i = 0; strcmp(server->clients[id].teams[i].team_id,
         server->clients[id].use_state[0]); i++);
-    for (; server->clients[id].teams[i].channel[k].channel_id != NULL; k++);
+    for (; strcmp(server->clients[id].teams[i].channel[k].channel_id, "NULL")
+    != 0; k++);
     server->clients[id].teams[i].channel =
         realloc(server->clients[id].teams[i].channel,
             sizeof(channel_t) * (k + 2));
-    server->clients[id].teams[i].channel[k].channel_id =
-        malloc(sizeof(char) * 37);
-    server->clients[id].teams[i].channel[k].channel_name =
-        malloc(sizeof(char) * strlen(name));
-    server->clients[id].teams[i].channel[k].channel_desc =
-        malloc(sizeof(char) * strlen(desc));
     server->clients[id].teams[i].channel[k].thread = malloc(sizeof(thread_t));
     init_next_thread(server->clients[id], i, k, 0);
     save_channel_infos(&server->clients[id].teams[i].channel[k], name, desc);

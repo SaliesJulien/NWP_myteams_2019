@@ -29,8 +29,9 @@ void create_new_comment(server_t *server, int id, char *name)
         server->clients[id].use_state[1]); k++);
     for (; strcmp(server->clients[id].teams[i].channel[k].thread[j].thread_id,
         server->clients[id].use_state[2]); j++);
-    for (; server->clients[id].teams[i].channel[k].thread[j].comment[count]
-        != NULL; count++);
+    for (; strcmp(
+        server->clients[id].teams[i].channel[k].thread[j].comment[count], "NULL")
+        != 0; count++);
     server->clients[id].teams[i].channel[k].thread[j].comment =
         realloc(server->clients[id].teams[i].channel[k].thread[j].comment,
         sizeof(char *) * (count + 2));
