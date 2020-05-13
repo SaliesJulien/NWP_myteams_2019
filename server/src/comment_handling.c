@@ -41,10 +41,10 @@ void create_new_comment(server_t *server, int id, char *name)
 
 void comment_error(server_t *server, char *team_name, char *team_desc, int id)
 {
-    if (team_name == NULL || strlen(team_name) < 1)
+    if (strcmp(team_name, "Bad cmd") || strlen(team_name) < 1)
         dprintf(server->clients[id].fd_client,
             "501 Syntax error in parameters or arguments.\n");
-    else if ((team_desc == NULL || strlen(team_desc) < 1) &&
+    else if ((strcmp(team_desc, "Bad cmd") || strlen(team_desc) < 1) &&
         (team_name != NULL || strlen(team_name) > 1))
         create_new_comment(server, id, team_name);
     else
