@@ -34,6 +34,19 @@ bool does_team_exist(server_t *server, char *team_id)
     return (false);
 }
 
+bool user_is_in_team(server_t *server, char *team_id, int id)
+{
+    int i = 0;
+    int k = 0;
+
+    for (i = 0; strcmp(server->teams[i].team_id, team_id); i++);
+    for (k = 0; server->teams[i].members[k] != NULL; k++)
+        if (!strcmp(server->teams[i].members[k],
+            server->clients[id].user_name))
+            return (true);
+    return (false);
+}
+
 void subscribe(server_t *server, int client, int id)
 {
     char *team_id = parse_args(server, 0);
@@ -42,7 +55,9 @@ void subscribe(server_t *server, int client, int id)
         dprintf(client, "501 Syntax error in parameters or arguments.\n");
     else {
         if (!does_team_exist(server, team_id))
-            dprintf(client, "Team's Unknown.\n");
+            dprintf(client, "This team doesn't exist.\n");
+        else if (user_is_in_team(server, team_id, id))
+            dprintf(client, "You are already in this team.\n");
         else
             sub_team(server, client, team_id, id);
     }
