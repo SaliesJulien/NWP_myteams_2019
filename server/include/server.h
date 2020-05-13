@@ -45,7 +45,6 @@ typedef struct clients_s {
     bool active;
     messages_t *conversation;
     char **use_state;
-    int nb_teams;
 
 }clients_t;
 
@@ -59,7 +58,6 @@ typedef struct server_s {
     FILE *fp;
     fd_set set[2];
     clients_t *clients;
-    int nb_teams;
     team_t *teams;
     char *a;
 
