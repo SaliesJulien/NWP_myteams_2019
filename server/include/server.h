@@ -109,6 +109,7 @@ void comment_error(server_t *, char *, char *, int);
 //In channel_handling.c
 void create_new_channel(server_t *, int, char *, char *);
 void init_next_channel(server_t *, int, int);
+void use_back(server_t *, int, int);
 
 //In thread_handling.c
 void create_new_thread(server_t *, int, char *, char *);

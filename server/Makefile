@@ -25,6 +25,7 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)channel_handling.c 		\
 			$(SRCS)comment_handling.c 		\
 			$(SRCS)use_handling.c 			\
+			$(SRCS)use_back_handling.c 		\
 			$(SRCS)list.c 					\
 			$(SRCS)info.c 					\
 			$(SRCS)unsubscribe.c 			\
