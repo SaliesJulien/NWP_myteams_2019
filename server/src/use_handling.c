@@ -81,6 +81,15 @@ void use(server_t *server, int client, int id)
             if (!use_team(server, client, id, team))
                 dprintf(client, "Team doesn't exist.\n");
     }
-    else
-        dprintf(client, "501 Syntax error in parameters or arguments.\n");
+    else {
+        if (server->clients[id].use_state[2])
+            server->clients[id].use_state[2] = NULL;
+        else if (server->clients[id].use_state[1])
+            server->clients[id].use_state[1] = NULL;
+        else if (server->clients[id].use_state[0])
+            server->clients[id].use_state[0] = NULL;
+        else
+            dprintf(client, "551 You can't go deeper.\n");
+    }
+    //dprintf(client, "501 Syntax error in parameters or arguments.\n");
 }
