@@ -58,7 +58,16 @@ char *parse_args(server_t *server, int wich_args)
     return (uuid_str != NULL) ? (uuid_str) : ("Bad cmd");
 }
 
-//bool count_args(server_t *server, int args_nb)
-//{
-//
-//}
+bool count_args(server_t *server, int args_nb)
+{
+    int i = 0;
+    int count = 0;
+
+    for (; server->command[i]; i++) {
+        if (server->command[i] == ' ') {
+            count++;
+            for (;server->command[i] && server->command[i] == ' '; i++);
+        }
+    }
+    return ((count == args_nb) ? true : false);
+}

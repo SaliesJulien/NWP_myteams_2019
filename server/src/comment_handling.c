@@ -67,14 +67,14 @@ void create_new_comment(server_t *server, int id, char *name)
         server->teams[i].channel[k].thread[j].thread_id, name);
 }
 
-void comment_error(server_t *server, char *team_name, char *team_desc, int id)
+void comment_error(server_t *server, char *team_name, int id)
 {
-    if (!strcmp(team_name, "Bad cmd") || strlen(team_name) < 1)
-        dprintf(server->clients[id].fd_client,
-            "501 Syntax error in parameters or arguments.\n");
-    else if ((!strcmp(team_desc, "Bad cmd") || strlen(team_desc) < 1) &&
-        (strcmp(team_name, "Bad cmd") || strlen(team_name) > 1))
-        create_new_comment(server, id, team_name);
+    if (count_args(server, 1))
+        if (strcmp(team_name, "Bad cmd"))
+            create_new_comment(server, id, team_name);
+        else
+            dprintf(server->clients[id].fd_client,
+                "501 Syntax error in parameters or arguments.\n");
     else
         dprintf(server->clients[id].fd_client,
             "501 Syntax error in parameters or arguments.\n");

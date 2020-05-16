@@ -75,5 +75,5 @@ void create(server_t *server, int client, int id)
             create_new_thread(server, id, team_name, team_desc);
     }
     else
-        comment_error(server, team_name, team_desc, id);
+        comment_error(server, team_name, id);
 }

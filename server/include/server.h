@@ -90,6 +90,7 @@ void user(server_t *, int, int);
 void fill_messages(server_t *, int, char *, char *);
 void save_struct(server_t *);
 server_t *read_struct(server_t *);
+bool count_args(server_t *, int);
 
 //In user_messages.c
 char *get_command_id(server_t *);
@@ -107,7 +108,7 @@ void create(server_t *, int, int);
 void init_next_team(server_t *, int);
 void use(server_t *, int, int);
 void create_new_comment(server_t *, int, char *);
-void comment_error(server_t *, char *, char *, int);
+void comment_error(server_t *, char *, int);
 
 //In channel_handling.c
 void create_new_channel(server_t *, int, char *, char *);

@@ -68,20 +68,23 @@ void use(server_t *server, int client, int id)
 {
     char *team = parse_args(server, 0);
 
-    if (strcmp(team, "Bad cmd")) {
-        if (server->clients[id].use_state[1] &&
-            !server->clients[id].use_state[2])
-            if (!use_thread(server, client, id, team))
-                dprintf(client, "Thread doesn't exist.\n");
-        if (server->clients[id].use_state[0] &&
-            !server->clients[id].use_state[1])
-            if (!use_channel(server, client, id, team))
-                dprintf(client, "Channel doesn't exist.\n");
-        if (!server->clients[id].use_state[0])
-            if (!use_team(server, client, id, team))
-                dprintf(client, "Team doesn't exist.\n");
+    if (count_args(server, 1)) {
+        if (strcmp(team, "Bad cmd")) {
+            if (server->clients[id].use_state[1] &&
+                !server->clients[id].use_state[2])
+                if (!use_thread(server, client, id, team))
+                    dprintf(client, "Thread doesn't exist.\n");
+            if (server->clients[id].use_state[0] &&
+                !server->clients[id].use_state[1])
+                if (!use_channel(server, client, id, team))
+                    dprintf(client, "Channel doesn't exist.\n");
+            if (!server->clients[id].use_state[0])
+                if (!use_team(server, client, id, team))
+                    dprintf(client, "Team doesn't exist.\n");
+        }
+        else
+            dprintf(client, "501 Syntax error in parameters or arguments.\n");
     }
     else
         use_back(server, client, id);
-    //dprintf(client, "501 Syntax error in parameters or arguments.\n");
 }
