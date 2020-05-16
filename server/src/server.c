@@ -73,19 +73,13 @@ void parse_comments(server_t *server, char *command, bool first)
         if (strcmp(server->teams[a].channel[b].thread[i].thread_id,
             thread) == 0)
             c = i;
-    printf("A\r\n");
     if (first == false) {
-        printf("A\r\n");
         server->teams[a].channel[b].thread[c].comment = malloc(
             sizeof(char *) * 2);
-        printf("A\r\n");
         server->teams[a].channel[b].thread[c].comment[0] = malloc(
             sizeof(char *) * strlen(message));
-        printf("A\r\n");
         strcpy(server->teams[a].channel[b].thread[c].comment[0], message);
-        printf("A\r\n");
         strcpy(server->teams[a].channel[b].thread[c].comment[1], "NULL");
-        printf("A\r\n");
     } else {
         for (; strcmp(server->teams[a].channel[b].thread[c].comment[count], "NULL")
             ; count++);
