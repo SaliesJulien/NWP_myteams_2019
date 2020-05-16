@@ -52,6 +52,53 @@ void parse_messages(server_t *server, char *command)
     fill_messages(server, uuid_index(server, sender), receiver, message);
 }
 
+void parse_comments(server_t *server, char *command, bool first)
+{
+    char *team = strtok(command, "|");
+    char *channel = strtok(NULL, "|");
+    char *thread = strtok(NULL, "|");
+    char *message = strtok(NULL, "|");
+    int a = 0;
+    int b = 0;
+    int c = 0;
+    int count = 0;
+
+    for (int i = 0; i < server->nb_teams; i++)
+        if (strcmp(server->teams[i].team_id, team) == 0)
+            a = i;
+    for (int i = 0; i < server->teams[a].nb_channel; i++)
+        if (strcmp(server->teams[a].channel[i].channel_id, channel) == 0)
+            b = i;
+    for (int i = 0; i < server->teams[a].channel[b].nb_thread; i++)
+        if (strcmp(server->teams[a].channel[b].thread[i].thread_id,
+            thread) == 0)
+            c = i;
+    printf("A\r\n");
+    if (first == false) {
+        printf("A\r\n");
+        server->teams[a].channel[b].thread[c].comment = malloc(
+            sizeof(char *) * 2);
+        printf("A\r\n");
+        server->teams[a].channel[b].thread[c].comment[0] = malloc(
+            sizeof(char *) * strlen(message));
+        printf("A\r\n");
+        strcpy(server->teams[a].channel[b].thread[c].comment[0], message);
+        printf("A\r\n");
+        strcpy(server->teams[a].channel[b].thread[c].comment[1], "NULL");
+        printf("A\r\n");
+    } else {
+        for (; strcmp(server->teams[a].channel[b].thread[c].comment[count], "NULL")
+            ; count++);
+        server->teams[a].channel[b].thread[c].comment = realloc(
+            server->teams[a].channel[b].thread[c].comment, (sizeof(char *) *
+            (count + 2)));
+        server->teams[a].channel[b].thread[c].comment[count] = malloc(
+            sizeof(char) * strlen(message));
+        strcpy(server->teams[a].channel[b].thread[c].comment[count], message);
+        strcpy(server->teams[a].channel[b].thread[c].comment[count + 1], "NULL");
+    }
+}
+
 server_t *read_struct(server_t *server)
 {
     FILE *file_server = fopen("server_log", "rb");
@@ -104,8 +151,19 @@ server_t *read_struct(server_t *server)
     if (server->fp != NULL) {
         char *line = NULL;
         size_t len = 0;
-        while(getline(&line, &len, server->fp) != -1)
+        while (getline(&line, &len, server->fp) != -1)
             parse_messages(server, line);
+    }
+    server->comments = fopen("comments","r");
+    if (server->comments != NULL) {
+        char *line = NULL;
+        size_t len = 0;
+        bool first = false;
+        while (getline(&line, &len, server->comments) != -1) {
+            parse_comments(server, line, first);
+            if (first == false)
+                first = !first;
+        }
     }
     return (server);
 }
@@ -170,6 +228,7 @@ void start_server(char **av)
     init_server(server);
     server = read_struct(server);
     server->fp = fopen("messages","a+");
+    server->comments = fopen("comments","a+");
     while (true) {
         init_sets(server);
         signal(SIGINT, control_c);
@@ -185,4 +244,5 @@ void start_server(char **av)
     free(server);
     free(server->clients);
     fclose(server->fp);
+    fclose(server->comments);
 }
