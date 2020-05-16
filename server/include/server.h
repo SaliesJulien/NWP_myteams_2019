@@ -88,6 +88,8 @@ int uuid_index(server_t *, char *);
 char *parse_args(server_t *, int);
 void user(server_t *, int, int);
 void fill_messages(server_t *, int, char *, char *);
+void save_struct(server_t *);
+server_t *read_struct(server_t *);
 
 //In user_messages.c
 char *get_command_id(server_t *);

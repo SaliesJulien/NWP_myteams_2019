@@ -31,6 +31,8 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)unsubscribe.c 			\
 			$(SRCS)subscribe.c 				\
 			$(SRCS)subscribed.c 			\
+			$(SRCS)save.c 					\
+			$(SRCS)read.c 					\
 
 
 CC = gcc
