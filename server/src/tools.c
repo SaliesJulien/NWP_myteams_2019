@@ -47,9 +47,6 @@ char *get_args(char *str, int wich_args)
     arg[strlen(arg) - strlen(tmp)] = 0;
     return (arg + i + 1);
 }
-// wich_args = 0 si on veux le premier argument
-// wich_args = 2 si on veux le deuxieme argument
-// wich_args = 4 si on veux le troisieme argument
 
 char *parse_args(server_t *server, int wich_args)
 {

@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-void init_server(server_t *server)
+void start_connection(server_t *server)
 {
     int option = 1;
     socklen_t len = sizeof(server->inf);
@@ -49,18 +49,24 @@ void init_teams(server_t *server)
     strcpy(server->teams[0].team_name, "NULL");
 }
 
+server_t *server_init(server_t *server, char **av)
+{
+    init_teams(server);
+    keepRunning = true;
+    server->port = atoi(av[1]);
+    start_connection(server);
+    server = read_struct(server);
+    server->fp = fopen("messages","a+");
+    server->comments = fopen("comments","a+");
+    return (server);
+}
+
 void start_server(char **av)
 {
     server_t *server = malloc(sizeof(server_t));
     server->clients = malloc(sizeof(clients_t));
 
-    init_teams(server);
-    keepRunning = true;
-    server->port = atoi(av[1]);
-    init_server(server);
-    server = read_struct(server);
-    server->fp = fopen("messages","a+");
-    server->comments = fopen("comments","a+");
+    server = server_init(server, av);
     while (true) {
         init_sets(server);
         signal(SIGINT, control_c);

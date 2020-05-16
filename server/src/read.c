@@ -50,8 +50,8 @@ server_t *parse_comments(server_t *server, char *command, bool first)
         strcpy(server->teams[a].channel[b].thread[c].comment[0], message);
         strcpy(server->teams[a].channel[b].thread[c].comment[1], "NULL");
     } else {
-        for (; strcmp(server->teams[a].channel[b].thread[c].comment[count], "NULL")
-            ; count++);
+        for (; strcmp(server->teams[a].channel[b].thread[c].comment[count],
+            "NULL"); count++);
         server->teams[a].channel[b].thread[c].comment = realloc(
             server->teams[a].channel[b].thread[c].comment, (sizeof(char *) *
             (count + 2)));
@@ -107,7 +107,7 @@ server_t *read_teams(server_t *server, FILE *channel_teams, FILE *thread_teams,
 server_t *init_read(server_t *server)
 {
     for (int j = 0; j < server->nb_clients; j++) {
-        server->clients[j].use_state = malloc(sizeof(char*) * 3);
+        server->clients[j].use_state = malloc(sizeof(char *) * 3);
         server->clients[j].use_state[0] = NULL;
         server->clients[j].use_state[1] = NULL;
         server->clients[j].use_state[2] = NULL;
