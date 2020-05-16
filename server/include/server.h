@@ -57,6 +57,7 @@ typedef struct server_s {
     int nb_clients;
     char *command;
     FILE *fp;
+    FILE *comments;
     fd_set set[2];
     clients_t *clients;
     team_t *teams;
@@ -95,7 +96,7 @@ bool does_id_exist(server_t *, int, int);
 void client_mess(server_t *, int, int);
 
 //In exec_command.c
-void control_c(int __attribute__((unused)) contrl);
+void control_c(int __attribute__((unused)));
 void list(server_t *, int, int);
 void info(server_t *, int, int);
 
