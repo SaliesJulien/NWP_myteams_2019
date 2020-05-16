@@ -62,17 +62,20 @@ void create(server_t *server, int client, int id)
     char *team_desc = parse_args(server, 2);
 
     if (!server->clients[id].use_state[2]) {
-        if ((!strcmp(team_name, "Bad cmd") || strlen(team_desc) < 1) ||
-            (!strcmp(team_desc, "Bad cmd") || strlen(team_name) < 1))
+        if (count_args(server, 2)) {
+            if (!strcmp(team_name, "Bad cmd") || !strcmp(team_desc, "Bad cmd"))
+                dprintf(client, "501 Syntax error in parameters or arguments.\n");
+            else if (server->clients[id].use_state[0] == NULL)
+                create_new_team(server, id, team_name, team_desc);
+            else if (server->clients[id].use_state[0] &&
+                !server->clients[id].use_state[1])
+                create_new_channel(server, id, team_name, team_desc);
+            else if (server->clients[id].use_state[1] &&
+                !server->clients[id].use_state[2])
+                create_new_thread(server, id, team_name, team_desc);
+        }
+        else
             dprintf(client, "501 Syntax error in parameters or arguments.\n");
-        else if (server->clients[id].use_state[0] == NULL)
-            create_new_team(server, id, team_name, team_desc);
-        else if (server->clients[id].use_state[0] &&
-            !server->clients[id].use_state[1])
-            create_new_channel(server, id, team_name, team_desc);
-        else if (server->clients[id].use_state[1] &&
-            !server->clients[id].use_state[2])
-            create_new_thread(server, id, team_name, team_desc);
     }
     else
         comment_error(server, team_name, id);
