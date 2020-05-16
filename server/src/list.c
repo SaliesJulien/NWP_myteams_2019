@@ -11,12 +11,12 @@ void list_teams(server_t *server, int client)
 {
     int i = 0;
 
-    dprintf(client, "list of all teams that you are in :\n");
+    dprintf(client, "list of all teams that exist on the server :\n");
     for (i = 0; strcmp(server->teams[i].team_id, "NULL"); i++)
         dprintf(client, "Team name -> \"%s\"    Team ID -> \"%s\"\n",
             server->teams[i].team_name,
             server->teams[i].team_id);
-    (i == 0) ? dprintf(client, "you're not in any team.\n") : (0);
+    (i == 0) ? dprintf(client, "There is no any team.\n") : (0);
 }
 
 void list_channel(server_t *server, int client, int id)

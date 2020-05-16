@@ -21,11 +21,24 @@ void init_first_channel(server_t *server, int i)
     strcpy(server->teams[i].channel[0].channel_desc, "NULL");
 }
 
+bool team_already_exist(server_t *server, char *team_name, int id)
+{
+    for (int i = 0; strcmp(server->teams[i].team_id, "NULL"); i++)
+        if (!strcmp(server->teams[i].team_name, team_name)) {
+            dprintf(server->clients[id].fd_client,
+                "This team name is already taken.\n");
+            return (false);
+        }
+    return (true);
+}
+
 void create_new_team(server_t *server, int id, char *team_name,
     char *team_desc)
 {
     int i = 0;
 
+    if (!team_already_exist(server, team_name, id))
+        return;
     for (; strcmp(server->teams[i].team_id, "NULL"); i++);
     server->teams = realloc(server->teams, sizeof(team_t) * (i + 2));
     server->teams[i].members = malloc(sizeof(char *) * 2);
@@ -35,8 +48,7 @@ void create_new_team(server_t *server, int id, char *team_name,
     strcpy(server->teams[i].team_id, generate_id());
     strcpy(server->teams[i].team_name, team_name);
     strcpy(server->teams[i].team_desc, team_desc);
-    strcpy(server->teams[i].members[0], server->clients[id].user_name);
-    server->teams[i].members[1] = NULL;
+    strcpy(server->teams[i].members[0], "NULL");
     init_first_channel(server, i);
     init_next_team(server, i + 1);
     dprintf(server->clients[id].fd_client, "New team \"%s\" created.\n",

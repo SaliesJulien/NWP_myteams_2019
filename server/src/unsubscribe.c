@@ -18,14 +18,14 @@ void leave_team(server_t *server, char *team_id, int id)
     dprintf(server->clients[id].fd_client,
         "You succesfully left the team \"%s\".\n",
         server->teams[i].team_name);
-    for (; server->teams[i].members[k] != NULL; k++)
+    for (; strcmp(server->teams[i].members[k], "NULL"); k++)
         server->teams[i].members[k] = server->teams[i].members[k + 1];
-    server->teams[i].members[k + 1] = NULL;
+    strcpy(server->teams[i].members[k + 1], "NULL");
 }
 
 bool team_exist(server_t *server, char *team_id)
 {
-    for (int i = 0; server->teams[i].team_id; i++)
+    for (int i = 0; strcmp(server->teams[i].team_id, "NULL"); i++)
         if (!strcmp(server->teams[i].team_id, team_id))
             return (true);
     return (false);
@@ -37,7 +37,7 @@ bool user_is_in_team(server_t *server, char *team_id, int id)
     int k = 0;
 
     for (i = 0; strcmp(server->teams[i].team_id, team_id); i++);
-    for (k = 0; server->teams[i].members[k] != NULL; k++)
+    for (k = 0; strcmp(server->teams[i].members[k], "NULL"); k++)
         if (!strcmp(server->teams[i].members[k],
             server->clients[id].user_name))
             return (true);

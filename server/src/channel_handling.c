@@ -22,6 +22,18 @@ void init_first_thread(server_t *server, int i, int k)
     strcpy(server->teams[i].channel[k].thread[0].thread_id, "NULL");
 }
 
+bool channel_exist(server_t *server, int i, char *name, int id)
+{
+    for (int k = 0; strcmp(server->teams[i].channel[k].channel_id, "NULL");
+        k++)
+        if (!strcmp(server->teams[i].channel[k].channel_name, name)) {
+            dprintf(server->clients[id].fd_client,
+                "This channel name is already taken.\n");
+            return (false);
+        }
+    return (true);
+}
+
 void create_new_channel(server_t *server, int id, char *name, char *desc)
 {
     int i = 0;
@@ -29,6 +41,8 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
 
     for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
+    if (!channel_exist(server, i, name, id))
+        return;
     for (; strcmp(server->teams[i].channel[k].channel_id, "NULL"); k++);
     server->teams[i].channel = realloc(server->teams[i].channel,
         sizeof(channel_t) * (k + 2));

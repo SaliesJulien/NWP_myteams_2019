@@ -12,22 +12,23 @@ void sub_team(server_t *server, int client, char *team_id, int id)
     int i = 0;
     int k = 0;
 
-    for (k = 0; server->teams[k].team_id != NULL; k++)
+    for (k = 0; strcmp(server->teams[k].team_id, "NULL"); k++)
         if (!strcmp(server->teams[k].team_id, team_id))
             break;
-    for (;server->teams[k].members[i] != NULL; i++);
+    for (; strcmp(server->teams[k].members[i], "NULL"); i++);
     server->teams[k].members = realloc(server->teams[k].members,
         sizeof(char *) * (i + 2));
     server->teams[k].members[i] = malloc(sizeof(char) *
         strlen(server->clients[id].user_name));
+    server->teams[k].members[i + 1] = malloc(sizeof(char) * 4);
     strcpy(server->teams[k].members[i], server->clients[id].user_name);
-    server->teams[k].members[i + 1] = NULL;
+    strcpy(server->teams[k].members[i + 1], "NULL");
     dprintf(client, "You joinded \"%s\".\n", server->teams[k].team_name);
 }
 
 bool does_team_exist(server_t *server, char *team_id)
 {
-    for (int i = 0; server->teams[i].team_id != NULL; i++) {
+    for (int i = 0; strcmp(server->teams[i].team_id, "NULL"); i++) {
         if (!strcmp(server->teams[i].team_id, team_id))
             return (true);
     }
@@ -40,7 +41,7 @@ bool user_in_team(server_t *server, char *team_id, int id)
     int k = 0;
 
     for (i = 0; strcmp(server->teams[i].team_id, team_id); i++);
-    for (k = 0; server->teams[i].members[k] != NULL; k++)
+    for (k = 0; strcmp(server->teams[i].members[k], "NULL"); k++)
         if (!strcmp(server->teams[i].members[k],
             server->clients[id].user_name))
             return (true);
