@@ -28,7 +28,7 @@ bool channel_exist(server_t *server, int i, char *name, int id)
         k++)
         if (!strcmp(server->teams[i].channel[k].channel_name, name)) {
             dprintf(server->clients[id].fd_client,
-                "This channel name is already taken.\n");
+                "511 This channel already exist\n");
             return (false);
         }
     return (true);
@@ -52,7 +52,8 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
     strcpy(server->teams[i].channel[k].channel_desc, desc);
     init_first_thread(server, i, k);
     init_next_channel(server, i, k + 1);
-    dprintf(server->clients[id].fd_client, "New channel \"%s\" created.\n",
-            server->teams[i].channel[k].channel_id);
+    dprintf(server->clients[id].fd_client,
+        "221 You succesfully created the channel \"%s\"\n",
+        server->teams[i].channel[k].channel_name);
     server->teams[i].nb_channel++;
 }

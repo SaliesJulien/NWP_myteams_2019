@@ -103,14 +103,14 @@ _documentation that explain how to use commands aviable on this server and the d
 ## **-> /create** _["thread_name"] ["thread_desc"]_
 **description : create a new thread**
 
-    <- 221 You succesfully created the thread "thread_name"
+    <- 222 You succesfully created the thread "thread_name"
     <- 512 This thread already exist
     <- 501 Error syntax in parameters or arguments
 ### When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”):
 ## **-> /create** _["comment_body"]
 **description : post a comment in a thread**
 
-    <- 221 You succesfully posted a comment in "thread_name"
+    <- 223 You succesfully posted a comment in "thread_name"
     <- 532 Post failed, body length longer than 512 characters
     <- 501 Error syntax in parameters or arguments
 ***

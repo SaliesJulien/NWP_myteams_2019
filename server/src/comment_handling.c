@@ -60,7 +60,7 @@ void create_new_comment(server_t *server, int id, char *name)
     strcpy(server->teams[i].channel[k].thread[j].comment[count], name);
     strcpy(server->teams[i].channel[k].thread[j].comment[count + 1], "NULL");
     dprintf(server->clients[id].fd_client,
-        "New comment posted in thread -> %s.\n",
+        "223 You succesfully posted a comment in \"%s\"\n",
         server->teams[i].channel[k].thread[j].thread_title);
     fprintf(server->comments, "%s|%s|%s|%s|\n", server->teams[i].team_id,
         server->teams[i].channel[k].channel_id,
@@ -70,12 +70,15 @@ void create_new_comment(server_t *server, int id, char *name)
 void comment_error(server_t *server, char *team_name, int id)
 {
     if (count_args(server, 1))
-        if (strcmp(team_name, "Bad cmd"))
+        if (strlen(team_name) > DEFAULT_BODY_LENGTH)
+            dprintf(server->clients[id].fd_client,
+                "532 Post failed, body length longer than 512 characters\n");
+        else if (strcmp(team_name, "Bad cmd"))
             create_new_comment(server, id, team_name);
         else
             dprintf(server->clients[id].fd_client,
-                "501 Syntax error in parameters or arguments.\n");
+                "501 Syntax error in parameters or arguments\n");
     else
         dprintf(server->clients[id].fd_client,
-            "501 Syntax error in parameters or arguments.\n");
+            "501 Syntax error in parameters or arguments\n");
 }

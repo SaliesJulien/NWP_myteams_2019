@@ -11,7 +11,7 @@ void list_teams(server_t *server, int client)
 {
     int i = 0;
 
-    dprintf(client, "list of all teams that exist on the server :\n");
+    dprintf(client, "231 List of teams that exist on the server\n");
     for (i = 0; strcmp(server->teams[i].team_id, "NULL"); i++)
         dprintf(client, "Team name -> \"%s\"    Team ID -> \"%s\"\n",
             server->teams[i].team_name,
@@ -26,8 +26,7 @@ void list_channel(server_t *server, int client, int id)
 
     for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
-    dprintf(client,
-        "List of all channels in the team \"%s\" :\n",
+    dprintf(client, " 232 List of channels that exist on this team\n",
         server->teams[i].team_name);
     for (k = 0; strcmp(server->teams[i].channel[k].channel_id, "NULL"); k++)
         dprintf(client, "Channel name -> \"%s\"    Channel ID -> \"%s\"\n",
@@ -46,7 +45,7 @@ void list_thread(server_t *server, int client, int id)
         server->clients[id].use_state[0]); i++);
     for (k = 0; strcmp(server->teams[i].channel[k].channel_id,
         server->clients[id].use_state[1]); k++);
-    dprintf(client, "List of thread in the channel \"%s\" :\n",
+    dprintf(client, "233 List of threads that exist on this channel\n",
             server->teams[i].channel[k].channel_name);
     for (; strcmp(server->teams[i].channel[k].thread[j].thread_id, "NULL");
         j++)
@@ -69,7 +68,7 @@ void list_replies(server_t *server, int client, int id)
         server->clients[id].use_state[1]); k++);
     for (; strcmp(server->teams[i].channel[k].thread[j].thread_id,
         server->clients[id].use_state[2]); j++);
-    dprintf(client, "Thread \"%s\" Replies :\n",
+    dprintf(client, "234 List of comment that are posted on this thread\n",
             server->teams[i].channel[k].thread[j].thread_title);
     for (; strcmp(server->teams[i].channel[k].thread[j].comment[c], "NULL")
         ; c++)

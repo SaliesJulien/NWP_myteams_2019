@@ -29,7 +29,7 @@ bool thread_already_exist(channel_t channel, char *name, server_t *server,
         "NULL"); j++)
         if (!strcmp(channel.thread[j].thread_title, name)) {
             dprintf(server->clients[id].fd_client,
-                "This thread name is already taken.\n");
+                "512 This thread already exist\n");
             return (false);
         }
     return (true);
@@ -61,8 +61,9 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
     server->teams[i].channel[k].thread[j].comment = malloc(sizeof(char *));
     set_thread(&server->teams[i].channel[k].thread[j], name, desc);
     init_first_comment(server, i, k, j);
-    dprintf(server->clients[id].fd_client, "New thread \"%s\" created.\n",
-    server->teams[i].channel[k].thread[j].thread_id);
+    dprintf(server->clients[id].fd_client,
+        "222 You succesfully created the thread \"%s\"\n",
+    server->teams[i].channel[k].thread[j].thread_title);
     init_next_thread(server, i, k, j + 1);
     server->teams[i].channel[k].nb_thread++;
 }
