@@ -14,15 +14,18 @@ char *get_args(char *command, int nb)
     int count = 0;
     char *temp = malloc(sizeof(char) * 40);
 
-    for (;command[i] && (count == nb); i++)
+    while (command[i]) {
+        if (count == nb)
+            break;
         if (command[i] == '|')
             count++;
+        i++;
+    }
     if (count < nb)
         return (NULL);
-    for (;command[i] && (command[i] != '|'); i++)
+    for (;command[i] != '|'; i++)
         temp[k++] = command[i];
     temp[k] = '\0';
-    printf("%s\n", temp);
     return (temp);
 }
 
