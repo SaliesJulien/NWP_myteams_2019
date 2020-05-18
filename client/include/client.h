@@ -47,7 +47,7 @@ void error_handling(int, char **);
 int client_side(char **);
 void control_c(int __attribute__((unused)));
 void pointer_function(int, int, char *);
-void pointer_function(int, int, char *);
+char *get_args(char *command, int nb);
 
 // code functions
 
