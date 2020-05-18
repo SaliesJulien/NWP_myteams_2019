@@ -12,7 +12,7 @@ void list_clients_logged(server_t *server, int client, int id)
     (void)id;
     dprintf(client, "List of users logged in on the server\n");
     for (int i = 0; i < server->nb_clients; i++)
-        if (server->clients[i].logged)
+        if (server->clients[i].active)
             dprintf(client, "Username : \"%s\"    User ID : \"%s\"\n",
             server->clients[i].user_name, server->clients[i].user_id);
 }

@@ -165,3 +165,8 @@ _documentation that explain how to use commands aviable on this server and the d
 
     <- 244 thread "thread_title" info
     <- 501 Error syntax in parameters or arguments
+***
+Made by :
++ Julien Salies
++ Lucas Simao
++ Hugo Caulfield
