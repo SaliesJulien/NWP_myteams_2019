@@ -17,10 +17,10 @@ bool check_exist(server_t *server, int client, int id, int i)
             server->clients[i].fd_client = server->clients[id].fd_client;
             server->clients[id].fd_client = -1;
             server->clients[id].active = false;
-            dprintf(client, "Client logged in.\r\n");
+            dprintf(client, "230 Succesfull login\r\n");
             return (true);
         } else {
-            dprintf(client, "This client is already logged in.\r\n");
+            dprintf(client, "330 Client already connected\r\n");
             return (true);
         }
     }
@@ -39,16 +39,23 @@ void find_uuid(server_t *server, int client, int id)
     }
     if (check == false) {
         strcpy(server->clients[id].user_id, generate_id());
-        dprintf(client, "Client logged in.\r\n");
+        dprintf(client, "230 Succesfull login\r\n");
         server->clients[id].logged = true;
     }
 }
 
 void login_user(server_t *server, int client, int id)
 {
-    strcpy(server->clients[id].user_name, parse_args(server, 0));
-    if (strcmp(server->clients[id].user_name, "Bad cmd") != 0)
-        find_uuid(server, client, id);
-    else
-        dprintf(client, "Bad arguments\r\n");
+    if (strlen(parse_args(server, 0)) > 32) {
+        dprintf(client, "530 Authentification failed, \
+name length longer than 32 characters\r\n");
+    }
+    else {
+        strcpy(server->clients[id].user_name, parse_args(server, 0));
+        if (strcmp(server->clients[id].user_name, "Bad cmd") != 0)
+            find_uuid(server, client, id);
+        else
+            dprintf(client,
+                "501 Error syntax in parameters or arguments\r\n");
+    }
 }

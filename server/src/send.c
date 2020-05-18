@@ -78,15 +78,15 @@ void send_messages(server_t *server, int client, int id)
 
     if ((!strcmp(uuid_str, "Bad cmd") || strlen(uuid_str) < 1) ||
         (!strcmp(message, "Bad cmd") || strlen(message) < 1)) {
-        dprintf(client, "501 Syntax error in parameters or arguments.\n");
+        dprintf(client, "501 Error syntax in parameters or arguments\n");
         return;
     }
     if (!uuid_exit(server, uuid_str)) {
-        dprintf(client, "User unknown.\n");
+        dprintf(client, "303 User doesn't exist\n");
         return;
     }
     fprintf(server->fp, "%s|%s|%s|\n", server->clients[id].user_id, uuid_str, message);
     fill_messages(server, id, uuid_str, message);
     send_notif(server, id, uuid_str);
-    dprintf(client, "Message sent\n");
+    dprintf(client, "204 sucessfully sent message\n");
 }

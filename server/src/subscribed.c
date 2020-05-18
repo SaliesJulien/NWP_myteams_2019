@@ -12,7 +12,7 @@ void list_user_sub(server_t *server, char *team_id, int id, int client)
     int i = 0;
 
     (void)id;
-    dprintf(client, "User in this team :\n");
+    dprintf(client, "208 List of all user in this team\n");
     for (; strcmp(server->teams[i].team_id, "NULL"); i++) {
         if (!strcmp(server->teams[i].team_id, team_id))
             for (int k = 0; server->teams[i].members[k] != NULL; k++)
@@ -25,7 +25,7 @@ void list_team_sub(server_t *server, int id, int client)
     int i = 0;
     int teams = 0;
 
-    dprintf(client, "list of all teams that you are in :\n");
+    dprintf(client, "207 List of teams that you are in\n");
     for (i = 0; strcmp(server->teams[i].team_id, "NULL"); i++) {
         for (int k = 0; strcmp(server->teams[i].members[k], "NULL"); k++)
             if (!strcmp(server->teams[i].members[k],

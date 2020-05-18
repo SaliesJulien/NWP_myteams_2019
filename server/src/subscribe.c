@@ -23,7 +23,7 @@ void sub_team(server_t *server, int client, char *team_id, int id)
     server->teams[k].members[i + 1] = malloc(sizeof(char) * 4);
     strcpy(server->teams[k].members[i], server->clients[id].user_name);
     strcpy(server->teams[k].members[i + 1], "NULL");
-    dprintf(client, "You joinded \"%s\".\n", server->teams[k].team_name);
+    dprintf(client, "206 You succesfully subscribed to the team\n");
 }
 
 bool does_team_exist(server_t *server, char *team_id)
@@ -53,10 +53,10 @@ void subscribe(server_t *server, int client, int id)
     char *team_id = parse_args(server, 0);
 
     if (!strcmp(team_id, "Bad cmd") || strlen(team_id) < 1)
-        dprintf(client, "501 Syntax error in parameters or arguments.\n");
+        dprintf(client, "501 Error syntax in parameters or arguments\n");
     else {
         if (!does_team_exist(server, team_id))
-            dprintf(client, "This team doesn't exist.\n");
+            dprintf(client, "304 Team doesn't exist\n");
         else if (user_in_team(server, team_id, id))
             dprintf(client, "You are already in this team.\n");
         else

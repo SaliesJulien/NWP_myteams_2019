@@ -14,7 +14,7 @@ bool use_team(server_t *server, int client, int id, char *team)
             server->clients[id].use_state[0] =
                 malloc(sizeof(char) * strlen(team));
             server->clients[id].use_state[0] = team;
-            dprintf(client, "you are now in team -> \"%s\"\n",
+            dprintf(client, "210 You are now in the team \"%s\"\n",
                     server->teams[i].team_name);
             return (true);
         }
@@ -34,7 +34,7 @@ bool use_channel(server_t *server, int client, int id, char *channel)
             server->clients[id].use_state[1] =
                 malloc(sizeof(char) * strlen(channel));
             strcpy(server->clients[id].use_state[1], channel);
-            dprintf(client, "you are now in channel -> \"%s\"\n",
+            dprintf(client, "211 You are now in the channel \"%s\"\n",
                     server->teams[i].channel[k].channel_name);
             return (true);
         }
@@ -57,7 +57,7 @@ bool use_thread(server_t *server, int client, int id, char *thread)
             server->clients[id].use_state[2] =
                 malloc(sizeof(char) * strlen(thread));
             strcpy(server->clients[id].use_state[2], thread);
-            dprintf(client, "you are now in thread -> \"%s\"\n",
+            dprintf(client, "212 You are now in the thread \"%s\"\n",
             server->teams[i].channel[k].thread[j].thread_title);
             return (true);
         }
@@ -73,17 +73,17 @@ void use(server_t *server, int client, int id)
             if (server->clients[id].use_state[1] &&
                 !server->clients[id].use_state[2])
                 if (!use_thread(server, client, id, team))
-                    dprintf(client, "Thread doesn't exist.\n");
+                    dprintf(client, "306 Thread doesn't exist\n");
             if (server->clients[id].use_state[0] &&
                 !server->clients[id].use_state[1])
                 if (!use_channel(server, client, id, team))
-                    dprintf(client, "Channel doesn't exist.\n");
+                    dprintf(client, "305 Channel doesn't exist\n");
             if (!server->clients[id].use_state[0])
                 if (!use_team(server, client, id, team))
-                    dprintf(client, "Team doesn't exist.\n");
+                    dprintf(client, "304 Team doesn't exist\n");
         }
         else
-            dprintf(client, "501 Syntax error in parameters or arguments.\n");
+            dprintf(client, "501 Error syntax in parameters or arguments\n");
     }
     else
         use_back(server, client, id);

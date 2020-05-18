@@ -9,6 +9,8 @@
 
 void print(int client, int id, server_t *server, int i)
 {
+    dprintf(client,
+            "205 Conversation with \"username\"\n");
     for (int k = 0; server->clients[id].conversation[i].message[k]; k++)
         dprintf(client,
             "%s\n", server->clients[id].conversation[i].message[k]);
@@ -31,7 +33,7 @@ void client_mess(server_t *server, int client, int id)
     char *cmd_id = parse_args(server, 0);
 
     if (!strcmp(cmd_id, "Bad cmd") || strlen(cmd_id) < 1) {
-        dprintf(client, "501 Syntax error in parameters or arguments.\n");
+        dprintf(client, "501 Error syntax in parameters or arguments\n");
         return;
     }
     else {
@@ -39,7 +41,7 @@ void client_mess(server_t *server, int client, int id)
             if (strcmp(cmd_id, server->clients[i].user_id) == 0)
                 id_exist = true;
         }
-        (id_exist == false) ? dprintf(client, "xxx client's ID unknow.\n")
+        (id_exist == false) ? dprintf(client, "303 User doesn't exist\n")
         : print_messages(server, id, cmd_id, client);
     }
 }

@@ -25,7 +25,7 @@ void new_clients(server_t *server)
 void remove_client(server_t *server, int client, int id)
 {
     if (strcmp(server->command, "/logout\r\n") == 0) {
-        dprintf(client, "221 Service closing control connection.\r\n");
+        dprintf(client, "221 Service closing control connection\r\n");
         if (server->clients[id].logged == false) {
             while (id + 1 < server->nb_clients) {
                 server->clients[id] = server->clients[id + 1];
@@ -37,7 +37,7 @@ void remove_client(server_t *server, int client, int id)
             server->clients[id].active = false;
         printf("Client disconnected\r\n");
     } else {
-        dprintf(client, "Bad argument\r\n");
+        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     }
 }
 
