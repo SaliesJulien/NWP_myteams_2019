@@ -14,7 +14,7 @@ SRCCLIENT =	$(SRCS)main.c 					\
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -I./include
+CFLAGS = -Wall -Werror -Wextra -I./include -I../libs/myteams -L../libs/myteams -lmyteams
 
 BINARYNAME_CLIENT = ../myteams_client
 
