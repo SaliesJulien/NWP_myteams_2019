@@ -85,7 +85,10 @@ void send_messages(server_t *server, int client, int id)
         dprintf(client, "User unknown.\n");
         return;
     }
-    fprintf(server->fp, "%s|%s|%s|\n", server->clients[id].user_id, uuid_str, message);
+    fprintf(server->fp, "%s|%s|%s|\n", server->clients[id].user_id, uuid_str,
+        message);
+    server_event_private_message_sended(server->clients[id].user_id, uuid_str,
+        message);
     fill_messages(server, id, uuid_str, message);
     send_notif(server, id, uuid_str);
     dprintf(client, "Message sent\n");

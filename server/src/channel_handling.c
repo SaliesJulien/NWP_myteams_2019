@@ -55,4 +55,7 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
     dprintf(server->clients[id].fd_client, "New channel \"%s\" created.\n",
             server->teams[i].channel[k].channel_id);
     server->teams[i].nb_channel++;
+    server_event_channel_created(server->teams[i].team_id,
+        server->teams[i].channel[k].channel_id,
+        server->teams[i].channel[k].channel_name);
 }

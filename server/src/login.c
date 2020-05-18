@@ -18,6 +18,7 @@ bool check_exist(server_t *server, int client, int id, int i)
             server->clients[id].fd_client = -1;
             server->clients[id].active = false;
             dprintf(client, "Client logged in.\r\n");
+            server_event_user_logged_in(server->clients[i].user_id);
             return (true);
         } else {
             dprintf(client, "This client is already logged in.\r\n");
@@ -41,6 +42,8 @@ void find_uuid(server_t *server, int client, int id)
         strcpy(server->clients[id].user_id, generate_id());
         dprintf(client, "Client logged in.\r\n");
         server->clients[id].logged = true;
+        server_event_user_created(server->clients[id].user_id,
+            server->clients[id].user_name);
     }
 }
 

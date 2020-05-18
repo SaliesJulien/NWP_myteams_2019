@@ -36,6 +36,7 @@ void remove_client(server_t *server, int client, int id)
         else
             server->clients[id].active = false;
         printf("Client disconnected\r\n");
+        server_event_user_logged_out(server->clients[id].user_id);
     } else {
         dprintf(client, "Bad argument\r\n");
     }
