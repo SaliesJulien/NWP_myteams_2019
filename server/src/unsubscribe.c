@@ -21,7 +21,7 @@ void leave_team(server_t *server, char *team_id, int id)
     for (; strcmp(server->teams[i].members[k], "NULL"); k++)
         server->teams[i].members[k] = server->teams[i].members[k + 1];
     strcpy(server->teams[i].members[k + 1], "NULL");
-    server_event_user_leave_a_team((server->teams[i].team_id,
+    server_event_user_leave_a_team(server->teams[i].team_id,
         server->clients[id].user_id);
 }
 

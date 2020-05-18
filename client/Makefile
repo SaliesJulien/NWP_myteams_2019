@@ -11,6 +11,7 @@ SRCCLIENT =	$(SRCS)main.c 					\
 			$(SRCS)client.c 				\
 			$(SRCS)arguments.c 				\
 			$(SRCS)catch_sigint.c 			\
+			$(SRCS)function_handling.c 		\
 
 CC = gcc
 
