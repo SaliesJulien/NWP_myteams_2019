@@ -20,7 +20,7 @@ void code_107(char const *thread_id, char const *use_id, time_t time,
 
 }
 
-void code_108(char const *first, char const *second, int user_statuss)
+void code_108(char const *first, char const *second, int user_status)
 {
     client_print_users(first, second, user_status);
 }

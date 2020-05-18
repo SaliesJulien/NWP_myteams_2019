@@ -56,7 +56,7 @@ bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
             read(i, str, 1085);
             str[strlen(str)-1] = 0;
             print_fd(server_sock, sock, str, i);
-            pointer_function(server_sock, sock, str);
+            pointer_function(str);
         }
     }
     return (false);

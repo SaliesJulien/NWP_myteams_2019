@@ -46,7 +46,7 @@ void help(int, char **);
 void error_handling(int, char **);
 int client_side(char **);
 void control_c(int __attribute__((unused)));
-void pointer_function(int, int, char *);
+void pointer_function(char *);
 char *get_args(char *command, int nb);
 
 // code functions
@@ -58,7 +58,7 @@ void code_104(char const *, char const *, char const *, char const *);
 void code_105(char const *, char const *, char const *, char const *);
 void code_106(char const *, char const *, char const *, char const *);
 void code_107(char const *, char const *, time_t ,char const *, char const *);
-void code_108(char const *, char const *, char const *, char const *);
+void code_108(char const *, char const *, int);
 void code_109(char const *, char const *, char const *, char const *);
 void code_110(char const *, char const *, char const *, char const *);
 void code_111(char const *, char const *, time_t, char const *, char const *);
@@ -68,7 +68,7 @@ void code_114(char const *, char const *, char const *, char const *);
 void code_115(char const *, char const *, char const *, char const *);
 void code_116(char const *, char const *, char const *, char const *);
 void code_117(char const *, char const *, char const *, char const *);
-void code_118(char const *, char const *, char const *, char const *);
+void code_118(char const *, char const *, int);
 void code_119(char const *, char const *, char const *, char const *);
 void code_120(char const *, char const *, char const *, char const *);
 void code_121(char const *, char const *, time_t, char const *, char const *);
