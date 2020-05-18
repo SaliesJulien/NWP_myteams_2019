@@ -72,15 +72,21 @@ void use(server_t *server, int client, int id)
         if (strcmp(team, "Bad cmd")) {
             if (server->clients[id].use_state[1] &&
                 !server->clients[id].use_state[2])
-                if (!use_thread(server, client, id, team))
+                if (!use_thread(server, client, id, team)) {
                     dprintf(client, "306 Thread doesn't exist\n");
+                    dprintf(client, "116|%s|\n", team);
+                }
             if (server->clients[id].use_state[0] &&
                 !server->clients[id].use_state[1])
-                if (!use_channel(server, client, id, team))
+                if (!use_channel(server, client, id, team)) {
                     dprintf(client, "305 Channel doesn't exist\n");
+                    dprintf(client, "115|%s|\n", team);
+                }
             if (!server->clients[id].use_state[0])
-                if (!use_team(server, client, id, team))
+                if (!use_team(server, client, id, team)) {
                     dprintf(client, "304 Team doesn't exist\n");
+                    dprintf(client, "114|%s|\n", team);
+                }
         }
         else
             dprintf(client, "501 Error syntax in parameters or arguments\n");

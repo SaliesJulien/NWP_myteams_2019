@@ -27,6 +27,8 @@ bool team_already_exist(server_t *server, char *team_name, int id)
         if (!strcmp(server->teams[i].team_name, team_name)) {
             dprintf(server->clients[id].fd_client,
                 "510 This team already exist\n");
+            dprintf(server->clients[id].fd_client,
+                "129|\n");
             return (false);
         }
     return (true);
@@ -54,6 +56,13 @@ void create_new_team(server_t *server, int id, char *team_name,
     dprintf(server->clients[id].fd_client,
         "220 You succesfully created the team \"%s\"\n",
         server->teams[i].team_name);
+    dprintf(server->clients[id].fd_client,
+        "122|%s|%s|%s|\n", server->teams[i].team_id,
+        server->teams[i].team_name, server->teams[i].team_desc);
+    for (id = 0; id < server->nb_clients; id++)
+        dprintf(server->clients[id].fd_client,
+            "105|%s|%s|%s|\n", server->teams[i].team_id,
+            server->teams[i].team_name, server->teams[i].team_desc);
     server->nb_teams++;
     server_event_team_created(server->teams[i].team_id, team_name,
         server->clients[id].user_id);

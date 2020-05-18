@@ -68,7 +68,7 @@ _documentation that explain how to use commands aviable on this server and the d
 
     <- 209 You succesfully left this team
     <- 304 Team doesn't exist
-    <- 305 You aren't in this team
+    <- 308 You aren't in this team
     <- 501 Error syntax in parameters or arguments
 ***
 ## **-> /use** ?_["team_id"]_ ?_["channel_id"]_ ?_["thread_id"]_

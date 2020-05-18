@@ -37,6 +37,9 @@ void remove_client(server_t *server, int client, int id)
             server->clients[id].active = false;
         printf("Client disconnected\r\n");
         server_event_user_logged_out(server->clients[id].user_id);
+        for (int i = 0; i < server->nb_clients; i++)
+            dprintf(server->clients[i].fd_client, "102|%s|%s|\n",
+                server->clients[i].user_id, server->clients[i].user_name);
     } else {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     }

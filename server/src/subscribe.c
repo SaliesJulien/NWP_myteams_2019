@@ -24,6 +24,8 @@ void sub_team(server_t *server, int client, char *team_id, int id)
     strcpy(server->teams[k].members[i], server->clients[id].user_name);
     strcpy(server->teams[k].members[i + 1], "NULL");
     dprintf(client, "206 You succesfully subscribed to the team\n");
+    dprintf(client, "126|%s|%s|\n", server->clients[id].user_id,
+        server->teams[k].team_id);
     server_event_user_join_a_team(server->teams[k].team_id,
         server->clients[id].user_id);
 }
@@ -57,10 +59,14 @@ void subscribe(server_t *server, int client, int id)
     if (!strcmp(team_id, "Bad cmd") || strlen(team_id) < 1)
         dprintf(client, "501 Error syntax in parameters or arguments\n");
     else {
-        if (!does_team_exist(server, team_id))
+        if (!does_team_exist(server, team_id)) {
             dprintf(client, "304 Team doesn't exist\n");
-        else if (user_in_team(server, team_id, id))
+            dprintf(client, "114|%s|\n", team_id);
+        }
+        else if (user_in_team(server, team_id, id)) {
             dprintf(client, "You are already in this team.\n");
+            dprintf(client, "129|\n");
+        }
         else
             sub_team(server, client, team_id, id);
     }

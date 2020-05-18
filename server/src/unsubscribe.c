@@ -19,6 +19,9 @@ void leave_team(server_t *server, char *team_id, int id)
         "209 You succesfully left this team\n");
     for (; strcmp(server->teams[i].members[k], "NULL"); k++)
         server->teams[i].members[k] = server->teams[i].members[k + 1];
+    dprintf(server->clients[id].fd_client,
+        "127|%s|%s|\n", server->clients[id].user_id,
+        server->teams[i].team_id);
     strcpy(server->teams[i].members[k + 1], "NULL");
     server_event_user_leave_a_team(server->teams[i].team_id,
         server->clients[id].user_id);
@@ -52,10 +55,12 @@ void unsubscribe(server_t *server, int client, int id)
     if (!strcmp(team_id, "Bad cmd") || strlen(team_id) < 1)
         dprintf(client, "501 Error syntax in parameters or arguments\n");
     else {
-        if (!team_exist(server, team_id))
+        if (!team_exist(server, team_id)) {
             dprintf(client, "304 Team doesn't exist\n");
+            dprintf(client, "114|%s|\n", team_id);
+        }
         else if (!user_is_in_team(server, team_id, id))
-            dprintf(client, "305 You aren't in this team\n");
+            dprintf(client, "308 You aren't in this team\n");
         else
             leave_team(server, team_id, id);
     }

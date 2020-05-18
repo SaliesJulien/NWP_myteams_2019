@@ -69,6 +69,8 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
         id = uuid_index(server, uuid_str);
         uuid_str = server->clients[id_default].user_id;
     }
+    dprintf(server->clients[id_default].fd_client, "103|%s|%s|\n",
+        server->clients[id].user_id, message);
 }
 
 void send_messages(server_t *server, int client, int id)
@@ -83,6 +85,7 @@ void send_messages(server_t *server, int client, int id)
     }
     if (!uuid_exit(server, uuid_str)) {
         dprintf(client, "303 User doesn't exist\n");
+        dprintf(client, "117|%s|\n", uuid_str);
         return;
     }
     fprintf(server->fp, "%s|%s|%s|\n", server->clients[id].user_id, uuid_str,

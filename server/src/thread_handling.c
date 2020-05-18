@@ -30,6 +30,7 @@ bool thread_already_exist(channel_t channel, char *name, server_t *server,
         if (!strcmp(channel.thread[j].thread_title, name)) {
             dprintf(server->clients[id].fd_client,
                 "512 This thread already exist\n");
+            dprintf(server->clients[id].fd_client, "129|");
             return (false);
         }
     return (true);
@@ -47,6 +48,7 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
     int i = 0;
     int k = 0;
     int j = 0;
+    int count = 0;
 
     for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
@@ -62,8 +64,23 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
     set_thread(&server->teams[i].channel[k].thread[j], name, desc);
     init_first_comment(server, i, k, j);
     dprintf(server->clients[id].fd_client,
+        "124|%s|%s|%s|%s|%s|\n",
+        server->teams[i].channel[k].thread[j].thread_id,
+        server->clients[id].user_id, "10:00",
+        server->teams[i].channel[k].thread[j].thread_title,
+        server->teams[i].channel[k].thread[j].thread_content);
+    for (int a = 0; strcmp(server->teams[i].members[a], "NULL") != 0; a++) {
+        for (count = 0; strcmp(server->clients[count].user_id,
+            server->teams[i].members[a]) != 0; count++);
+        dprintf(server->clients[count].fd_client, "107|%s|%s|%s|%s|%s|\n",
+        server->teams[i].channel[k].thread[j].thread_id,
+        server->clients[id].user_id, "10:00",
+        server->teams[i].channel[k].thread[j].thread_title,
+        server->teams[i].channel[k].thread[j].thread_content);
+    }
+    dprintf(server->clients[id].fd_client,
         "222 You succesfully created the thread \"%s\"\n",
-    server->teams[i].channel[k].thread[j].thread_title);
+        server->teams[i].channel[k].thread[j].thread_title);
     init_next_thread(server, i, k, j + 1);
     server->teams[i].channel[k].nb_thread++;
     server_event_thread_created(server->teams[i].channel[k].channel_id,

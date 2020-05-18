@@ -5,25 +5,25 @@
 ***
 ### **client_event_private_message_received** = 103|user_id|message_body|
 ***
-### **client_event_thread_message_received** = 104|team_id|thread_id|user_id|message
+### **client_event_thread_message_received** = 104|team_id|thread_id|user_id|message|
 ***
-### **client_event_team_created** = 105|team_id|team_name|team_description
+### **client_event_team_created** = 105|team_id|team_name|team_description|
 ***
-### **client_event_channel_created** = 106|channel_id|channel_name|channel_description
+### **client_event_channel_created** = 106|channel_id|channel_name|channel_description|
 ***
-### **client_event_thread_created** = 107|thread_id|user_id|_thread_timestamp|thread_title|thread_body
+### **client_event_thread_created** = 107|thread_id|user_id|_thread_timestamp|thread_title|thread_body|
 ***
 ### **client_print_users** = 108|user_id|user_name|user_status|
 ***
 ### **client_print_teams** = 109|team_id|team_name|team_description|
 ***
-### **client_team_print_channels** = 110|channel_id|channel_name|channel_description
+### **client_team_print_channels** = 110|channel_id|channel_name|channel_description|
 ***
 ### **client_channel_print_threads** = 111|thread_id|user_id|thread_timestamp|thread_title|thread_body|
 ***
-### **client_thread_print_replies** = 112|thread_id|user_id|reply_timestamp|reply_body
+### **client_thread_print_replies** = 112|thread_id|user_id|reply_timestamp|reply_body|
 ***
-### **client_private_message_print_messages** = 113|sender_id|timestamp|message|
+### **client_private_message_print_messages** = 113|sender_id|timestamp|message|   //PAS FAIT
 ***
 ### **client_error_unknown_team** = 114|team_id|
 ***

@@ -11,9 +11,12 @@ void print(int client, int id, server_t *server, int i)
 {
     dprintf(client,
             "205 Conversation with \"username\"\n");
-    for (int k = 0; server->clients[id].conversation[i].message[k]; k++)
+    for (int k = 0; server->clients[id].conversation[i].message[k]; k++) {
         dprintf(client,
             "%s\n", server->clients[id].conversation[i].message[k]);
+        dprintf(client, "113|sender_id|10:20|%s|\n",
+            server->clients[id].conversation[i].message[k]);
+    }
 }
 
 void print_messages(server_t *server, int id, char *cmd_id, int client)
@@ -41,7 +44,11 @@ void client_mess(server_t *server, int client, int id)
             if (strcmp(cmd_id, server->clients[i].user_id) == 0)
                 id_exist = true;
         }
-        (id_exist == false) ? dprintf(client, "303 User doesn't exist\n")
-        : print_messages(server, id, cmd_id, client);
+        if (!id_exist) {
+            dprintf(client, "303 User doesn't exist\n");
+            dprintf(client, "117|%s|\n", cmd_id);
+        }
+        else
+            print_messages(server, id, cmd_id, client);
     }
 }
