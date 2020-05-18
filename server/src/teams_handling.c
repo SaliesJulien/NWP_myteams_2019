@@ -55,6 +55,8 @@ void create_new_team(server_t *server, int id, char *team_name,
         "220 You succesfully created the team \"%s\"\n",
         server->teams[i].team_name);
     server->nb_teams++;
+    server_event_team_created(server->teams[i].team_id, team_name,
+        server->clients[id].user_id);
 }
 
 void create(server_t *server, int client, int id)

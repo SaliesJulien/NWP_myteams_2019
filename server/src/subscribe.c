@@ -24,6 +24,8 @@ void sub_team(server_t *server, int client, char *team_id, int id)
     strcpy(server->teams[k].members[i], server->clients[id].user_name);
     strcpy(server->teams[k].members[i + 1], "NULL");
     dprintf(client, "206 You succesfully subscribed to the team\n");
+    server_event_user_join_a_team(server->teams[k].team_id,
+        server->clients[id].user_id);
 }
 
 bool does_team_exist(server_t *server, char *team_id)

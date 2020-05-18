@@ -19,6 +19,7 @@
 #include <uuid/uuid.h>
 #include <signal.h>
 #include "teams.h"
+#include "logging_server.h"
 
 #define MAX_CLIENT 10
 #define READING 0

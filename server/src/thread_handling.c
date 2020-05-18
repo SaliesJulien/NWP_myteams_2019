@@ -66,4 +66,8 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
     server->teams[i].channel[k].thread[j].thread_title);
     init_next_thread(server, i, k, j + 1);
     server->teams[i].channel[k].nb_thread++;
+    server_event_thread_created(server->teams[i].channel[k].channel_id,
+        server->teams[i].channel[k].thread[j].thread_id,
+        server->clients[id].user_id,
+        server->teams[i].channel[k].thread[j].thread_content);
 }

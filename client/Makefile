@@ -11,10 +11,11 @@ SRCCLIENT =	$(SRCS)main.c 					\
 			$(SRCS)client.c 				\
 			$(SRCS)arguments.c 				\
 			$(SRCS)catch_sigint.c 			\
+			$(SRCS)function_handling.c 		\
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -I./include
+CFLAGS = -Wall -Werror -Wextra -I./include -I../libs/myteams -L../libs/myteams -lmyteams
 
 BINARYNAME_CLIENT = ../myteams_client
 
