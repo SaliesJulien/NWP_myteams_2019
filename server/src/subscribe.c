@@ -23,8 +23,8 @@ void sub_team(server_t *server, int client, char *team_id, int id)
     server->teams[k].members[i + 1] = malloc(sizeof(char) * 4);
     strcpy(server->teams[k].members[i], server->clients[id].user_name);
     strcpy(server->teams[k].members[i + 1], "NULL");
-    dprintf(client, "206 You succesfully subscribed to the team\n");
-    dprintf(client, "126|%s|%s|\n", server->clients[id].user_id,
+    dprintf(client, "206 You succesfully subscribed to the team\r\n");
+    dprintf(client, "126|%s|%s|\r\n", server->clients[id].user_id,
         server->teams[k].team_id);
     server_event_user_join_a_team(server->teams[k].team_id,
         server->clients[id].user_id);
@@ -58,18 +58,18 @@ void subscribe(server_t *server, int client, int id)
 
     if (!server->clients[id].logged) {
         dprintf(client, "515 User not logged\r\n");
-        dprintf(client, "128|\n");
+        dprintf(client, "128|\r\n");
     }
     else if (!strcmp(team_id, "Bad cmd") || strlen(team_id) < 1)
-        dprintf(client, "501 Error syntax in parameters or arguments\n");
+        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     else {
         if (!does_team_exist(server, team_id)) {
-            dprintf(client, "304 Team doesn't exist\n");
-            dprintf(client, "114|%s|\n", team_id);
+            dprintf(client, "304 Team doesn't exist\r\n");
+            dprintf(client, "114|%s|\r\n", team_id);
         }
         else if (user_in_team(server, team_id, id)) {
-            dprintf(client, "You are already in this team.\n");
-            dprintf(client, "129|\n");
+            dprintf(client, "You are already in this team.\r\n");
+            dprintf(client, "129|\r\n");
         }
         else
             sub_team(server, client, team_id, id);

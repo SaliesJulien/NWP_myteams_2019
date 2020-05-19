@@ -13,7 +13,8 @@ void save_server(server_t *server)
 
     for (int j = 0; j < server->nb_clients; j++) {
         server->clients[j].active = false;
-        dprintf(server->clients[j].fd_client, "deco plz\r\n");
+        dprintf(server->clients[j].fd_client,
+            "221 Service closing control connection\r\n");
     }
     if (file_server != NULL) {
         fwrite(server, sizeof(server_t), 1, file_server);

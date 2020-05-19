@@ -11,17 +11,17 @@ void list_teams(server_t *server, int client)
 {
     int i = 0;
 
-    dprintf(client, "231 List of teams that exist on the server\n");
+    dprintf(client, "231 List of teams that exist on the server\r\n");
     for (i = 0; strcmp(server->teams[i].team_id, "NULL"); i++) {
-        dprintf(client, "Team name -> \"%s\"    Team ID -> \"%s\"\n",
+        dprintf(client, "Team name -> \"%s\"    Team ID -> \"%s\"\r\n",
             server->teams[i].team_name,
             server->teams[i].team_id);
-        dprintf(client, "109|%s|%s|%s\n",
+        dprintf(client, "109|%s|%s|%s\r\n",
             server->teams[i].team_id,
             server->teams[i].team_name,
             server->teams[i].team_desc);
     }
-    (i == 0) ? dprintf(client, "There is no any team.\n") : (0);
+    (i == 0) ? dprintf(client, "There is no any team.\r\n") : (0);
 }
 
 void list_channel(server_t *server, int client, int id)
@@ -31,17 +31,17 @@ void list_channel(server_t *server, int client, int id)
 
     for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
-    dprintf(client, " 232 List of channels that exist on this team\n");
+    dprintf(client, " 232 List of channels that exist on this team\r\n");
     for (k = 0; strcmp(server->teams[i].channel[k].channel_id, "NULL"); k++) {
-        dprintf(client, "Channel name -> \"%s\"    Channel ID -> \"%s\"\n",
+        dprintf(client, "Channel name -> \"%s\"    Channel ID -> \"%s\"\r\n",
             server->teams[i].channel[k].channel_name,
             server->teams[i].channel[k].channel_id);
-        dprintf(client, "110|%s|%s|%s\n",
+        dprintf(client, "110|%s|%s|%s\r\n",
             server->teams[i].channel[k].channel_id,
             server->teams[i].channel[k].channel_name,
             server->teams[i].channel[k].channel_desc);
     }
-    (k == 0) ? dprintf(client, "There is no channel in this team.\n") : (0);
+    (k == 0) ? dprintf(client, "There is no channel in this team.\r\n") : (0);
 }
 
 void list_thread(server_t *server, int client, int id)
@@ -54,18 +54,18 @@ void list_thread(server_t *server, int client, int id)
         server->clients[id].use_state[0]); i++);
     for (k = 0; strcmp(server->teams[i].channel[k].channel_id,
         server->clients[id].use_state[1]); k++);
-    dprintf(client, "233 List of threads that exist on this channel\n");
+    dprintf(client, "233 List of threads that exist on this channel\r\n");
     for (; strcmp(server->teams[i].channel[k].thread[j].thread_id, "NULL");
         j++) {
-        dprintf(client, "Thread title -> \"%s\"    Thread ID -> \"%s\"\n",
+        dprintf(client, "Thread title -> \"%s\"    Thread ID -> \"%s\"\r\n",
             server->teams[i].channel[k].thread[j].thread_title,
             server->teams[i].channel[k].thread[j].thread_id);
-        dprintf(client, "111|%s|%s|10:20|%s\n",
+        dprintf(client, "111|%s|%s|10:20|%s\r\n",
             server->teams[i].channel[k].thread[j].thread_id,
             server->clients[id].user_id,
             server->teams[i].channel[k].thread[j].thread_content);
         }
-    (j == 0) ? dprintf(client, "There is no thread in this channel.\n") : (0);
+    (j == 0) ? dprintf(client, "There is no thread in this channel.\r\n") : (0);
 }
 
 void list_replies(server_t *server, int client, int id)
@@ -81,24 +81,24 @@ void list_replies(server_t *server, int client, int id)
         server->clients[id].use_state[1]); k++);
     for (; strcmp(server->teams[i].channel[k].thread[j].thread_id,
         server->clients[id].use_state[2]); j++);
-    dprintf(client, "234 List of comment that are posted on this thread\n");
+    dprintf(client, "234 List of comment that are posted on this thread\r\n");
     for (; strcmp(server->teams[i].channel[k].thread[j].comment[c], "NULL")
         ; c++) {
-        dprintf(client, "Reply -> \"%s\"\n",
+        dprintf(client, "Reply -> \"%s\"\r\n",
             server->teams[i].channel[k].thread[j].comment[c]);
-        dprintf(client, "112|%s|%s|10:20|%s\n",
+        dprintf(client, "112|%s|%s|10:20|%s\r\n",
             server->teams[i].channel[k].thread[j].thread_id,
             server->clients[id].user_id,
             server->teams[i].channel[k].thread[j].comment[c]);
         }
-    (c == 0) ? dprintf(client, "There is no comment in this thread.\n") : (0);
+    (c == 0) ? dprintf(client, "There is no comment in this thread.\r\n") : (0);
 }
 
 void list(server_t *server, int client, int id)
 {
     if (!server->clients[id].logged) {
         dprintf(client, "515 User not logged\r\n");
-        dprintf(client, "128|\n");
+        dprintf(client, "128|\r\n");
     }
     else if (server->clients[id].use_state[2])
         list_replies(server, client, id);

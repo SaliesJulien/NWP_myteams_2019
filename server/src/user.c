@@ -16,7 +16,7 @@ bool find_user(server_t *server, char *user_id, int id)
         if (strcmp(user_id, server->clients[i].user_id) == 0) {
             strcat(str, server->clients[i].user_name);
             dprintf(server->clients[id].fd_client, "%s\r\n", str);
-            dprintf(server->clients[id].fd_client, "118|%s|%s|%d|\n",
+            dprintf(server->clients[id].fd_client, "118|%s|%s|%d|\r\n",
                 server->clients[i].user_id,
                 server->clients[i].user_name,
                 (server->clients[i].logged) ? 1 : 0);
@@ -35,7 +35,7 @@ void user(server_t *server, int client, int id)
     } else if (strcmp(user_id, "Bad cmd") != 0) {
         if ((find_user(server, user_id, id)) == false) {
             dprintf(client, "303 User doesn't exist\r\n");
-            dprintf(client, "117|%s|\n", user_id);
+            dprintf(client, "117|%s|\r\n", user_id);
         }
     } else {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");

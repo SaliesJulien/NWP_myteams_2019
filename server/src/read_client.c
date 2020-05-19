@@ -14,7 +14,7 @@ void new_clients(server_t *server)
 
     fd = accept(server->fd_server, (struct sockaddr *)&server->inf, &len_cin);
     if (fd == -1)
-        printf("connection with new user failed");
+        printf("connection with new user failed\r\n");
     else
         new_client_struct(server, fd);
     dprintf(server->clients[server->nb_clients].fd_client,
@@ -38,7 +38,7 @@ void remove_client(server_t *server, int client, int id)
         printf("Client disconnected\r\n");
         server_event_user_logged_out(server->clients[id].user_id);
         for (int i = 0; i < server->nb_clients; i++)
-            dprintf(server->clients[i].fd_client, "102|%s|%s|\n",
+            dprintf(server->clients[i].fd_client, "102|%s|%s|\r\n",
                 server->clients[i].user_id, server->clients[i].user_name);
     } else {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");

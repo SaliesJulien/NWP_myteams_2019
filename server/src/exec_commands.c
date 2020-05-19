@@ -29,7 +29,7 @@ void help_client(server_t *server, int client, int id)
             /list : based on what is being used list all the sub resources\n\
             /info : based on what is being used list the current\r\n");
     else
-        dprintf(client, "501 Error syntax in parameters or arguments\n");
+        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
 }
 
 void command_not_found(server_t *server, int client, int id)

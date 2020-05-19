@@ -15,7 +15,7 @@ void send_notif(server_t *server, int id, char *uuid_str)
         if (!strcmp(server->clients[i].user_id, uuid_str))
             break;
     }
-    dprintf(server->clients[i].fd_client, "\"%s\" send you a message.\n",
+    dprintf(server->clients[i].fd_client, "\"%s\" send you a message.\r\n",
         server->clients[id].user_id);
 }
 
@@ -69,7 +69,7 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
         id = uuid_index(server, uuid_str);
         uuid_str = server->clients[id_default].user_id;
     }
-    dprintf(server->clients[id_default].fd_client, "103|%s|%s|\n",
+    dprintf(server->clients[id_default].fd_client, "103|%s|%s|\r\n",
         server->clients[id].user_id, message);
 }
 
@@ -81,7 +81,7 @@ void succes_messages(server_t *server, int id, char *uuid_str, char *message)
         message);
     fill_messages(server, id, uuid_str, message);
     send_notif(server, id, uuid_str);
-    dprintf(server->clients[id].fd_client, "204 sucessfully sent message\n");
+    dprintf(server->clients[id].fd_client, "204 sucessfully sent message\r\n");
 }
 
 void send_messages(server_t *server, int client, int id)
@@ -91,16 +91,16 @@ void send_messages(server_t *server, int client, int id)
 
     if (!server->clients[id].logged) {
         dprintf(client, "515 User not logged\r\n");
-        dprintf(client, "128|\n");
+        dprintf(client, "128|\r\n");
     }
     if ((!strcmp(uuid_str, "Bad cmd") || strlen(uuid_str) < 1) ||
         (!strcmp(message, "Bad cmd") || strlen(message) < 1)) {
-        dprintf(client, "501 Error syntax in parameters or arguments\n");
+        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
         return;
     }
     if (!uuid_exit(server, uuid_str)) {
-        dprintf(client, "303 User doesn't exist\n");
-        dprintf(client, "117|%s|\n", uuid_str);
+        dprintf(client, "303 User doesn't exist\r\n");
+        dprintf(client, "117|%s|\r\n", uuid_str);
         return;
     }
     succes_messages(server, id, uuid_str, message);

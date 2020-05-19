@@ -60,14 +60,14 @@ void create_new_comment(server_t *server, int id, char *name)
     strcpy(server->teams[i].channel[k].thread[j].comment[count], name);
     strcpy(server->teams[i].channel[k].thread[j].comment[count + 1], "NULL");
     dprintf(server->clients[id].fd_client,
-        "223 You succesfully posted a comment in \"%s\"\n",
+        "223 You succesfully posted a comment in \"%s\"\r\n",
         server->teams[i].channel[k].thread[j].thread_title);
     dprintf(server->clients[id].fd_client,
-        "125|%s|%s|%s|%s|\n",
+        "125|%s|%s|%s|%s|\r\n",
         server->teams[i].channel[k].thread[j].thread_id,
         server->clients[id].user_id, "10:00",
         server->teams[i].channel[k].thread[j].thread_content);
-    fprintf(server->comments, "%s|%s|%s|%s|\n", server->teams[i].team_id,
+    fprintf(server->comments, "%s|%s|%s|%s|\r\n", server->teams[i].team_id,
         server->teams[i].channel[k].channel_id,
         server->teams[i].channel[k].thread[j].thread_id, name);
     server_event_thread_new_message(
@@ -78,7 +78,7 @@ void create_new_comment(server_t *server, int id, char *name)
         for (count = 0; strcmp(server->clients[count].user_id,
             server->teams[i].members[a]) != 0; count++);
         dprintf(server->clients[count].fd_client,
-            "104|%s|%s|%s|%s|\n", server->teams[i].team_id,
+            "104|%s|%s|%s|%s|\r\n", server->teams[i].team_id,
             server->teams[i].channel[k].thread[j].thread_id,
             server->clients[id].user_id,
             server->teams[i].channel[k].thread[j].thread_content);
@@ -90,13 +90,13 @@ void comment_error(server_t *server, char *team_name, int id)
     if (count_args(server, 1))
         if (strlen(team_name) > DEFAULT_BODY_LENGTH)
             dprintf(server->clients[id].fd_client,
-                "532 Post failed, body length longer than 512 characters\n");
+                "532 Post failed, body length longer than 512 characters\r\n");
         else if (strcmp(team_name, "Bad cmd"))
             create_new_comment(server, id, team_name);
         else
             dprintf(server->clients[id].fd_client,
-                "501 Syntax error in parameters or arguments\n");
+                "501 Syntax error in parameters or arguments\r\n");
     else
         dprintf(server->clients[id].fd_client,
-            "501 Syntax error in parameters or arguments\n");
+            "501 Syntax error in parameters or arguments\r\n");
 }

@@ -26,9 +26,9 @@ bool team_already_exist(server_t *server, char *team_name, int id)
     for (int i = 0; strcmp(server->teams[i].team_id, "NULL"); i++)
         if (!strcmp(server->teams[i].team_name, team_name)) {
             dprintf(server->clients[id].fd_client,
-                "510 This team already exist\n");
+                "510 This team already exist\r\n");
             dprintf(server->clients[id].fd_client,
-                "129|\n");
+                "129|\r\n");
             return (false);
         }
     return (true);
@@ -54,14 +54,14 @@ void create_new_team(server_t *server, int id, char *team_name,
     init_first_channel(server, i);
     init_next_team(server, i + 1);
     dprintf(server->clients[id].fd_client,
-        "220 You succesfully created the team \"%s\"\n",
+        "220 You succesfully created the team \"%s\"\r\n",
         server->teams[i].team_name);
     dprintf(server->clients[id].fd_client,
-        "122|%s|%s|%s|\n", server->teams[i].team_id,
+        "122|%s|%s|%s|\r\n", server->teams[i].team_id,
         server->teams[i].team_name, server->teams[i].team_desc);
     for (id = 0; id < server->nb_clients; id++)
         dprintf(server->clients[id].fd_client,
-            "105|%s|%s|%s|\n", server->teams[i].team_id,
+            "105|%s|%s|%s|\r\n", server->teams[i].team_id,
             server->teams[i].team_name, server->teams[i].team_desc);
     server->nb_teams++;
     server_event_team_created(server->teams[i].team_id, team_name,
@@ -74,7 +74,7 @@ void create_statement(server_t *server, int id, char *team_name,
     if (count_args(server, 2)) {
         if (!strcmp(team_name, "Bad cmd") || !strcmp(team_desc, "Bad cmd"))
             dprintf(server->clients[id].fd_client,
-                "501 Syntax error in parameters or arguments.\n");
+                "501 Syntax error in parameters or arguments.\r\n");
         else if (server->clients[id].use_state[0] == NULL)
             create_new_team(server, id, team_name, team_desc);
         else if (server->clients[id].use_state[0] &&
@@ -86,7 +86,7 @@ void create_statement(server_t *server, int id, char *team_name,
     }
     else
         dprintf(server->clients[id].fd_client,
-            "501 Syntax error in parameters or arguments.\n");
+            "501 Syntax error in parameters or arguments.\r\n");
 }
 
 void create(server_t *server, int client, int id)
@@ -101,6 +101,6 @@ void create(server_t *server, int client, int id)
             comment_error(server, team_name, id);
     }
     else {
-        dprintf(client, "515 User not logged\n");
+        dprintf(client, "515 User not logged\r\n");
     }
 }

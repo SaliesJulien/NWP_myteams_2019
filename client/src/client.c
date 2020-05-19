@@ -61,6 +61,10 @@ bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
             str = calloc(1150, sizeof(char));
             read(i, str, 1150);
             str[strlen(str)-1] = 0;
+            if (strcmp(str, "221 Service closing control connection") == 0) {
+                printf("oui\r\n");
+                break;
+            }
             if (strncmp(str, "1", 1) == 0)
                 pointer_function(str);
             else
