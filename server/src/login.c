@@ -53,6 +53,7 @@ void find_uuid(server_t *server, int client, int id)
         server->clients[id].logged = true;
         server_event_user_created(server->clients[id].user_id,
             server->clients[id].user_name);
+        send_notification_login(server);
     }
 }
 
