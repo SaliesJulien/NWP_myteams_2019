@@ -65,6 +65,8 @@ void exec_commands(server_t *server, int client, int id)
         {"/unsubscribe", unsubscribe}, {"/subscribed", subscribed},
         {"/subscribe", subscribe}};
 
+    //if (strlen(server->command) < 2)
+    //    dprintf(client, "500 Syntax error, command unrecognized.\n");
     cmd = format_cmd(server->command);
     for (int i = 0; i < 14; i++) {
         if (strcmp(ptr_command[i].command, cmd) == 0) {

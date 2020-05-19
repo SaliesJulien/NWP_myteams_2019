@@ -52,7 +52,7 @@ void others_commands(char *code, char *str)
 
 void pointer_function(char *str)
 {
-    char *code = NULL;
+    char *code = malloc(sizeof(char) * 3);
     simple_replies_t ptr_simple[20] = {{"101", code_101}, {"102", code_102},
         {"103", code_103}, {"104", code_104}, {"105", code_105},
         {"106", code_106}, {"109", code_109}, {"110", code_110},
@@ -64,7 +64,7 @@ void pointer_function(char *str)
         {"113", code_113}, {"112", code_112}, {"121", code_121},
         {"124", code_124}, {"125", code_125}};
 
-    code = get_args(str, 1);
+    code = get_args(str, 0);
     for (int i = 0; i < 20; i++) {
         if (strncmp(ptr_simple[i].reply_code, code, 3) == 0) {
             ptr_simple[i].ptr(get_args(str, 1), get_args(str, 2),
