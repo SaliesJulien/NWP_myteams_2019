@@ -19,6 +19,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <time.h>
 #include <signal.h>
 #include "logging_client.h"
 
