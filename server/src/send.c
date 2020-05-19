@@ -26,7 +26,7 @@ void init_next_array(server_t *server, int id, int i)
 }
 
 bool if_conversation_exist(server_t *server, int id, char *uuid_str,
-char *message)
+    char *message)
 {
     int i = 0;
     int a = 0;
@@ -73,11 +73,26 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
         server->clients[id].user_id, message);
 }
 
+void succes_messages(server_t *server, int id, char *uuid_str, char *message)
+{
+    fprintf(server->fp, "%s|%s|%s|\n", server->clients[id].user_id, uuid_str,
+        message);
+    server_event_private_message_sended(server->clients[id].user_id, uuid_str,
+        message);
+    fill_messages(server, id, uuid_str, message);
+    send_notif(server, id, uuid_str);
+    dprintf(server->clients[id].fd_client, "204 sucessfully sent message\n");
+}
+
 void send_messages(server_t *server, int client, int id)
 {
     char *uuid_str = parse_args(server, 0);
     char *message = parse_args(server, 2);
 
+    if (!server->clients[id].logged) {
+        dprintf(client, "515 User not logged\r\n");
+        dprintf(client, "128|\n");
+    }
     if ((!strcmp(uuid_str, "Bad cmd") || strlen(uuid_str) < 1) ||
         (!strcmp(message, "Bad cmd") || strlen(message) < 1)) {
         dprintf(client, "501 Error syntax in parameters or arguments\n");
@@ -88,11 +103,5 @@ void send_messages(server_t *server, int client, int id)
         dprintf(client, "117|%s|\n", uuid_str);
         return;
     }
-    fprintf(server->fp, "%s|%s|%s|\n", server->clients[id].user_id, uuid_str,
-        message);
-    server_event_private_message_sended(server->clients[id].user_id, uuid_str,
-        message);
-    fill_messages(server, id, uuid_str, message);
-    send_notif(server, id, uuid_str);
-    dprintf(client, "204 sucessfully sent message\n");
+    succes_messages(server, id, uuid_str, message);
 }

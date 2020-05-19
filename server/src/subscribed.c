@@ -43,7 +43,11 @@ void subscribed(server_t *server, int client, int id)
 {
     char *team_id = parse_args(server, 0);
 
-    if (!strcmp(team_id, "Bad cmd") || strlen(team_id) < 1)
+    if (!server->clients[id].logged) {
+        dprintf(client, "515 User not logged\r\n");
+        dprintf(client, "128|\n");
+    }
+    else if (!strcmp(team_id, "Bad cmd") || strlen(team_id) < 1)
         list_team_sub(server, id, client);
     else
         list_user_sub(server, team_id, id, client);

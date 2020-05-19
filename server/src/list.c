@@ -96,14 +96,18 @@ void list_replies(server_t *server, int client, int id)
 
 void list(server_t *server, int client, int id)
 {
-    if (server->clients[id].use_state[2])
+    if (!server->clients[id].logged) {
+        dprintf(client, "515 User not logged\r\n");
+        dprintf(client, "128|\n");
+    }
+    else if (server->clients[id].use_state[2])
         list_replies(server, client, id);
-    if (server->clients[id].use_state[1] &&
+    else if (server->clients[id].use_state[1] &&
         !server->clients[id].use_state[2])
         list_thread(server, client, id);
-    if (server->clients[id].use_state[0] &&
+    else if (server->clients[id].use_state[0] &&
         !server->clients[id].use_state[1])
         list_channel(server, client, id);
-    if (!server->clients[id].use_state[0])
+    else if (!server->clients[id].use_state[0])
         list_teams(server, client);
 }

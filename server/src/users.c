@@ -9,22 +9,19 @@
 
 void get_list(server_t *server, int client)
 {
-    char *str = calloc(DEFAULT_BODY_LENGTH, sizeof(char));
-
-    strcat(str, "202 List of all users existing on the server\n");
+    dprintf(client, "202 List of all users existing on the server\n");
     for (int i = 0; i < server->nb_clients; i++) {
         if ((strcmp(server->clients[i].user_id, "Deleted") != 0) &&
             (strcmp(server->clients[i].user_id, "") != 0)) {
-            strcat(str, "ID -> \"");
-            strcat(str, server->clients[i].user_id);
-            strcat(str, "\"\r\n");
+            dprintf(client, "Username : %s    ID : %s\n",
+                server->clients[i].user_name,
+                server->clients[i].user_id);
             dprintf(client, "108|%s|%s|10:20|%d\n",
                 server->clients[i].user_id,
                 server->clients[i].user_name,
                 server->clients[i].logged == true ? 1 : 0);
         }
     }
-    dprintf(client, "%s", str);
 }
 
 void users_list(server_t *server, int client, int id)
