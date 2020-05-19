@@ -32,9 +32,9 @@ char *get_args(char *command, int nb)
 void others_commands(char *code, char *str)
 {
     if (strncmp("108", code, 3) == 0) {
-        code_108(get_args(str, 1), get_args(str, 2), get_args(str, 3));
+        code_108(get_args(str, 1), get_args(str, 2), atoi(get_args(str, 3)));
     } else if (strncmp("118", code, 3) == 0) {
-        code_118(get_args(str, 1), get_args(str, 2), get_args(str, 3));
+        code_118(get_args(str, 1), get_args(str, 2), atoi(get_args(str, 3)));
     }
 }
 
@@ -60,7 +60,7 @@ void pointer_function(char *str)
             break;
         } else if (strncmp(ptr_time[i].reply_code, code, 3) == 0) {
             ptr_time[i].ptr(get_args(str, 1), get_args(str, 2),
-                get_args(str, 3), get_args(str, 4), get_args(str, 5));
+                time(NULL), get_args(str, 4), get_args(str, 5));
             break;
         } else {
             others_commands(code, str);
