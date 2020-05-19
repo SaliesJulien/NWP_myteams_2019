@@ -16,6 +16,7 @@ clean:
 fclean: clean
 	make fclean --no-print-directory -C ./server
 	make fclean --no-print-directory -C ./client
+	rm -f channel_log client_log comments messages server_log teams_log thread_log
 
 re: fclean all
 
