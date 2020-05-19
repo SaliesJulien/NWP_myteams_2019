@@ -7,11 +7,11 @@
 
 #include "server.h"
 
-void send_notification_login(server_t *server)
+void send_notification_login(server_t *server, int id)
 {
     for (int i = 0; i < server->nb_clients; i++)
         dprintf(server->clients[i].fd_client, "101|%s|%s|\r\n",
-            server->clients[i].user_id, server->clients[i].user_name);
+            server->clients[id].user_id, server->clients[id].user_name);
 }
 
 bool check_exist(server_t *server, int client, int id, int i)
@@ -26,7 +26,7 @@ bool check_exist(server_t *server, int client, int id, int i)
             server->clients[id].active = false;
             dprintf(client, "230 Succesfull login\r\n");
             server_event_user_logged_in(server->clients[i].user_id);
-            send_notification_login(server);
+            send_notification_login(server, id);
             return (true);
         } else {
             dprintf(client, "330 Client already connected\r\n");
@@ -53,7 +53,7 @@ void find_uuid(server_t *server, int client, int id)
         server->clients[id].logged = true;
         server_event_user_created(server->clients[id].user_id,
             server->clients[id].user_name);
-        send_notification_login(server);
+        send_notification_login(server, id);
     }
 }
 
