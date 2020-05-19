@@ -37,18 +37,10 @@ void init_fd(fd_set *set, int server_sock, int sock)
 
 void print_fd(int server_sock, int sock, char *str, int i)
 {
-    if (strlen(str) > 0) {
-        if (i == server_sock)
-            dprintf(sock, "%s\r\n", str);
-        else
-            dprintf(server_sock, "%s\r\n", str);
-    }
-    //else {
-    //    if (i == server_sock)
-    //        dprintf(sock, "Error\r\n");
-    //    else
-    //        dprintf(server_sock, "Error\r\n");
-    //}
+    if (i == server_sock)
+        dprintf(sock, "%s\r\n", str);
+    else
+        dprintf(server_sock, "%s\r\n", str);
 }
 
 bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
@@ -61,14 +53,15 @@ bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
             str = calloc(1150, sizeof(char));
             read(i, str, 1150);
             str[strlen(str)-1] = 0;
-            if (strcmp(str, "221 Service closing control connection") == 0) {
-                printf("oui\r\n");
-                break;
-            }
-            if (strncmp(str, "1", 1) == 0)
-                pointer_function(str);
-            else
+            if (strncmp(str, "221", 3) == 0) {
                 print_fd(server_sock, sock, str, i);
+                close(sock);
+                break;
+            } else if (strncmp(str, "1", 1) == 0) {
+                pointer_function(str);
+            } else {
+                print_fd(server_sock, sock, str, i);
+            }
         }
     }
     return (false);
