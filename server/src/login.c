@@ -10,7 +10,7 @@
 void send_notification_login(server_t *server)
 {
     for (int i = 0; i < server->nb_clients; i++)
-        dprintf(server->clients[i].fd_client, "101|%s|%s|\n",
+        dprintf(server->clients[i].fd_client, "101|%s|%s|\r\n",
             server->clients[i].user_id, server->clients[i].user_name);
 }
 
