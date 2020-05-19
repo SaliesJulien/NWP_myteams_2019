@@ -63,7 +63,7 @@ void pointer_function(char *str)
                 get_args(str, 3), get_args(str, 4), get_args(str, 5));
             break;
         } else {
-            others_commands(code);
+            others_commands(code, str);
         }
     }
 }
