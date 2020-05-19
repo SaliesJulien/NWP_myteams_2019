@@ -14,7 +14,7 @@ char *get_args(char *command, int nb)
     int count = 0;
     char *temp = malloc(sizeof(char) * 40);
 
-    while (command[i]) {
+    while (command[i] && command[i] != '\r') {
         if (count == nb)
             break;
         if (command[i] == '|')
@@ -23,10 +23,10 @@ char *get_args(char *command, int nb)
     }
     if (count < nb)
         return (NULL);
-    for (;command[i] != '|'; i++)
+    for (;command[i] && command[i] != '|'; i++)
         temp[k++] = command[i];
     temp[k] = '\0';
-    return (temp);
+    return ((temp[0] == '\0') ? NULL : temp);
 }
 
 /*char *get_args(char *command, int nb, int status)
