@@ -14,10 +14,11 @@ void code_106(char const *first, char const *second, char const *third,
     client_event_channel_created(first, second, third);
 }
 
-void code_107(char const *thread_id, char const *use_id, time_t time,
+void code_107(char const *thread_id, char const *user_id, time_t time,
     char const *thread_title, char const *thread_content)
 {
-
+    client_event_thread_created(thread_id, user_id, time, thread_title,
+        thread_content);
 }
 
 void code_108(char const *first, char const *second, int user_status)

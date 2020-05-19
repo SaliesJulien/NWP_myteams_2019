@@ -64,7 +64,7 @@ void code_109(char const *, char const *, char const *, char const *);
 void code_110(char const *, char const *, char const *, char const *);
 void code_111(char const *, char const *, time_t, char const *, char const *);
 void code_112(char const *, char const *, time_t, char const *, char const *);
-void code_113(char const *, char const *, char const *, char const *);
+void code_113(char const *, char const *, time_t, char const *, char const *);
 void code_114(char const *, char const *, char const *, char const *);
 void code_115(char const *, char const *, char const *, char const *);
 void code_116(char const *, char const *, char const *, char const *);

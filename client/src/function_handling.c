@@ -29,6 +29,18 @@ char *get_args(char *command, int nb)
     return (temp);
 }
 
+/*char *get_args(char *command, int nb, int status)
+{
+    char *code = strtok(command, "|");
+    char *second = strtok(NULL, "|");
+    char *third = strtok(NULL, "|");
+    char *fourth = strtok(NULL, "|");
+    char *fifth = strtok(NULL, "|");
+
+    if (nb == )
+    return (temp);
+}*/
+
 void others_commands(char *code, char *str)
 {
     if (strncmp("108", code, 3) == 0) {
@@ -48,22 +60,24 @@ void pointer_function(char *str)
         {"117", code_117}, {"119", code_119}, {"120", code_120},
         {"122", code_122}, {"123", code_123}, {"126", code_126},
         {"127", code_127}, {"128", code_128}, {"129", code_129}};
-    time_replies_t ptr_time[6] = {{"107", code_107}, {"111", code_111},
-        {"112", code_112}, {"121", code_121}, {"124", code_124},
-        {"125", code_125}};
+    time_replies_t ptr_time[7] = {{"107", code_107}, {"111", code_111},
+        {"113", code_113}, {"112", code_112}, {"121", code_121},
+        {"124", code_124}, {"125", code_125}};
 
     code = get_args(str, 1);
-    for (int i = 0; i < 14; i++) {
+    for (int i = 0; i < 20; i++) {
         if (strncmp(ptr_simple[i].reply_code, code, 3) == 0) {
             ptr_simple[i].ptr(get_args(str, 1), get_args(str, 2),
                 get_args(str, 3), get_args(str, 4));
             break;
-        } else if (strncmp(ptr_time[i].reply_code, code, 3) == 0) {
-            ptr_time[i].ptr(get_args(str, 1), get_args(str, 2),
-                time(NULL), get_args(str, 4), get_args(str, 5));
-            break;
-        } else {
-            others_commands(code, str);
         }
     }
+    for (int y = 0; y < 7; y++) {
+        if (strncmp(ptr_time[y].reply_code, code, 3) == 0) {
+            ptr_time[y].ptr(get_args(str, 1), get_args(str, 2),
+                time(NULL), get_args(str, 4), get_args(str, 5));
+            break;
+        }
+    }
+    others_commands(code, str);
 }
