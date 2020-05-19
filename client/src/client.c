@@ -43,12 +43,12 @@ void print_fd(int server_sock, int sock, char *str, int i)
         else
             dprintf(server_sock, "%s\r\n", str);
     }
-    //else {
-    //    if (i == server_sock)
-    //        dprintf(sock, "Error\r\n");
-    //    else
-    //        dprintf(server_sock, "Error\r\n");
-    //}
+    else {
+        if (i == server_sock)
+            dprintf(sock, "Error\r\n");
+        else
+            dprintf(server_sock, "Error\r\n");
+    }
 }
 
 bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
