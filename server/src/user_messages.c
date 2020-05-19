@@ -27,7 +27,7 @@ void print_messages(server_t *server, int id, char *cmd_id, int client)
             return;
         }
     }
-    dprintf(client, "xxx You don't have conversation with this user.\n");
+    dprintf(client, "517 You don't have conversation with this user\n");
 }
 
 void client_mess(server_t *server, int client, int id)
@@ -35,15 +35,18 @@ void client_mess(server_t *server, int client, int id)
     bool id_exist = false;
     char *cmd_id = parse_args(server, 0);
 
-    if (!strcmp(cmd_id, "Bad cmd") || strlen(cmd_id) < 1) {
+    if (!server->clients[id].logged) {
+        dprintf(client, "515 User not logged\r\n");
+        dprintf(client, "128|\n");
+    }
+    else if (!strcmp(cmd_id, "Bad cmd") || strlen(cmd_id) < 1) {
         dprintf(client, "501 Error syntax in parameters or arguments\n");
         return;
     }
     else {
-        for (int i = 0; i < server->nb_clients; i++) {
+        for (int i = 0; i < server->nb_clients; i++)
             if (strcmp(cmd_id, server->clients[i].user_id) == 0)
                 id_exist = true;
-        }
         if (!id_exist) {
             dprintf(client, "303 User doesn't exist\n");
             dprintf(client, "117|%s|\n", cmd_id);

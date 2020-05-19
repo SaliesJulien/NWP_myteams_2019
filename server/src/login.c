@@ -60,7 +60,7 @@ void login_user(server_t *server, int client, int id)
 {
     if (strlen(parse_args(server, 0)) > 32) {
         dprintf(client, "530 Authentification failed, \
-name length longer than 32 characters\r\n");
+        name length longer than 32 characters\r\n");
     }
     else {
         strcpy(server->clients[id].user_name, parse_args(server, 0));

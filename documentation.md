@@ -26,6 +26,7 @@ _documentation that explain how to use commands aviable on this server and the d
 
     <- 202 List of all users existing on the server
     <- 501 Error syntax in parameters or arguments
+    <- 515 User not logged
 ***
 ## **-> /user** _["user_id"]_
 **description : get information about a user**
@@ -33,6 +34,7 @@ _documentation that explain how to use commands aviable on this server and the d
     <- 203 User infos
     <- 303 User doesn't exist
     <- 501 Error syntax in parameters or arguments
+    <- 515 User not logged
 ***
 ## **-> /send** _["user_id"] ["message"]_
 **description : send a message to a user**
@@ -40,6 +42,7 @@ _documentation that explain how to use commands aviable on this server and the d
     <- 204 sucessfully sent message
     <- 303 User doesn't exist
     <- 501 Error syntax in parameters or arguments
+    <- 515 User not logged
 ***
 ## **-> /messages** _["user_id"]_
 **description : list all messages exchange with an user**
@@ -47,6 +50,8 @@ _documentation that explain how to use commands aviable on this server and the d
     <- 205 Conversation with "username"
     <- 303 User doesn't exist
     <- 501 Error syntax in parameters or arguments
+    <- 517 You don't have conversation with this user
+    <- 515 User not logged
 ***
 ## **-> /subscribe** _["team_id"]_
 **description : subscribe to the event of a team and its sub directories (enable receptionof all events from a team)**
@@ -54,6 +59,7 @@ _documentation that explain how to use commands aviable on this server and the d
     <- 206 You succesfully subscribed to the team
     <- 304 Team doesn't exist
     <- 501 Error syntax in parameters or arguments
+    <- 515 User not logged
 ***
 ## **-> /subscribed** ?_["team_id"]_
 **description : list all subscribed teams or list all users subscribed to a team**
@@ -62,6 +68,7 @@ _documentation that explain how to use commands aviable on this server and the d
     <- 208 List of all user in this team
     <- 304 Team doesn't exist
     <- 501 Error syntax in parameters or arguments
+    <- 515 User not logged
 ***
 ## **-> /unsubscribe** _["team_id"]_
 **description : unsubscribe from a team**
@@ -70,6 +77,7 @@ _documentation that explain how to use commands aviable on this server and the d
     <- 304 Team doesn't exist
     <- 308 You aren't in this team
     <- 501 Error syntax in parameters or arguments
+    <- 515 User not logged
 ***
 ## **-> /use** ?_["team_id"]_ ?_["channel_id"]_ ?_["thread_id"]_
 **description : use specify a context team/channel/thread**
@@ -83,6 +91,7 @@ _documentation that explain how to use commands aviable on this server and the d
     <- 306 Thread doesn't exist
     <- 542 You can't go deeper than the server home
     <- 501 Error syntax in parameters or arguments
+    <- 515 User not logged
 ***
 # **-> /CREATE**
 ### When the context is not defined (/use):
@@ -92,6 +101,7 @@ _documentation that explain how to use commands aviable on this server and the d
     <- 220 You succesfully created the team "team_name"
     <- 510 This team already exist
     <- 501 Error syntax in parameters or arguments
+    <- 515 User not logged
 ### When team_uuid is defined (/use “team_uuid”):
 ## **-> /create** _["channel_name"] ["channel_desc"]_
 **description : create a new channel**
@@ -121,6 +131,7 @@ _documentation that explain how to use commands aviable on this server and the d
 
     <- 231 list of teams that exist on the server
     <- 501 Error syntax in parameters or arguments
+    <- 515 User not logged
 ### When team_uuid is defined (/use “team_uuid”):
 ## **-> /list**
 **description : list all existing channels**
@@ -147,6 +158,7 @@ _documentation that explain how to use commands aviable on this server and the d
 
     <- 241 Users currently logged
     <- 501 Error syntax in parameters or arguments
+    <- 515 User not logged
 ### When team_uuid is defined (/use “team_uuid”):
 ## **-> /info**
 **description : display currently selected team infos**

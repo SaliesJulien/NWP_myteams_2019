@@ -52,7 +52,11 @@ void unsubscribe(server_t *server, int client, int id)
 {
     char *team_id = parse_args(server, 0);
 
-    if (!strcmp(team_id, "Bad cmd") || strlen(team_id) < 1)
+    if (!server->clients[id].logged) {
+        dprintf(client, "515 User not logged\r\n");
+        dprintf(client, "128|\n");
+    }
+    else if (!strcmp(team_id, "Bad cmd") || strlen(team_id) < 1)
         dprintf(client, "501 Error syntax in parameters or arguments\n");
     else {
         if (!team_exist(server, team_id)) {

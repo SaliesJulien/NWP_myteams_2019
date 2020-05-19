@@ -68,31 +68,39 @@ void create_new_team(server_t *server, int id, char *team_name,
         server->clients[id].user_id);
 }
 
+void create_statement(server_t *server, int id, char *team_name,
+    char *team_desc)
+{
+    if (count_args(server, 2)) {
+        if (!strcmp(team_name, "Bad cmd") || !strcmp(team_desc, "Bad cmd"))
+            dprintf(server->clients[id].fd_client,
+                "501 Syntax error in parameters or arguments.\n");
+        else if (server->clients[id].use_state[0] == NULL)
+            create_new_team(server, id, team_name, team_desc);
+        else if (server->clients[id].use_state[0] &&
+            !server->clients[id].use_state[1])
+            create_new_channel(server, id, team_name, team_desc);
+        else if (server->clients[id].use_state[1] &&
+            !server->clients[id].use_state[2])
+            create_new_thread(server, id, team_name, team_desc);
+    }
+    else
+        dprintf(server->clients[id].fd_client,
+            "501 Syntax error in parameters or arguments.\n");
+}
+
 void create(server_t *server, int client, int id)
 {
     char *team_name = parse_args(server, 0);
     char *team_desc = parse_args(server, 2);
 
     if (server->clients[id].logged) {
-        if (!server->clients[id].use_state[2]) {
-            if (count_args(server, 2)) {
-                if (!strcmp(team_name, "Bad cmd") || !strcmp(team_desc, "Bad cmd"))
-                    dprintf(client, "501 Syntax error in parameters or arguments.\n");
-                else if (server->clients[id].use_state[0] == NULL)
-                    create_new_team(server, id, team_name, team_desc);
-                else if (server->clients[id].use_state[0] &&
-                    !server->clients[id].use_state[1])
-                    create_new_channel(server, id, team_name, team_desc);
-                else if (server->clients[id].use_state[1] &&
-                    !server->clients[id].use_state[2])
-                    create_new_thread(server, id, team_name, team_desc);
-            }
-            else
-                dprintf(client, "501 Syntax error in parameters or arguments.\n");
-        }
+        if (!server->clients[id].use_state[2])
+            create_statement(server, id, team_name, team_desc);
         else
             comment_error(server, team_name, id);
     }
-    else
+    else {
         dprintf(client, "515 User not logged\n");
+    }
 }
