@@ -12,6 +12,7 @@ void new_clients(server_t *server)
     int fd = 0;
     socklen_t len_cin = sizeof(server->inf);
 
+    server = read_client(server);
     fd = accept(server->fd_server, (struct sockaddr *)&server->inf, &len_cin);
     if (fd == -1)
         printf("connection with new user failed\r\n");
@@ -43,6 +44,7 @@ void remove_client(server_t *server, int client, int id)
     } else {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     }
+    save_client(server);
 }
 
 void old_clients(server_t *server, int client)

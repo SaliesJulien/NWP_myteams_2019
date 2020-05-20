@@ -75,7 +75,7 @@ server_t *read_server(server_t *server)
     return (server);
 }
 
-server_t * read_client(server_t *server)
+server_t *read_client(server_t *server)
 {
     FILE *file_client = fopen("client_log", "rb");
 

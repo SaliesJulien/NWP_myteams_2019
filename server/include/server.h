@@ -92,6 +92,8 @@ void fill_messages(server_t *, int, char *, char *);
 void save_struct(server_t *);
 server_t *read_struct(server_t *);
 bool count_args(server_t *, int);
+void save_client(server_t *);
+server_t *read_client(server_t *);
 
 //In user_messages.c
 char *get_command_id(server_t *);

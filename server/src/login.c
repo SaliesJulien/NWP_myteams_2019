@@ -26,7 +26,7 @@ bool check_exist(server_t *server, int client, int id, int i)
             server->clients[id].active = false;
             dprintf(client, "230 Succesfull login\r\n");
             server_event_user_logged_in(server->clients[i].user_id);
-            send_notification_login(server, id);
+            send_notification_login(server, i);
             return (true);
         } else {
             dprintf(client, "330 Client already connected\r\n");
