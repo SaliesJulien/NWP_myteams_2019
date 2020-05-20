@@ -26,6 +26,7 @@ void start_connection(server_t *server)
     if (listen(server->fd_server, MAX_CLIENT) == -1)
         exit(84);
     server->nb_clients = 0;
+    server->nb_teams = 0;
 }
 
 void init_sets(server_t *server)
@@ -80,8 +81,8 @@ void start_server(char **av)
             break;
         reading(server);
     }
-    free(server);
-    free(server->clients);
     fclose(server->fp);
     fclose(server->comments);
+    free(server->clients);
+    free(server);
 }

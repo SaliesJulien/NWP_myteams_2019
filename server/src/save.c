@@ -16,10 +16,9 @@ void save_server(server_t *server)
         dprintf(server->clients[j].fd_client,
             "221 Service closing control connection\r\n");
     }
-    if (file_server != NULL) {
-        fwrite(server, sizeof(server_t), 1, file_server);
-        fclose(file_server);
-    }
+    if (file_server != NULL)
+        fwrite(server, sizeof(server), 1, file_server);
+    fclose(file_server);
 }
 
 void save_client(server_t *server)
@@ -27,7 +26,7 @@ void save_client(server_t *server)
     FILE *file_client = fopen("client_log", "wb");
 
     if (file_client != NULL) {
-        fwrite(server->clients, sizeof(clients_t), server->nb_clients,
+        fwrite(server->clients, sizeof(server->clients), server->nb_clients,
             file_client);
         fclose(file_client);
     }
@@ -38,11 +37,10 @@ void save_teams(server_t *server, FILE *channel_teams, FILE *thread_teams)
     for (int i = 0; i < server->nb_teams; i++) {
         fwrite(server->teams[i].channel, sizeof(channel_t),
             (server->teams[i].nb_channel + 1), channel_teams);
-        if (thread_teams != NULL) {
+        if (thread_teams != NULL)
             for (int a = 0; a < server->teams[i].channel[a].nb_thread; a++)
                 fwrite(server->teams[i].channel[a].thread, sizeof(thread_t),
                 (server->teams[i].channel[a].nb_thread + 1), thread_teams);
-        }
     }
 }
 
@@ -56,15 +54,12 @@ void save_struct(server_t *server)
     save_client(server);
     if (file_teams != NULL) {
         for (int j = 0; j < server->nb_clients; j++) {
-            fwrite(server->teams, sizeof(team_t), (server->nb_teams + 1),
+            fwrite(server->teams, sizeof(server->teams), server->nb_teams,
                 file_teams);
             if (channel_teams != NULL)
                 save_teams(server, channel_teams, thread_teams);
         }
-        fclose(file_teams);
-        if (channel_teams != NULL && thread_teams != NULL) {
-            fclose(channel_teams);
-            fclose(thread_teams);
-        }
     }
+    fclose(file_teams);
+    fclose(thread_teams);
 }
