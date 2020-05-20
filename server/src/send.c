@@ -50,11 +50,13 @@ bool if_conversation_exist(server_t *server, int id, char *uuid_str,
 void fill_messages(server_t *server, int id, char *uuid_str, char *message)
 {
     int i = 0;
+    int user_nb = 0;
     int id_default = id;
 
+    user_nb = (!strcmp(server->clients[id].user_id, uuid_str)) ? 1 : 2;
     dprintf(server->clients[uuid_index(server, uuid_str)].fd_client, "103|%s|%s|\r\n",
         server->clients[id].user_id, message);
-    for (int y = 0; y < 2; y++) {
+    for (int y = 0; y < user_nb; y++) {
         if (!if_conversation_exist(server, id, uuid_str, message)) {
             for (; server->clients[id].conversation[i].client_id != NULL; i++);
             server->clients[id].conversation = realloc(
