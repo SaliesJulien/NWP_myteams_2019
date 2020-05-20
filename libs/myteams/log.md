@@ -23,7 +23,7 @@
 ***
 ### **client_thread_print_replies** = 112|thread_id|user_id|reply_timestamp|reply_body|
 ***
-### **client_private_message_print_messages** = 113|sender_id|timestamp|message|   //PAS FAIT
+### **client_private_message_print_messages** = 113|sender_id|timestamp|message|
 ***
 ### **client_error_unknown_team** = 114|team_id|
 ***

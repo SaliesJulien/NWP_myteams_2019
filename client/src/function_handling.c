@@ -47,7 +47,8 @@ void others_commands(char *code, char *str)
         code_108(get_args(str, 1), get_args(str, 2), atoi(get_args(str, 3)));
     } else if (strncmp("118", code, 3) == 0) {
         code_118(get_args(str, 1), get_args(str, 2), atoi(get_args(str, 3)));
-    }
+    } else if (strncmp("113", code, 3) == 0)
+        code_113(get_args(str, 1), NULL, time(NULL), get_args(str, 3), NULL);
 }
 
 void pointer_function(char *str)
@@ -60,9 +61,9 @@ void pointer_function(char *str)
         {"117", code_117}, {"119", code_119}, {"120", code_120},
         {"122", code_122}, {"123", code_123}, {"126", code_126},
         {"127", code_127}, {"128", code_128}, {"129", code_129}};
-    time_replies_t ptr_time[7] = {{"107", code_107}, {"111", code_111},
-        {"113", code_113}, {"112", code_112}, {"121", code_121},
-        {"124", code_124}, {"125", code_125}};
+    time_replies_t ptr_time[6] = {{"107", code_107}, {"111", code_111},
+        {"112", code_112}, {"121", code_121}, {"124", code_124},
+        {"125", code_125}};
 
     code = get_args(str, 0);
     for (int i = 0; i < 20; i++) {
@@ -72,7 +73,7 @@ void pointer_function(char *str)
             break;
         }
     }
-    for (int y = 0; y < 7; y++) {
+    for (int y = 0; y < 6; y++) {
         if (strncmp(ptr_time[y].reply_code, code, 3) == 0) {
             ptr_time[y].ptr(get_args(str, 1), get_args(str, 2),
                 time(NULL), get_args(str, 4), get_args(str, 5));

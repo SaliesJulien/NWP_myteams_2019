@@ -30,8 +30,8 @@ void print(int client, int id, server_t *server, int i)
     dprintf(client,
             "205 Conversation with \"username\"\r\n");
     for (int k = 0; server->clients[id].conversation[i].message[k]; k++) {
-        dprintf(client,
-            "%s\r\n", get_user_id(server->clients[id].conversation[i].message[k], 0));
+        dprintf(client, "%s\r\n",
+            get_user_id(server->clients[id].conversation[i].message[k], 0));
         dprintf(client, "113|%s|10:20|%s|\r\n",
             get_user_id(server->clients[id].conversation[i].message[k], 1),
             server->clients[id].conversation[i].message[k]);
