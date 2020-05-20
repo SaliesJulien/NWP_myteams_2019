@@ -16,7 +16,7 @@ void get_list(server_t *server, int client)
             dprintf(client, "Username : %s    ID : %s\r\n",
                 server->clients[i].user_name,
                 server->clients[i].user_id);
-            dprintf(client, "108|%s|%s|10:20|%d|\r\n",
+            dprintf(client, "108|%s|%s|10:20|%d|\n",
                 server->clients[i].user_id,
                 server->clients[i].user_name,
                 server->clients[i].logged == true ? 1 : 0);
