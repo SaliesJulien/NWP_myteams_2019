@@ -108,6 +108,7 @@ _documentation that explain how to use commands aviable on this server and the d
 
     <- 226 You succesfully created the channel "channel_name"
     <- 511 This channel already exist
+    <- 533 You can't create a channel if you aren't in the team
     <- 501 Error syntax in parameters or arguments
 ### When team_uuid and channel_uuid are defined (/use “team_uuid” “channel_uuid”):
 ## **-> /create** _["thread_name"] ["thread_desc"]_
