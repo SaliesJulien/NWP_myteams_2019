@@ -11,9 +11,7 @@ void init_team_and_conv(server_t *server)
 {
     server->clients[server->nb_clients].conversation =
         malloc(sizeof(messages_t));
-    server->clients[server->nb_clients].conversation[0].client_id =
-        malloc(sizeof(char) * 37);
-    strcpy(server->clients[server->nb_clients].conversation[0].client_id, "NULL");
+    server->clients[server->nb_clients].conversation[0].client_id = NULL;
 }
 
 void new_client_struct(server_t *server, int fd)
