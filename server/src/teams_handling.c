@@ -44,8 +44,7 @@ void create_new_team(server_t *server, int id, char *team_name,
     for (; strcmp(server->teams[i].team_id, "NULL"); i++);
     server->teams = realloc(server->teams, sizeof(team_t) * (i + 2));
     server->teams[i].members = malloc(sizeof(char *) * 2);
-    server->teams[i].members[0] = malloc(sizeof(char) *
-        strlen(server->clients[id].user_name));
+    server->teams[i].members[0] = malloc(sizeof(char) * 5);
     server->teams[i].channel = malloc(sizeof(channel_t));
     strcpy(server->teams[i].team_id, generate_id());
     strcpy(server->teams[i].team_name, team_name);
@@ -59,8 +58,8 @@ void create_new_team(server_t *server, int id, char *team_name,
     dprintf(server->clients[id].fd_client,
         "122|%s|%s|%s|\r\n", server->teams[i].team_id,
         server->teams[i].team_name, server->teams[i].team_desc);
-    for (id = 0; id < server->nb_clients; id++)
-        dprintf(server->clients[id].fd_client,
+    for (int a = 0; a < server->nb_clients; a++)
+        dprintf(server->clients[a].fd_client,
             "105|%s|%s|%s|\r\n", server->teams[i].team_id,
             server->teams[i].team_name, server->teams[i].team_desc);
     server->nb_teams++;

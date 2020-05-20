@@ -25,6 +25,7 @@ void start_connection(server_t *server)
         exit(84);
     if (listen(server->fd_server, MAX_CLIENT) == -1)
         exit(84);
+    server->nb_clients = 0;
 }
 
 void init_sets(server_t *server)
