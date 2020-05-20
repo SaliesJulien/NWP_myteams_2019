@@ -58,13 +58,17 @@ char *parse_args(server_t *server, int wich_args)
 bool count_args(server_t *server, int args_nb)
 {
     int i = 0;
+    bool name = false;
     int count = 0;
 
     for (; server->command[i]; i++) {
         if (server->command[i] == ' ') {
-            count++;
+            if (!name)
+                count++;
             for (;server->command[i] && server->command[i] == ' '; i++);
         }
+        if (server->command[i] == '"')
+            name = !name;
     }
     return ((count == args_nb) ? true : false);
 }

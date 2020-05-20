@@ -54,7 +54,7 @@ void create_new_team(server_t *server, int id, char *team_name,
     init_first_channel(server, i);
     init_next_team(server, i + 1);
     dprintf(server->clients[id].fd_client,
-        "220 You succesfully created the team \"%s\"\r\n",
+        "225 You succesfully created the team \"%s\"\r\n",
         server->teams[i].team_name);
     dprintf(server->clients[id].fd_client,
         "122|%s|%s|%s|\r\n", server->teams[i].team_id,

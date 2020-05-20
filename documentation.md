@@ -98,7 +98,7 @@ _documentation that explain how to use commands aviable on this server and the d
 ## **-> /create** _["team_name"] ["team_desc"]_
 **description : create a new team**
 
-    <- 220 You succesfully created the team "team_name"
+    <- 225 You succesfully created the team "team_name"
     <- 510 This team already exist
     <- 501 Error syntax in parameters or arguments
     <- 515 User not logged
@@ -106,21 +106,21 @@ _documentation that explain how to use commands aviable on this server and the d
 ## **-> /create** _["channel_name"] ["channel_desc"]_
 **description : create a new channel**
 
-    <- 221 You succesfully created the channel "channel_name"
+    <- 226 You succesfully created the channel "channel_name"
     <- 511 This channel already exist
     <- 501 Error syntax in parameters or arguments
 ### When team_uuid and channel_uuid are defined (/use “team_uuid” “channel_uuid”):
 ## **-> /create** _["thread_name"] ["thread_desc"]_
 **description : create a new thread**
 
-    <- 222 You succesfully created the thread "thread_name"
+    <- 227 You succesfully created the thread "thread_name"
     <- 512 This thread already exist
     <- 501 Error syntax in parameters or arguments
 ### When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”):
 ## **-> /create** _["comment_body"]
 **description : post a comment in a thread**
 
-    <- 223 You succesfully posted a comment in "thread_name"
+    <- 228 You succesfully posted a comment in "thread_name"
     <- 532 Post failed, body length longer than 512 characters
     <- 501 Error syntax in parameters or arguments
 ***

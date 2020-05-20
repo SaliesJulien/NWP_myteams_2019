@@ -60,7 +60,7 @@ void create_new_comment(server_t *server, int id, char *name)
     strcpy(server->teams[i].channel[k].thread[j].comment[count], name);
     strcpy(server->teams[i].channel[k].thread[j].comment[count + 1], "NULL");
     dprintf(server->clients[id].fd_client,
-        "223 You succesfully posted a comment in \"%s\"\r\n",
+        "228 You succesfully posted a comment in \"%s\"\r\n",
         server->teams[i].channel[k].thread[j].thread_title);
     dprintf(server->clients[id].fd_client,
         "125|%s|%s|%s|%s|\r\n",

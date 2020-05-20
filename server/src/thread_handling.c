@@ -79,7 +79,7 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
         server->teams[i].channel[k].thread[j].thread_content);
     }
     dprintf(server->clients[id].fd_client,
-        "222 You succesfully created the thread \"%s\"\r\n",
+        "227 You succesfully created the thread \"%s\"\r\n",
         server->teams[i].channel[k].thread[j].thread_title);
     init_next_thread(server, i, k, j + 1);
     server->teams[i].channel[k].nb_thread++;

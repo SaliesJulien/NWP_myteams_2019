@@ -12,11 +12,11 @@ void init_next_channel(server_t *server, int i, int k)
     strcpy(server->teams[i].channel[k].channel_name, "NULL");
     strcpy(server->teams[i].channel[k].channel_desc, "NULL");
     strcpy(server->teams[i].channel[k].channel_id, "NULL");
-    server->teams[i].channel[k].thread = NULL;
 }
 
 void init_first_thread(server_t *server, int i, int k)
 {
+    server->teams[i].channel[k].thread = malloc(sizeof(thread_t));
     strcpy(server->teams[i].channel[k].thread[0].thread_content, "NULL");
     strcpy(server->teams[i].channel[k].thread[0].thread_title, "NULL");
     strcpy(server->teams[i].channel[k].thread[0].thread_id, "NULL");
@@ -48,7 +48,6 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
     for (; strcmp(server->teams[i].channel[k].channel_id, "NULL"); k++);
     server->teams[i].channel = realloc(server->teams[i].channel,
         sizeof(channel_t) * (k + 2));
-    server->teams[i].channel[k].thread = malloc(sizeof(thread_t));
     strcpy(server->teams[i].channel[k].channel_name, name);
     strcpy(server->teams[i].channel[k].channel_id, generate_id());
     strcpy(server->teams[i].channel[k].channel_desc, desc);
@@ -63,15 +62,15 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
         for (count = 0; strcmp(server->clients[count].user_id,
             server->teams[i].members[a]) != 0; count++);
         dprintf(server->clients[count].fd_client, "106|%s|%s|%s|\r\n",
-        server->teams[i].channel[k].channel_id,
-        server->teams[i].channel[k].channel_name,
-        server->teams[i].channel[k].channel_desc);
+            server->teams[i].channel[k].channel_id,
+            server->teams[i].channel[k].channel_name,
+            server->teams[i].channel[k].channel_desc);
     }
     dprintf(server->clients[id].fd_client,
-        "221 You succesfully created the channel \"%s\"\r\n",
+        "226 You succesfully created the channel \"%s\"\r\n",
         server->teams[i].channel[k].channel_name);
-    server->teams[i].nb_channel++;
     server_event_channel_created(server->teams[i].team_id,
         server->teams[i].channel[k].channel_id,
         server->teams[i].channel[k].channel_name);
+    server->teams[i].nb_channel++;
 }
