@@ -37,10 +37,18 @@ void init_fd(fd_set *set, int server_sock, int sock)
 
 void print_fd(int server_sock, int sock, char *str, int i)
 {
-    if (i == server_sock)
+    char *cmd = strstr(str, "\r\n1");
+
+    if (i == server_sock) {
         dprintf(sock, "%s\r\n", str);
-    else
-        dprintf(server_sock, "%s\r\n", str);
+    } else {
+        if (cmd != NULL) {
+            str[strlen(str) - strlen(cmd)] = 0;
+            dprintf(server_sock, "%s\r\n", str);
+        } else {
+            dprintf(server_sock, "%s\r\n", str);
+        }
+    }
 }
 
 bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
