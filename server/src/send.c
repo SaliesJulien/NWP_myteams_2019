@@ -37,8 +37,10 @@ bool if_conversation_exist(server_t *server, int id, char *uuid_str,
             server->clients[id].conversation[i].message, (sizeof(char *) *
                 (a + 2)));
             server->clients[id].conversation[i].message[a] = malloc(
-                sizeof(char) * strlen(message));
+                sizeof(char) * (strlen(message) + 38));
             strcpy(server->clients[id].conversation[i].message[a], message);
+            strcat(server->clients[id].conversation[i].message[a], "|");
+            strcat(server->clients[id].conversation[i].message[a], server->clients[id].user_id);
             server->clients[id].conversation[i].message[a + 1] = NULL;
             return (true);
         }
@@ -63,8 +65,10 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
             server->clients[id].conversation[i].message = malloc(
                 sizeof(char *) * 2);
             server->clients[id].conversation[i].message[0] = malloc(
-                sizeof(char) * strlen(message));
+                sizeof(char) * (strlen(message) + 38));
             strcpy(server->clients[id].conversation[i].message[0], message);
+            strcat(server->clients[id].conversation[i].message[0], "|");
+            strcat(server->clients[id].conversation[i].message[0], server->clients[id].user_id);
             server->clients[id].conversation[i].message[1] = NULL;
             init_next_array(server, id, i + 1);
         }

@@ -7,14 +7,33 @@
 
 #include "server.h"
 
+char *get_user_id(char *message, int arg)
+{
+    int i = 0;
+    int k = 0;
+    int j = 0;
+    char *id = malloc(sizeof(char) * 37);
+    char *content = malloc(sizeof(char) * 50);
+
+    for (; message[i] != '|'; i++)
+        content[j++] = message[i];
+    content[j] = 0;
+    i += 1;
+    for (; message[i]; i++)
+        id[k++] = message[i];
+    id[k] = 0;
+    return (arg == 0 ? content : id);
+}
+
 void print(int client, int id, server_t *server, int i)
 {
     dprintf(client,
             "205 Conversation with \"username\"\r\n");
     for (int k = 0; server->clients[id].conversation[i].message[k]; k++) {
         dprintf(client,
-            "%s\r\n", server->clients[id].conversation[i].message[k]);
-        dprintf(client, "113|sender_id|10:20|%s|\r\n",
+            "%s\r\n", get_user_id(server->clients[id].conversation[i].message[k], 0));
+        dprintf(client, "113|%s|10:20|%s|\r\n",
+            get_user_id(server->clients[id].conversation[i].message[k], 1),
             server->clients[id].conversation[i].message[k]);
     }
 }
