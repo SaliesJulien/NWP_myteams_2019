@@ -35,11 +35,12 @@ void save_client(server_t *server)
 void save_teams(server_t *server, FILE *channel_teams, FILE *thread_teams)
 {
     for (int i = 0; i < server->nb_teams; i++) {
-        fwrite(server->teams[i].channel, sizeof(channel_t),
+        fwrite(server->teams[i].channel, sizeof(server->teams[i].channel),
             (server->teams[i].nb_channel + 1), channel_teams);
         if (thread_teams != NULL)
             for (int a = 0; a < server->teams[i].channel[a].nb_thread; a++)
-                fwrite(server->teams[i].channel[a].thread, sizeof(thread_t),
+                fwrite(server->teams[i].channel[a].thread,
+                sizeof(server->teams[i].channel[a].thread),
                 (server->teams[i].channel[a].nb_thread + 1), thread_teams);
     }
 }

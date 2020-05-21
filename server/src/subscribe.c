@@ -19,8 +19,8 @@ void sub_team(server_t *server, int client, char *team_id, int id)
     server->teams[k].members = realloc(server->teams[k].members,
         sizeof(char *) * (i + 2));
     server->teams[k].members[i] = malloc(sizeof(char) *
-        strlen(server->clients[id].user_name));
-    server->teams[k].members[i + 1] = malloc(sizeof(char) * 4);
+        strlen(server->clients[id].user_name) + 1);
+    server->teams[k].members[i + 1] = malloc(sizeof(char) * 5);
     strcpy(server->teams[k].members[i], server->clients[id].user_name);
     strcpy(server->teams[k].members[i + 1], "NULL");
     dprintf(client, "206 You succesfully subscribed to the team\r\n");
