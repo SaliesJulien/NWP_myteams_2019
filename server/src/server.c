@@ -72,6 +72,7 @@ void start_server(char **av)
     server_t *server = malloc(sizeof(server_t));
     server->clients = malloc(sizeof(clients_t));
 
+    memset(server->clients, 0, sizeof(clients_t));
     server = server_init(server, av);
     while (true) {
         init_sets(server);
@@ -87,6 +88,7 @@ void start_server(char **av)
     }
     fclose(server->fp);
     fclose(server->comments);
+    free(server->teams);
     free(server->clients);
     free(server);
 }
