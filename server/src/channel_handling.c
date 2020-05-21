@@ -83,4 +83,5 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
         server->teams[i].channel[k].channel_id,
         server->teams[i].channel[k].channel_name);
     server->teams[i].nb_channel++;
+    server->teams[i].channel[k].nb_thread = 0;
 }
