@@ -17,7 +17,7 @@ void save_server(server_t *server)
             "221 Service closing control connection\r\n");
     }
     if (file_server != NULL)
-        fwrite(server, sizeof(server_t), 1, file_server); 
+        fwrite(server, sizeof(server_t), 1, file_server);
     fclose(file_server);
 }
 

@@ -83,7 +83,7 @@ server_t *read_server(server_t *server)
 
     if (file_server != NULL) {
         server = malloc(sizeof(server_t));
-        fread(server, sizeof(server), 1, file_server);
+        fread(server, sizeof(server_t), 1, file_server);
         fclose(file_server);
     }
     return (server);
@@ -95,7 +95,7 @@ server_t *read_client(server_t *server)
 
     if (file_client != NULL) {
         server->clients = malloc(server->nb_clients * sizeof(clients_t));
-        fread(server->clients, sizeof(server->clients), server->nb_clients,
+        fread(server->clients, sizeof(clients_t), server->nb_clients,
             file_client);
         fclose(file_client);
     }

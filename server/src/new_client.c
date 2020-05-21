@@ -18,10 +18,11 @@ void init_team_and_conv(server_t *server)
 void new_client_struct(server_t *server, int fd)
 {
     server->clients = realloc(server->clients,
-        sizeof(clients_t) * (server->nb_clients + 2));
+        sizeof(clients_t) * (server->nb_clients + 1));
     server->clients[server->nb_clients].fd_client = fd;
     server->clients[server->nb_clients].logged = false;
     strcpy(server->clients[server->nb_clients].user_name, "");
+    strcpy(server->clients[server->nb_clients].user_id, "");
     server->clients[server->nb_clients].active = true;
     server->clients[server->nb_clients].use_state = malloc(sizeof(char *) * 3);
     server->clients[server->nb_clients].use_state[0] = NULL;
