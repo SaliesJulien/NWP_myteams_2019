@@ -66,19 +66,19 @@ bool use_thread(server_t *server, int client, int id, char *thread)
 
 void use_statement(server_t *server, int client, int id, char *team)
 {
-    if (server->clients[id].use_state[1] &&
-        !server->clients[id].use_state[2])
+    if (server->clients[id].use_state[1] != NULL &&
+        server->clients[id].use_state[2] == NULL)
         if (!use_thread(server, client, id, team)) {
             dprintf(client, "306 Thread doesn't exist\r\n");
             dprintf(client, "116|%s|\r\n", team);
         }
-    if (server->clients[id].use_state[0] &&
-        !server->clients[id].use_state[1])
+    if (server->clients[id].use_state[0] != NULL &&
+        server->clients[id].use_state[1] == NULL)
         if (!use_channel(server, client, id, team)) {
             dprintf(client, "305 Channel doesn't exist\r\n");
             dprintf(client, "115|%s|\r\n", team);
         }
-    if (!server->clients[id].use_state[0])
+    if (server->clients[id].use_state[0] == NULL)
         if (!use_team(server, client, id, team)) {
             dprintf(client, "304 Team doesn't exist\r\n");
             dprintf(client, "114|%s|\r\n", team);
@@ -89,7 +89,6 @@ void use(server_t *server, int client, int id)
 {
     char *team = parse_args(server, 0);
 
-    dprintf(client, "|%s|\r\n", team);
     if (!server->clients[id].logged) {
         dprintf(client, "515 User not logged\r\n");
         dprintf(client, "128|\r\n");
