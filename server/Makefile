@@ -33,6 +33,7 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)subscribed.c 			\
 			$(SRCS)save.c 					\
 			$(SRCS)read.c 					\
+			$(SRCS)parse_content.c 			\
 
 
 CC = gcc
