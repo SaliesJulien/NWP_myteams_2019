@@ -31,7 +31,7 @@ void list_channel(server_t *server, int client, int id)
 
     for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
-    dprintf(client, " 232 List of channels that exist on this team\r\n");
+    dprintf(client, "232 List of channels that exist on this team\r\n");
     for (k = 0; strcmp(server->teams[i].channel[k].channel_id, "NULL"); k++) {
         dprintf(client, "Channel name -> \"%s\"    Channel ID -> \"%s\"\r\n",
             server->teams[i].channel[k].channel_name,

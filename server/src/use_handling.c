@@ -12,7 +12,7 @@ bool use_team(server_t *server, int client, int id, char *team)
     for (int i = 0; strcmp(server->teams[i].team_id, "NULL"); i++) {
         if (!strcmp(server->teams[i].team_id, team)) {
             server->clients[id].use_state[0] =
-                malloc(sizeof(char) * strlen(team));
+                malloc(sizeof(char) * strlen(team) + 1);
             server->clients[id].use_state[0] = team;
             dprintf(client, "210 You are now in the team \"%s\"\r\n",
                     server->teams[i].team_name);
@@ -27,14 +27,13 @@ bool use_channel(server_t *server, int client, int id, char *channel)
     int i = 0;
     int k = 0;
 
-    dprintf(client, "\"%s\"\r\n", channel);
     for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
     for (k = 0; strcmp(server->teams[i].channel[k].channel_id, "NULL"); k++)
         if (!strcmp(server->teams[i].channel[k].channel_id, channel)) {
             server->clients[id].use_state[1] =
-                malloc(sizeof(char) * strlen(channel));
-            server->clients[id].use_state[1] = channel;
+                malloc(sizeof(char) * strlen(channel) + 1);
+            strcpy(server->clients[id].use_state[1], channel);
             dprintf(client, "211 You are now in the channel \"%s\"\r\n",
                     server->teams[i].channel[k].channel_name);
             return (true);
@@ -56,7 +55,7 @@ bool use_thread(server_t *server, int client, int id, char *thread)
         j++)
         if (!strcmp(server->teams[i].channel[k].thread[j].thread_id, thread)) {
             server->clients[id].use_state[2] =
-                malloc(sizeof(char) * strlen(thread));
+                malloc(sizeof(char) * strlen(thread) + 1);
             server->clients[id].use_state[2] = thread;
             dprintf(client, "212 You are now in the thread \"%s\"\r\n",
                 server->teams[i].channel[k].thread[j].thread_title);
@@ -90,6 +89,7 @@ void use(server_t *server, int client, int id)
 {
     char *team = parse_args(server, 0);
 
+    dprintf(client, "|%s|\r\n", team);
     if (!server->clients[id].logged) {
         dprintf(client, "515 User not logged\r\n");
         dprintf(client, "128|\r\n");
