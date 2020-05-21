@@ -13,7 +13,7 @@ bool use_team(server_t *server, int client, int id, char *team)
         if (!strcmp(server->teams[i].team_id, team)) {
             server->clients[id].use_state[0] =
                 malloc(sizeof(char) * strlen(team));
-            strcpy(server->clients[id].use_state[0], team);
+            server->clients[id].use_state[0] = team;
             dprintf(client, "210 You are now in the team \"%s\"\r\n",
                     server->teams[i].team_name);
             return (true);
@@ -27,13 +27,14 @@ bool use_channel(server_t *server, int client, int id, char *channel)
     int i = 0;
     int k = 0;
 
+    dprintf(client, "\"%s\"\r\n", channel);
     for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
     for (k = 0; strcmp(server->teams[i].channel[k].channel_id, "NULL"); k++)
         if (!strcmp(server->teams[i].channel[k].channel_id, channel)) {
             server->clients[id].use_state[1] =
                 malloc(sizeof(char) * strlen(channel));
-            strcpy(server->clients[id].use_state[1], channel);
+            server->clients[id].use_state[1] = channel;
             dprintf(client, "211 You are now in the channel \"%s\"\r\n",
                     server->teams[i].channel[k].channel_name);
             return (true);
@@ -56,7 +57,7 @@ bool use_thread(server_t *server, int client, int id, char *thread)
         if (!strcmp(server->teams[i].channel[k].thread[j].thread_id, thread)) {
             server->clients[id].use_state[2] =
                 malloc(sizeof(char) * strlen(thread));
-            strcpy(server->clients[id].use_state[2], thread);
+            server->clients[id].use_state[2] = thread;
             dprintf(client, "212 You are now in the thread \"%s\"\r\n",
                 server->teams[i].channel[k].thread[j].thread_title);
             return (true);
