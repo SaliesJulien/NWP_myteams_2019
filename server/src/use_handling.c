@@ -13,7 +13,7 @@ bool use_team(server_t *server, int client, int id, char *team)
         if (!strcmp(server->teams[i].team_id, team)) {
             server->clients[id].use_state[0] =
                 malloc(sizeof(char) * strlen(team));
-            server->clients[id].use_state[0] = team;
+            strcpy(server->clients[id].use_state[0], team);
             dprintf(client, "210 You are now in the team \"%s\"\r\n",
                     server->teams[i].team_name);
             return (true);

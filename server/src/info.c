@@ -11,12 +11,13 @@ void list_clients_logged(server_t *server, int client, int id)
 {
     (void)id;
     dprintf(client, "List of users logged in on the server\r\n");
-    for (int i = 0; i < server->nb_clients; i++) {
-        if (server->clients[i].active)
+    for (int i = 0; i <= server->nb_clients; i++) {
+        if (server->clients[i].active) {
             dprintf(client, "Username : \"%s\"    User ID : \"%s\"\r\n",
             server->clients[i].user_name, server->clients[i].user_id);
-        dprintf(client, "118|%s|%s|%d|\n", server->clients[i].user_id,
-        server->clients[i].user_name, (server->clients[i].logged) ? 1 : 0);
+            dprintf(client, "118|%s|%s|%d|\n", server->clients[i].user_id,
+            server->clients[i].user_name, (server->clients[i].logged) ? 1 : 0);
+        }
     }
 }
 
