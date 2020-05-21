@@ -47,6 +47,7 @@ void init_teams(server_t *server)
 {
     server->command = NULL;
     server->teams = malloc(sizeof(team_t));
+    memset(server->teams, 0, sizeof(team_t));
     strcpy(server->teams[0].team_id, "NULL");
     strcpy(server->teams[0].team_desc, "NULL");
     strcpy(server->teams[0].team_name, "NULL");

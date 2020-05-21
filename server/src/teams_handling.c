@@ -65,6 +65,7 @@ void create_new_team(server_t *server, int id, char *team_name,
     server->nb_teams++;
     server_event_team_created(server->teams[i].team_id, team_name,
         server->clients[id].user_id);
+    memset(server->teams[i].channel, 0, sizeof(channel_t));
 }
 
 void create_statement(server_t *server, int id, char *team_name,
