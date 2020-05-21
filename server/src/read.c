@@ -11,7 +11,7 @@ server_t *read_teams(server_t *server, FILE *channel_teams, FILE *thread_teams,
     int i)
 {
     if (channel_teams != NULL) {
-        server->teams[i].channel = malloc( (server->teams[i].nb_channel + 1) *
+        server->teams[i].channel = malloc((server->teams[i].nb_channel + 1) *
             sizeof(channel_t));
         fread(server->teams[i].channel, sizeof(server->teams[i].channel),
             server->teams[i].nb_channel, channel_teams);
