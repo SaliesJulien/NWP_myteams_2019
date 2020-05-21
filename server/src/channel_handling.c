@@ -16,7 +16,6 @@ void init_next_channel(server_t *server, int i, int k)
 
 void init_first_thread(server_t *server, int i, int k)
 {
-    server->teams[i].channel[k].thread = malloc(sizeof(thread_t));
     strcpy(server->teams[i].channel[k].thread[0].thread_content, "NULL");
     strcpy(server->teams[i].channel[k].thread[0].thread_title, "NULL");
     strcpy(server->teams[i].channel[k].thread[0].thread_id, "NULL");
@@ -58,6 +57,7 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
     for (; strcmp(server->teams[i].channel[k].channel_id, "NULL"); k++);
     server->teams[i].channel = realloc(server->teams[i].channel,
         sizeof(channel_t) * (k + 2));
+    server->teams[i].channel[k].thread = malloc(sizeof(thread_t));
     strcpy(server->teams[i].channel[k].channel_name, name);
     strcpy(server->teams[i].channel[k].channel_id, generate_id());
     strcpy(server->teams[i].channel[k].channel_desc, desc);
