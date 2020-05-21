@@ -62,7 +62,6 @@ typedef struct server_s {
     fd_set set[2];
     clients_t *clients;
     team_t *teams;
-    char *a;
 
 }server_t;
 
