@@ -36,7 +36,6 @@ bool use_channel(server_t *server, int client, int id, char *channel)
             strcpy(server->clients[id].use_state[1], channel);
             dprintf(client, "211 You are now in the channel \"%s\"\r\n",
                     server->teams[i].channel[k].channel_name);
-            dprintf(client, "%s\r\n", server->clients[id].use_state[1]);
             return (true);
         }
     return (false);

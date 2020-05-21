@@ -12,7 +12,7 @@ char *get_args(char *command, int nb)
     int i = 0;
     int k = 0;
     int count = 0;
-    char *temp = malloc(sizeof(char) * 40);
+    char *temp = malloc(sizeof(char) * 400);
 
     while (command[i] && command[i] != '\r') {
         if (count == nb)
