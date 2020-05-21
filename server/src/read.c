@@ -10,15 +10,17 @@
 server_t *read_teams(server_t *server, FILE *channel_teams, FILE *thread_teams,
     int i)
 {
-    server->teams[i].channel = malloc( (server->teams[i].nb_channel + 1) *
-        sizeof(channel_t));
-    fread(server->teams[i].channel, sizeof(channel_t),
-        (server->teams[i].nb_channel + 1), channel_teams);
-    for (int a = 0; a < server->teams[i].channel[a].nb_thread; a++) {
-        server->teams[i].channel[a].thread = malloc(
-            (server->teams[i].channel[a].nb_thread + 1) * sizeof(thread_t));
-        fread(server->teams[i].channel[a].thread, sizeof(thread_t),
-            (server->teams[i].channel[a].nb_thread + 1), thread_teams);
+    if (channel_teams != NULL) {
+        server->teams[i].channel = malloc( (server->teams[i].nb_channel + 1) *
+            sizeof(channel_t));
+        fread(server->teams[i].channel, sizeof(server->teams[i].channel),
+            server->teams[i].nb_channel, channel_teams);
+        for (int a = 0; a < server->teams[i].channel[a].nb_thread; a++) {
+            server->teams[i].channel[a].thread = malloc(
+                (server->teams[i].channel[a].nb_thread + 1) * sizeof(thread_t));
+            fread(server->teams[i].channel[a].thread, sizeof(server->teams[i].channel[a].thread),
+                server->teams[i].channel[a].nb_thread, thread_teams);
+        }
     }
     return (server);
 }
@@ -28,7 +30,7 @@ server_t *init_read(server_t *server)
     for (int j = 0; j < server->nb_clients; j++) {
         server_event_user_loaded(server->clients[j].user_id,
             server->clients[j].user_name);
-        server->clients[j].use_state = malloc(sizeof(char *) * 3);
+        server->clients[j].use_state = malloc(sizeof(char *) * 4);
         server->clients[j].use_state[0] = NULL;
         server->clients[j].use_state[1] = NULL;
         server->clients[j].use_state[2] = NULL;
@@ -70,8 +72,8 @@ server_t *read_struct(server_t *server)
     server = read_client(server);
     server = init_read(server);
     if (file_teams != NULL) {
-        server->teams = malloc((server->nb_teams + 1) * sizeof(team_t));
-        fread(server->teams, sizeof(team_t), (server->nb_teams + 1),
+        server->teams = malloc((server->nb_teams) * sizeof(team_t));
+        fread(server->teams, sizeof(server->teams), server->nb_teams,
             file_teams);
         if (channel_teams != NULL)
             for (int i = 0; i < server->nb_teams; i++)
