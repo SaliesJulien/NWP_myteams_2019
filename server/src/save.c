@@ -26,8 +26,8 @@ void save_client(server_t *server)
     FILE *file_client = fopen("client_log", "wb");
 
     if (file_client != NULL) {
-        fwrite(server->clients, sizeof(clients_t), server->nb_clients,
-            file_client);
+        fwrite(server->clients, sizeof(clients_t),
+            server->nb_clients, file_client);
         fclose(file_client);
     }
 }
@@ -35,15 +35,20 @@ void save_client(server_t *server)
 void save_teams(server_t *server, FILE *channel_teams, FILE *thread_teams)
 {
     for (int i = 0; i < server->nb_teams; i++) {
-        if (server->teams[i].channel)
-            continue;
-        fwrite(server->teams[i].channel, sizeof(channel_t),
-            server->teams[i].nb_channel, channel_teams);
+        if (channel_teams != NULL) {
+            if (server->teams[i].channel == NULL)
+                continue;
+            fwrite(server->teams[i].channel,
+                sizeof(channel_t),
+                server->teams[i].nb_channel, channel_teams);
+        }
         if (thread_teams != NULL)
-            for (int a = 0; a < server->teams[i].channel[a].nb_thread; a++)
-                fwrite(server->teams[i].channel[a].thread,
-                sizeof(server->teams[i].channel[a].thread),
-                server->teams[i].channel[a].nb_thread, thread_teams);
+            for (int a = 0; a < server->teams[i].nb_channel; a++) {
+                if (server->teams[i].channel[a].thread == NULL)
+                    continue;
+                fwrite(server->teams[i].channel[a].thread, sizeof(thread_t),
+                    server->teams[i].channel[a].nb_thread, thread_teams);
+            }
     }
 }
 
@@ -55,14 +60,11 @@ void save_struct(server_t *server)
 
     save_server(server);
     save_client(server);
-    if (file_teams != NULL) {
-        for (int j = 0; j < server->nb_clients; j++) {
-            fwrite(server->teams, sizeof(team_t), server->nb_teams,
-                file_teams);
-            if (channel_teams != NULL)
-                save_teams(server, channel_teams, thread_teams);
-        }
-    }
+    if (file_teams != NULL && server->teams != NULL)
+        fwrite(server->teams, sizeof(team_t), server->nb_teams,
+            file_teams);
+    if (channel_teams != NULL)
+        save_teams(server, channel_teams, thread_teams);
     fclose(file_teams);
     fclose(thread_teams);
 }

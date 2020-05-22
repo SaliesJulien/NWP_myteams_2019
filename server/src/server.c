@@ -51,6 +51,7 @@ void init_teams(server_t *server)
     strcpy(server->teams[0].team_id, "NULL");
     strcpy(server->teams[0].team_desc, "NULL");
     strcpy(server->teams[0].team_name, "NULL");
+    server->command = NULL;
 }
 
 server_t *server_init(server_t *server, char **av)
