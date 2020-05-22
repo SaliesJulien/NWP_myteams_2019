@@ -11,13 +11,15 @@ server_t *read_teams(server_t *server, FILE *channel_teams, FILE *thread_teams,
     int i)
 {
     if (channel_teams != NULL) {
-        server->teams[i].channel = malloc((server->teams[i].nb_channel + 1) *
+        server->teams[i].channel = malloc((server->teams[i].nb_channel) *
             sizeof(channel_t));
         fread(server->teams[i].channel, sizeof(channel_t),
             server->teams[i].nb_channel, channel_teams);
-        for (int a = 0; a < server->teams[i].channel[a].nb_thread; a++) {
+    }
+    if (thread_teams != NULL) {
+        for (int a = 0; a < server->teams[i].nb_channel; a++) {
             server->teams[i].channel[a].thread = malloc(
-                (server->teams[i].channel[a].nb_thread + 1) * sizeof(thread_t));
+                (server->teams[i].channel[a].nb_thread) * sizeof(thread_t));
             fread(server->teams[i].channel[a].thread, sizeof(thread_t),
                 server->teams[i].channel[a].nb_thread, thread_teams);
         }
@@ -77,11 +79,10 @@ server_t *read_struct(server_t *server)
             file_teams);
         if (channel_teams != NULL)
             for (int i = 0; i < server->nb_teams; i++)
-                if (thread_teams != NULL)
-                    server = read_teams(server, channel_teams, thread_teams,
-                        i);
+                server = read_teams(server, channel_teams, thread_teams, i);
     }
     if (file_teams != NULL && channel_teams != NULL && thread_teams != NULL) {
+        printf("%s\r\n", server->teams[0].channel[0].thread[0].thread_title);
         fclose(file_teams);
         fclose(channel_teams);
         fclose(thread_teams);
