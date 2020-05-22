@@ -33,9 +33,9 @@ bool user_subscribed(server_t *server, int i, int id)
 
 bool channel_exist(server_t *server, int i, char *name, int id)
 {
-    for (int k = 0; strcmp(server->teams[i].channel[k].channel_id, "NULL");
+    for (int k = 0; (strcmp(server->teams[i].channel[k].channel_id, "NULL") != 0);
         k++)
-        if (!strcmp(server->teams[i].channel[k].channel_name, name)) {
+        if ((strcmp(server->teams[i].channel[k].channel_name, name) == 0)) {
             dprintf(server->clients[id].fd_client,
                 "511 This channel already exist\r\n");
             dprintf(server->clients[id].fd_client, "129|\r\n");
