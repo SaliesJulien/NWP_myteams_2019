@@ -19,6 +19,7 @@ void new_client_struct(server_t *server, int fd)
 {
     server->clients = realloc(server->clients,
         sizeof(clients_t) * (server->nb_clients + 1));
+    memset(&server->clients[server->nb_clients], 0, sizeof(clients_t));
     server->clients[server->nb_clients].fd_client = fd;
     server->clients[server->nb_clients].logged = false;
     strcpy(server->clients[server->nb_clients].user_name, "");
