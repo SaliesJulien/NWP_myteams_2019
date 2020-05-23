@@ -38,8 +38,7 @@ void save_teams(server_t *server, FILE *channel_teams, FILE *thread_teams)
         if (channel_teams != NULL) {
             if (server->teams[i].channel == NULL)
                 continue;
-            fwrite(server->teams[i].channel,
-                sizeof(channel_t),
+            fwrite(server->teams[i].channel, sizeof(channel_t),
                 server->teams[i].nb_channel, channel_teams);
         }
         if (thread_teams != NULL)

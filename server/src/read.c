@@ -15,6 +15,7 @@ server_t *read_teams(server_t *server, FILE *channel_teams, FILE *thread_teams,
             sizeof(channel_t));
         fread(server->teams[i].channel, sizeof(channel_t),
             server->teams[i].nb_channel, channel_teams);
+        strcpy(server->teams[i].channel[server->teams[i].nb_channel].channel_id, "NULL");
     }
     if (thread_teams != NULL) {
         for (int a = 0; a < server->teams[i].nb_channel; a++) {
