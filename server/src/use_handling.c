@@ -13,7 +13,7 @@ bool use_team(server_t *server, int client, int id, char *team)
         if (!strcmp(server->teams[i].team_id, team)) {
             server->clients[id].use_state[0] =
                 malloc(sizeof(char) * strlen(team) + 1);
-            server->clients[id].use_state[0] = team;
+            strcpy(server->clients[id].use_state[0], team);
             dprintf(client, "210 You are now in the team \"%s\"\r\n",
                     server->teams[i].team_name);
             return (true);
@@ -53,10 +53,10 @@ bool use_thread(server_t *server, int client, int id, char *thread)
         server->clients[id].use_state[1]); k++);
     for (; strcmp(server->teams[i].channel[k].thread[j].thread_id, "NULL");
         j++)
-        if (!strcmp(server->teams[i].channel[k].thread[j].thread_id, thread)) {
+        if (strcmp(server->teams[i].channel[k].thread[j].thread_id, thread) == 0) {
             server->clients[id].use_state[2] =
                 malloc(sizeof(char) * strlen(thread) + 1);
-            server->clients[id].use_state[2] = thread;
+            strcpy(server->clients[id].use_state[2], thread);
             dprintf(client, "212 You are now in the thread \"%s\"\r\n",
                 server->teams[i].channel[k].thread[j].thread_title);
             return (true);

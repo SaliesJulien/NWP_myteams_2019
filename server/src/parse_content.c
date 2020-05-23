@@ -21,27 +21,25 @@ server_t *parse_messages(server_t *server, char *command)
     return (server);
 }
 
-void find_good_comments(thread_t thread, char *message, bool first)
+void find_good_comments(thread_t *thread, char *message, bool first)
 {
     int count = 0;
 
     if (first == false) {
-        thread.comment = malloc(sizeof(char *) * 2);
-        thread.comment[0] = malloc(sizeof(char *) * strlen(message));
-        thread.comment[1] = malloc(sizeof(char) * 5);
-        strcpy(thread.comment[0], message);
-        strcpy(thread.comment[1], "NULL");
+        thread->comment = malloc(sizeof(char *) * 2);
+        thread->comment[0] = malloc(sizeof(char *) * strlen(message) + 1);
+        thread->comment[1] = malloc(sizeof(char) * 5);
+        strcpy(thread->comment[0], message);
+        strcpy(thread->comment[1], "NULL");
     } else {
-        for (; strcmp(thread.comment[count], "NULL"); count++);
-        thread.comment = realloc(thread.comment, (sizeof(char *) *
+        for (; strcmp(thread->comment[count], "NULL"); count++);
+        thread->comment = realloc(thread->comment, (sizeof(char *) *
             (count + 2)));
-        thread.comment[count] = malloc(sizeof(char) * strlen(message));
-        thread.comment[count + 1] = malloc(sizeof(char) * 5);
-        strcpy(thread.comment[count], message);
-        strcpy(thread.comment[count + 1], "NULL");
+        thread->comment[count] = malloc(sizeof(char) * strlen(message) + 1);
+        thread->comment[count + 1] = malloc(sizeof(char) * 5);
+        strcpy(thread->comment[count], message);
+        strcpy(thread->comment[count + 1], "NULL");
     }
-    printf("%s\r\n", thread.comment[0]);
-    printf("%s\r\n", thread.comment[1]);
 }
 
 server_t *parse_comments(server_t *server, char *command, bool first)
@@ -64,7 +62,7 @@ server_t *parse_comments(server_t *server, char *command, bool first)
         if (strcmp(server->teams[a].channel[b].thread[i].thread_id,
             thread) == 0)
             c = i;
-    find_good_comments(server->teams[a].channel[b].thread[c], message, first);
+    find_good_comments(&server->teams[a].channel[b].thread[c], message, first);
     return (server);
 }
 
