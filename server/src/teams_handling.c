@@ -43,6 +43,7 @@ void create_new_team(server_t *server, int id, char *team_name,
         return;
     for (; strcmp(server->teams[i].team_id, "NULL"); i++);
     server->teams = realloc(server->teams, sizeof(team_t) * (i + 2));
+    memset(&server->teams[i], 0, sizeof(team_t));
     server->teams[i].members = malloc(sizeof(char *) * 2);
     server->teams[i].members[0] = malloc(sizeof(char) * 5);
     server->teams[i].channel = malloc(sizeof(channel_t));
