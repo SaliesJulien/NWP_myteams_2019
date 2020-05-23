@@ -60,9 +60,10 @@ void list_thread(server_t *server, int client, int id)
         dprintf(client, "Thread title -> \"%s\"    Thread ID -> \"%s\"\r\n",
             server->teams[i].channel[k].thread[j].thread_title,
             server->teams[i].channel[k].thread[j].thread_id);
-        dprintf(client, "111|%s|%s|10:20|%s\r\n",
+        dprintf(client, "111|%s|%s|10:20|%s|%s|\r\n",
             server->teams[i].channel[k].thread[j].thread_id,
             server->clients[id].user_id,
+            server->teams[i].channel[k].thread[j].thread_title,
             server->teams[i].channel[k].thread[j].thread_content);
         }
     (j == 0) ? dprintf(client, "There is no thread in this channel.\r\n") : (0);
