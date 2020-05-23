@@ -60,7 +60,7 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
         "NULL"); j++);
     server->teams[i].channel[k].thread = realloc(
         server->teams[i].channel[k].thread, sizeof(thread_t) * (j + 2));
-    memset(&server->teams[i].channel[k].thread[j], 0, sizeof(channel_t));
+    memset(&server->teams[i].channel[k].thread[j], 0, sizeof(thread_t));
     server->teams[i].channel[k].thread[j].comment = malloc(sizeof(char *));
     set_thread(&server->teams[i].channel[k].thread[j], name, desc);
     init_first_comment(server, i, k, j);
