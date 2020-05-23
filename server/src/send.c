@@ -37,7 +37,7 @@ bool if_conversation_exist(server_t *server, int id, char *uuid_str,
             server->clients[id].conversation[i].message, (sizeof(char *) *
                 (a + 2)));
             server->clients[id].conversation[i].message[a] = malloc(
-                sizeof(char) * (strlen(message) + 38));
+                sizeof(char) * (strlen(message) + 39));
             strcpy(server->clients[id].conversation[i].message[a], message);
             strcat(server->clients[id].conversation[i].message[a], "|");
             strcat(server->clients[id].conversation[i].message[a], server->clients[id].user_id);
@@ -57,6 +57,7 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
     dprintf(server->clients[uuid_index(server, uuid_str)].fd_client, "103|%s|%s|\r\n",
         server->clients[id].user_id, message);
     for (int y = 0; y < user_nb; y++) {
+        //memset(&server->clients[id].conversation, 0, sizeof(messages_t));
         if (!if_conversation_exist(server, id, uuid_str, message)) {
             for (; server->clients[id].conversation[i].client_id != NULL; i++);
             server->clients[id].conversation = realloc(
@@ -67,7 +68,7 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
             server->clients[id].conversation[i].message = malloc(
                 sizeof(char *) * 2);
             server->clients[id].conversation[i].message[0] = malloc(
-                sizeof(char) * (strlen(message) + 38));
+                sizeof(char) * (strlen(message) + 39));
             strcpy(server->clients[id].conversation[i].message[0], message);
             strcat(server->clients[id].conversation[i].message[0], "|");
             strcat(server->clients[id].conversation[i].message[0], server->clients[id].user_id);
