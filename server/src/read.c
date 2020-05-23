@@ -74,15 +74,15 @@ server_t *read_struct(server_t *server)
     server = read_client(server);
     server = init_read(server);
     if (file_teams != NULL) {
-        server->teams = malloc((server->nb_teams) * sizeof(team_t));
+        server->teams = malloc((server->nb_teams + 1) * sizeof(team_t));
         fread(server->teams, sizeof(team_t), server->nb_teams,
             file_teams);
+        strcpy(server->teams[server->nb_teams].team_id, "NULL");
         if (channel_teams != NULL)
             for (int i = 0; i < server->nb_teams; i++)
                 server = read_teams(server, channel_teams, thread_teams, i);
     }
     if (file_teams != NULL && channel_teams != NULL && thread_teams != NULL) {
-        printf("%s\r\n", server->teams[0].channel[0].thread[0].thread_title);
         fclose(file_teams);
         fclose(channel_teams);
         fclose(thread_teams);

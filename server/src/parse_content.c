@@ -99,5 +99,11 @@ server_t *read_client(server_t *server)
             file_client);
         fclose(file_client);
     }
+    for (int i = 0; i < server->nb_teams; i++) {
+        server->clients[i].use_state = malloc(sizeof(char *) * 3);
+        server->clients[i].use_state[0] = NULL;
+        server->clients[i].use_state[1] = NULL;
+        server->clients[i].use_state[2] = NULL;
+    }
     return (server);
 }
