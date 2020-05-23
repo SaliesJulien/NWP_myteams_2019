@@ -57,7 +57,6 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
     dprintf(server->clients[uuid_index(server, uuid_str)].fd_client, "103|%s|%s|\r\n",
         server->clients[id].user_id, message);
     for (int y = 0; y < user_nb; y++) {
-        //memset(&server->clients[id].conversation, 0, sizeof(messages_t));
         if (!if_conversation_exist(server, id, uuid_str, message)) {
             for (; server->clients[id].conversation[i].client_id != NULL; i++);
             server->clients[id].conversation = realloc(
@@ -89,6 +88,7 @@ void succes_messages(server_t *server, int id, char *uuid_str, char *message)
     fill_messages(server, id, uuid_str, message);
     send_notif(server, id, uuid_str);
     dprintf(server->clients[id].fd_client, "204 sucessfully sent message\r\n");
+    dprintf(server->clients[id].fd_client, "%d\r\n", server->clients[id].fd_client);
 }
 
 void send_messages(server_t *server, int client, int id)

@@ -17,6 +17,8 @@ server_t *parse_messages(server_t *server, char *command)
         malloc(sizeof(messages_t));
     server->clients[uuid_index(server, receiver)].conversation =
         malloc(sizeof(messages_t));
+    server->clients[uuid_index(server, receiver)].conversation[0].client_id = NULL;
+    server->clients[uuid_index(server, sender)].conversation[0].client_id = NULL;
     fill_messages(server, uuid_index(server, sender), receiver, message);
     return (server);
 }
