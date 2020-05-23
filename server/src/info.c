@@ -25,9 +25,9 @@ void list_team_info(server_t *server, int client, int id)
 {
     int i = 0;
 
-    dprintf(client, "Team infos :\r\n");
     for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
+    dprintf(client, "242 Team \"%s\" infos :\r\n", server->teams[i].team_name);
     dprintf(client, "119|%s|%s|%s|\r\n", server->teams[i].team_id,
         server->teams[i].team_name, server->teams[i].team_desc);
     dprintf(client, "Team name : \"%s\"    Team description : \"%s\"\r\n",
@@ -40,11 +40,12 @@ void list_channel_info(server_t *server, int client, int id)
     int i = 0;
     int k = 0;
 
-    dprintf(client, "Channel infos :\r\n");
     for (i = 0; strcmp(server->teams[i].team_id,
-        server->clients[id].use_state[0]); i++);
+        server->clients[id].use_state[0]) != 0; i++);
     for (k = 0; strcmp(server->teams[i].channel[k].channel_id,
-        server->clients[id].use_state[1]); k++);
+        server->clients[id].use_state[1]) != 0; k++);
+    dprintf(client, "243 Channel \"%s\" infos :\r\n",
+        server->teams[i].channel[k].channel_name);
     dprintf(client, "120|%s|%s|%s|\r\n", server->teams[i].channel[k].channel_id,
         server->teams[i].channel[k].channel_name,
         server->teams[i].channel[k].channel_desc);
@@ -85,7 +86,7 @@ void info(server_t *server, int client, int id)
         list_thread_info(server, client, id);
     else if (server->clients[id].use_state[1] &&
         !server->clients[id].use_state[2])
-        list_channel_info(server, id, client);
+        list_channel_info(server, client, id);
     else if (server->clients[id].use_state[0] &&
         !server->clients[id].use_state[1])
         list_team_info(server, client, id);
