@@ -9,18 +9,18 @@
 
 void get_list(server_t *server, int client)
 {
+    int i = 0;
+    int logged = 0;
+
     dprintf(client, "202 List of all users existing on the server\r\n");
-    for (int i = 0; i <= server->nb_clients; i++) {
-        if ((strcmp(server->clients[i].user_id, "Deleted") != 0) &&
-            (strcmp(server->clients[i].user_id, "") != 0)) {
+    for (; i < server->nb_clients; i++) {
             dprintf(client, "Username : %s    ID : %s\r\n",
                 server->clients[i].user_name,
                 server->clients[i].user_id);
-            dprintf(client, "108|%s|%s|%d|\r\n",
+            logged = (server->clients[i].logged) ? 1 : 0;
+            dprintf(client, "108|%s|%s|%d|\n",
                 server->clients[i].user_id,
-                server->clients[i].user_name,
-                server->clients[i].logged == true ? 1 : 0);
-        }
+                server->clients[i].user_name, logged);
     }
 }
 
