@@ -23,12 +23,29 @@ int uuid_index(server_t *server, char *uuid_find)
     return (-1);
 }
 
+char *jump_cmd(char *arg, char *tmp, size_t i, int wich_args)
+{
+    int quotes = 0;
+
+    for (; i < strlen(tmp); i++) {
+        quotes += (tmp[i] == '"') ? 1 : 0;
+        if (quotes > wich_args) {
+            if ((tmp = strchr(tmp + i + 1, '"')) == NULL)
+                return (NULL);
+            break;
+        }
+    }
+    if (quotes <= wich_args)
+        return (NULL);
+    arg[strlen(arg) - strlen(tmp)] = 0;
+    return (arg + i + 1);
+}
+
 char *get_args(char *str, int wich_args)
 {
     char *tmp = strdup(str);
     char *arg = NULL;
     size_t i = 0;
-    int quotes = 0;
 
     if ((arg = strchr(tmp, ' ')) == NULL)
         return (NULL);
@@ -36,16 +53,10 @@ char *get_args(char *str, int wich_args)
     for (; i < strlen(tmp) && tmp[i] == ' '; i++);
     if (tmp[i] != '"')
         return (NULL);
-    for (; i < strlen(tmp); i++) {
-        quotes += (tmp[i] == '"') ? 1 : 0;
-        if (quotes > wich_args) {
-            if ((tmp = strchr(tmp + i + 2, '"')) == NULL)
-                return (NULL);
-            break;
-        }
-    }
-    arg[strlen(arg) - strlen(tmp)] = 0;
-    return (arg + i + 1);
+    arg = jump_cmd(arg, tmp, i, wich_args);
+    if (arg == NULL)
+        return (NULL);
+    return (arg);
 }
 
 char *parse_args(server_t *server, int wich_args)
