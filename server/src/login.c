@@ -13,7 +13,7 @@ void send_notification_login(server_t *server, int id)
         dprintf(server->clients[i].fd_client, "101|%s|%s|\r\n",
             server->clients[id].user_id, server->clients[id].user_name);
 }
-
+server_t *read_dimensionnal_array(server_t *server);
 bool check_exist(server_t *server, int client, int id, int i)
 {
     if ((strcmp(server->clients[i].user_name,
@@ -27,6 +27,7 @@ bool check_exist(server_t *server, int client, int id, int i)
             dprintf(client, "230 Succesfull login\r\n");
             server_event_user_logged_in(server->clients[i].user_id);
             send_notification_login(server, i);
+            read_dimensionnal_array(server);
             return (true);
         } else {
             dprintf(client, "330 Client already connected\r\n");
