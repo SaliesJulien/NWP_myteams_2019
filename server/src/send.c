@@ -88,7 +88,6 @@ void succes_messages(server_t *server, int id, char *uuid_str, char *message)
     fill_messages(server, id, uuid_str, message);
     send_notif(server, id, uuid_str);
     dprintf(server->clients[id].fd_client, "204 sucessfully sent message\r\n");
-    dprintf(server->clients[id].fd_client, "%d\r\n", server->clients[id].fd_client);
 }
 
 void send_messages(server_t *server, int client, int id)
