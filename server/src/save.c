@@ -53,17 +53,29 @@ void save_teams(server_t *server, FILE *channel_teams, FILE *thread_teams)
     }
 }
 
+void save_members(server_t *server, FILE *members_teams)
+{
+    for (int i = 0; i < server->nb_teams; i++) {
+        if (server->teams[i].members == NULL)
+            continue;
+        fwrite(server->teams[i].members, sizeof(members_t),
+            server->teams[i].nb_members, members_teams);
+    }
+}
+
 void save_struct(server_t *server)
 {
     FILE *file_teams = fopen("teams_log", "wb");
     FILE *channel_teams = fopen("channel_log", "wb");
     FILE *thread_teams = fopen("thread_log", "wb");
+    FILE *members_teams = fopen("members_log", "wb");
 
     save_server(server);
     save_client(server);
     if (file_teams != NULL && server->teams != NULL)
-        fwrite(server->teams, sizeof(team_t), server->nb_teams,
-            file_teams);
+        fwrite(server->teams, sizeof(team_t), server->nb_teams, file_teams);
+    if (members_teams != NULL)
+        save_members(server, members_teams);
     if (channel_teams != NULL)
         save_teams(server, channel_teams, thread_teams);
     fclose(file_teams);

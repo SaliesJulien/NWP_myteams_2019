@@ -10,14 +10,17 @@
 void list_user_sub(server_t *server, char *team_id, int id, int client)
 {
     int i = 0;
+    int k = 0;
 
     (void)id;
     for (; strcmp(server->teams[i].team_id, "NULL"); i++) {
         if (!strcmp(server->teams[i].team_id, team_id)) {
             dprintf(client, "208 List of all user in this team\r\n");
-            for (int k = 0; strcmp(server->teams[i].members[k].name, "NULL"); k++)
-                dprintf(client, "User name :%s.\r\n",
+            for (; strcmp(server->teams[i].members[k].name, "NULL"); k++)
+                dprintf(client, "User name : %s.\r\n",
                     server->teams[i].members[k].name);
+            (k == 0) ?
+                dprintf(client, "0 users subscribed to this team\r\n") : 0;
             return;
         }
     }

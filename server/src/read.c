@@ -29,6 +29,19 @@ server_t *read_teams(server_t *server, FILE *channel_teams, FILE *thread_teams,
     return (server);
 }
 
+server_t *read_members(server_t *server, FILE *members_teams, int i)
+{
+    if (members_teams != NULL) {
+        server->teams[i].members = malloc((server->teams[i].nb_members + 1) *
+            sizeof(members_t));
+        fread(server->teams[i].members, sizeof(members_t),
+            server->teams[i].nb_members, members_teams);
+        strcpy(server->teams[i].members[server->teams[i].nb_members].name, "NULL");
+        strcpy(server->teams[i].members[server->teams[i].nb_members].id, "NULL");
+    }
+    return (server);
+}
+
 server_t *init_read(server_t *server)
 {
     for (int j = 0; j < server->nb_clients; j++) {
@@ -71,6 +84,7 @@ server_t *read_struct(server_t *server)
     FILE *file_teams = fopen("teams_log", "rb");
     FILE *channel_teams = fopen("channel_log", "rb");
     FILE *thread_teams = fopen("thread_log", "rb");
+    FILE *members_teams = fopen("members_log", "rb");
 
     server = read_server(server);
     server = read_client(server);
@@ -81,8 +95,10 @@ server_t *read_struct(server_t *server)
             file_teams);
         strcpy(server->teams[server->nb_teams].team_id, "NULL");
         if (channel_teams != NULL)
-            for (int i = 0; i < server->nb_teams; i++)
+            for (int i = 0; i < server->nb_teams; i++) {
                 server = read_teams(server, channel_teams, thread_teams, i);
+                server = read_members(server, members_teams, i);
+            }
     }
     if (file_teams != NULL && channel_teams != NULL && thread_teams != NULL) {
         fclose(file_teams);

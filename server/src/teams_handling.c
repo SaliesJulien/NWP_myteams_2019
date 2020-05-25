@@ -64,6 +64,7 @@ void create_new_team(server_t *server, int id, char *team_name,
             "105|%s|%s|%s|\r\n", server->teams[i].team_id,
             server->teams[i].team_name, server->teams[i].team_desc);
     server->nb_teams++;
+    server->teams[i].nb_members = 0;
     server_event_team_created(server->teams[i].team_id, team_name,
         server->clients[id].user_id);
 }

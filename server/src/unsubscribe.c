@@ -21,8 +21,7 @@ void leave_team(server_t *server, char *team_id, int id)
         strcpy(server->teams[i].members[k].name, server->teams[i].members[k + 1].name);
         strcpy(server->teams[i].members[k].id, server->teams[i].members[k + 1].id);
     }
-    strcpy(server->teams[i].members[k + 1].name, "NULL");
-    strcpy(server->teams[i].members[k + 1].id, "NULL");
+    server->teams[i].nb_members--;
     dprintf(server->clients[id].fd_client,
         "127|%s|%s|\r\n", server->clients[id].user_id,
         server->teams[i].team_id);

@@ -42,6 +42,7 @@ typedef struct members_s {
 typedef struct team_s {
 
     members_t *members;
+    int nb_members;
     char team_name[DEFAULT_NAME_LENGTH];
     char team_desc[DEFAULT_DESCRIPTION_LENGTH];
     char team_id[37];
