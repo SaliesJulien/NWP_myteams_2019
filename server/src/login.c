@@ -65,19 +65,22 @@ void login_user(server_t *server, int client, int id)
 {
     char *arg = parse_args(server, 0);
 
+    printf("%s\r\n", arg);
     if (strlen(arg) > 32) {
         dprintf(client, "530 Authentification failed, \
         name length longer than 32 characters\r\n");
-    }
-    else if (!count_args(server, 1))
+    } else if (!count_args(server, 1)) {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
-    else {
+        if (strcmp(arg, "Bad cmd") != 0)
+            free(arg);
+    } else {
         strcpy(server->clients[id].user_name, arg);
-        if (strcmp(server->clients[id].user_name, "Bad cmd") != 0)
+        if (strcmp(server->clients[id].user_name, "Bad cmd") != 0) {
             find_uuid(server, client, id);
-        else
+            free(arg);
+        } else {
             dprintf(client,
                 "501 Error syntax in parameters or arguments\r\n");
+        }
     }
-    free(arg);
 }
