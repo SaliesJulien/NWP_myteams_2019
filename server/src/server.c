@@ -86,7 +86,6 @@ void start_server(char **av)
     }
     fclose(server->fp);
     fclose(server->comments);
-    /*
     for (int i = 0; i < server->nb_clients; i++) {
         free(server->clients[i].conversation);
         free(server->clients[i].use_state);
@@ -108,5 +107,4 @@ void start_server(char **av)
     free(server->teams);
     free(server->clients);
     free(server);
-    */
 }
