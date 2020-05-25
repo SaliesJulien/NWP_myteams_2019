@@ -44,19 +44,21 @@ char *jump_cmd(char *arg, char *tmp, size_t i, int wich_args)
 char *get_args(char *str, int wich_args)
 {
     char *tmp = strdup(str);
+    char *tmpp = NULL;
     char *arg = NULL;
     size_t i = 0;
 
     if ((arg = strchr(tmp, ' ')) == NULL)
         return (NULL);
-    tmp = strdup(arg);
-    for (; i < strlen(tmp) && tmp[i] == ' '; i++);
-    if (tmp[i] != '"')
+    tmpp = strdup(arg);
+    for (; i < strlen(tmpp) && tmpp[i] == ' '; i++);
+    if (tmpp[i] != '"')
         return (NULL);
-    arg = jump_cmd(arg, tmp, i, wich_args);
+    arg = jump_cmd(arg, tmpp, i, wich_args);
     if (arg == NULL)
         return (NULL);
     free(tmp);
+    free(tmpp);
     return (arg);
 }
 
