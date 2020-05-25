@@ -71,6 +71,7 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
             strcat(server->clients[id].conversation[i].message[0], server->clients[id].user_id);
             server->clients[id].conversation[i].message[1] = NULL;
             init_next_array(server, id, i + 1);
+            server->clients[id].nb_conversation++;
         }
         id = uuid_index(server, uuid_str);
         uuid_str = server->clients[id_default].user_id;

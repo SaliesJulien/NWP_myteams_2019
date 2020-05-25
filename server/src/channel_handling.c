@@ -50,6 +50,7 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
     int i = 0;
     int k = 0;
     int count = 0;
+    char *id_generate = generate_id();
 
     for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
@@ -61,7 +62,8 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
     memset(&server->teams[i].channel[k], 0, sizeof(channel_t));
     server->teams[i].channel[k].thread = malloc(sizeof(thread_t));
     strcpy(server->teams[i].channel[k].channel_name, name);
-    strcpy(server->teams[i].channel[k].channel_id, generate_id());
+    strcpy(server->teams[i].channel[k].channel_id, id_generate);
+    free(id_generate);
     strcpy(server->teams[i].channel[k].channel_desc, desc);
     init_first_thread(server, i, k);
     init_next_channel(server, i, k + 1);

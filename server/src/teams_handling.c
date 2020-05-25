@@ -38,6 +38,7 @@ void create_new_team(server_t *server, int id, char *team_name,
     char *team_desc)
 {
     int i = 0;
+    char *id_generate = generate_id();
 
     if (!team_already_exist(server, team_name, id))
         return;
@@ -47,7 +48,8 @@ void create_new_team(server_t *server, int id, char *team_name,
     server->teams[i].members = malloc(sizeof(members_t));
     memset(server->teams[i].members, 0, sizeof(members_t));
     server->teams[i].channel = malloc(sizeof(channel_t));
-    strcpy(server->teams[i].team_id, generate_id());
+    strcpy(server->teams[i].team_id, id_generate);
+    free(id_generate);
     strcpy(server->teams[i].team_name, team_name);
     strcpy(server->teams[i].team_desc, team_desc);
     strcpy(server->teams[i].members[0].id, "NULL");

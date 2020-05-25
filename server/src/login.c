@@ -42,6 +42,7 @@ bool check_exist(server_t *server, int client, int id, int i)
 void find_uuid(server_t *server, int client, int id)
 {
     bool check = false;
+    char *id_generate = generate_id();
 
     for (int i = 0; i < server->nb_clients; i++) {
         if ((check_exist(server, client, id, i)) == true) {
@@ -50,13 +51,14 @@ void find_uuid(server_t *server, int client, int id)
         }
     }
     if (check == false) {
-        strcpy(server->clients[id].user_id, generate_id());
+        strcpy(server->clients[id].user_id, id_generate);
         dprintf(client, "230 Succesfull login\r\n");
         server->clients[id].logged = true;
         server_event_user_created(server->clients[id].user_id,
             server->clients[id].user_name);
         send_notification_login(server, id);
     }
+    free(id_generate);
 }
 
 void login_user(server_t *server, int client, int id)

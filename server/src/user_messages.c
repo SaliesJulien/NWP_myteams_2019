@@ -27,14 +27,18 @@ char *get_user_id(char *message, int arg)
 
 void print(int client, int id, server_t *server, int i)
 {
-    dprintf(client,
-            "205 Conversation with \"username\"\r\n");
+    char *message = NULL;
+    char *id_sender = NULL;
+
+    dprintf(client, "205 Conversation with \"username\"\r\n");
     for (int k = 0; server->clients[id].conversation[i].message[k]; k++) {
-        dprintf(client, "%s\r\n",
-            get_user_id(server->clients[id].conversation[i].message[k], 0));
-        dprintf(client, "113|%s|10:20|%s|\r\n",
-            get_user_id(server->clients[id].conversation[i].message[k], 1),
+        message = get_user_id(server->clients[id].conversation[i].message[k], 0);
+        id_sender = get_user_id(server->clients[id].conversation[i].message[k], 1);
+        dprintf(client, "%s\r\n", message);
+        dprintf(client, "113|%s|10:20|%s|\r\n", id_sender,
             server->clients[id].conversation[i].message[k]);
+        free(message);
+        free(id_sender);
     }
 }
 

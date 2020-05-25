@@ -86,7 +86,27 @@ void start_server(char **av)
     }
     fclose(server->fp);
     fclose(server->comments);
+    /*
+    for (int i = 0; i < server->nb_clients; i++) {
+        free(server->clients[i].conversation);
+        free(server->clients[i].use_state);
+        for (int a = 0; a < server->clients[i].nb_conversation; a++) {
+            free(server->clients[i].conversation[a].message);
+            free(server->clients[i].conversation[a].client_id);
+            for (int j = 0; server->clients[i].conversation[a].message[j]; j++)
+                free(server->clients[i].conversation[a].message[j]);
+        }
+    }
+    for (int i = 0; i < server->nb_teams; i++) {
+        free(server->teams[i].members);
+        for (int j = 0; j < server->teams[i].nb_channel; j++) {
+            free(server->teams[i].channel[j].thread);
+        }
+        free(server->teams[i].channel);
+    }
+    free(server->command);
     free(server->teams);
     free(server->clients);
     free(server);
+    */
 }

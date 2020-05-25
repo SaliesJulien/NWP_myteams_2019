@@ -45,6 +45,7 @@ typedef struct clients_s {
     bool logged;
     bool active;
     messages_t *conversation;
+    int nb_conversation;
     char **use_state;
 
 }clients_t;

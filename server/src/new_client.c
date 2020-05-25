@@ -9,6 +9,7 @@
 
 void init_team_and_conv(server_t *server)
 {
+    server->clients[server->nb_clients].nb_conversation = 0;
     server->clients[server->nb_clients].conversation =
         malloc(sizeof(messages_t));
     server->clients[server->nb_clients].conversation[0].client_id = NULL;

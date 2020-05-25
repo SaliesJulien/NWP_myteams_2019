@@ -80,4 +80,6 @@ void save_struct(server_t *server)
         save_members(server, members_teams);
     fclose(file_teams);
     fclose(thread_teams);
+    fclose(channel_teams);
+    fclose(members_teams);
 }

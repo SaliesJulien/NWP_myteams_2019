@@ -38,9 +38,12 @@ bool thread_already_exist(channel_t channel, char *name, server_t *server,
 
 void set_thread(thread_t *thread, char *name, char *desc)
 {
-    strcpy(thread->thread_id, generate_id());
+    char *id = generate_id();
+
+    strcpy(thread->thread_id, id);
     strcpy(thread->thread_title, name);
     strcpy(thread->thread_content, desc);
+    free(id);
 }
 
 void create_new_thread(server_t *server, int id, char *name, char *desc)

@@ -56,6 +56,7 @@ char *get_args(char *str, int wich_args)
     arg = jump_cmd(arg, tmp, i, wich_args);
     if (arg == NULL)
         return (NULL);
+    free(tmp);
     return (arg);
 }
 

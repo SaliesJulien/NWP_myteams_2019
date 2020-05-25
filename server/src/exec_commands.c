@@ -50,6 +50,8 @@ char *format_cmd(char *str)
         cmd = strdup(temp);
         cmd[strlen(cmd)-2] = 0;
     }
+    if (temp != NULL)
+        free(temp);
     return (cmd);
 }
 
@@ -74,6 +76,8 @@ void exec_commands(server_t *server, int client, int id)
         }
     }
     (found == false) ? command_not_found(server, client, id) : (0);
+    if (cmd != NULL)
+        free(cmd);
 }
 
 void control_c(int __attribute__((unused)) contrl)
