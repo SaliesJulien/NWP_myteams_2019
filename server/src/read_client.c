@@ -33,9 +33,10 @@ void remove_client(server_t *server, int client, int id)
                 id++;
             }
             server->nb_clients--;
-        }
-        else
+        } else {
+            server->clients[id].logged = false;
             server->clients[id].active = false;
+        }
         printf("Client disconnected\r\n");
         server_event_user_logged_out(server->clients[id].user_id);
         for (int i = 0; i < server->nb_clients; i++)

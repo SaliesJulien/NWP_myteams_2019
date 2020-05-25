@@ -12,9 +12,11 @@ void save_server(server_t *server)
     FILE *file_server = fopen("server_log", "wb");
 
     for (int j = 0; j < server->nb_clients; j++) {
-        server->clients[j].active = false;
-        dprintf(server->clients[j].fd_client,
-            "221 Service closing control connection\r\n");
+        if (server->clients[j].active == true) {
+            dprintf(server->clients[j].fd_client,
+                "221 Service closing control connection\r\n");
+            server->clients[j].active = false;
+        }
     }
     if (file_server != NULL)
         fwrite(server, sizeof(server_t), 1, file_server);
