@@ -55,6 +55,7 @@ void old_clients(server_t *server, int client)
             server->command = calloc(DEFAULT_BODY_LENGTH, sizeof(char));
             read(server->clients[i].fd_client, server->command, DEFAULT_BODY_LENGTH);
             exec_commands(server, server->clients[i].fd_client, i);
+            free(server->command);
         }
     }
 }

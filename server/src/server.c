@@ -87,7 +87,8 @@ void start_server(char **av)
     fclose(server->fp);
     fclose(server->comments);
     for (int i = 0; i < server->nb_clients; i++) {
-        free(server->clients[i].conversation);
+        if (server->clients[i].conversation != NULL)
+            free(server->clients[i].conversation);
         free(server->clients[i].use_state);
         for (int a = 0; a < server->clients[i].nb_conversation; a++) {
             free(server->clients[i].conversation[a].message);
@@ -103,7 +104,6 @@ void start_server(char **av)
         }
         free(server->teams[i].channel);
     }
-    free(server->command);
     free(server->teams);
     free(server->clients);
     free(server);
