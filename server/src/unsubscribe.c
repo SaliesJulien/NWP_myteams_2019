@@ -13,16 +13,19 @@ void leave_team(server_t *server, char *team_id, int id)
     int k = 0;
 
     for (i = 0; strcmp(server->teams[i].team_id, team_id); i++);
-    for (k = 0; strcmp(server->teams[i].members[k],
+    for (k = 0; strcmp(server->teams[i].members[k].name,
         server->clients[id].user_name); k++);
     dprintf(server->clients[id].fd_client,
         "209 You succesfully left this team\r\n");
-    for (; strcmp(server->teams[i].members[k], "NULL"); k++)
-        server->teams[i].members[k] = server->teams[i].members[k + 1];
+    for (; strcmp(server->teams[i].members[k].name, "NULL"); k++) {
+        strcpy(server->teams[i].members[k].name, server->teams[i].members[k + 1].name);
+        strcpy(server->teams[i].members[k].id, server->teams[i].members[k + 1].id);
+    }
+    strcpy(server->teams[i].members[k + 1].name, "NULL");
+    strcpy(server->teams[i].members[k + 1].id, "NULL");
     dprintf(server->clients[id].fd_client,
         "127|%s|%s|\r\n", server->clients[id].user_id,
         server->teams[i].team_id);
-    strcpy(server->teams[i].members[k + 1], "NULL");
     server_event_user_leave_a_team(server->teams[i].team_id,
         server->clients[id].user_id);
 }
@@ -41,8 +44,8 @@ bool user_is_in_team(server_t *server, char *team_id, int id)
     int k = 0;
 
     for (i = 0; strcmp(server->teams[i].team_id, team_id); i++);
-    for (k = 0; strcmp(server->teams[i].members[k], "NULL"); k++)
-        if (!strcmp(server->teams[i].members[k],
+    for (k = 0; strcmp(server->teams[i].members[k].name, "NULL"); k++)
+        if (!strcmp(server->teams[i].members[k].name,
             server->clients[id].user_name))
             return (true);
     return (false);

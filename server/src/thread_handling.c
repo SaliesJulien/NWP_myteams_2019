@@ -70,9 +70,9 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
         server->clients[id].user_id, "10:00",
         server->teams[i].channel[k].thread[j].thread_title,
         server->teams[i].channel[k].thread[j].thread_content);
-    for (int a = 0; strcmp(server->teams[i].members[a], "NULL") != 0; a++) {
+    for (int a = 0; strcmp(server->teams[i].members[a].name, "NULL") != 0; a++) {
         for (count = 0; strcmp(server->clients[count].user_name,
-            server->teams[i].members[a]) != 0; count++);
+            server->teams[i].members[a].name) != 0; count++);
         dprintf(server->clients[count].fd_client, "107|%s|%s|%s|%s|%s|\r\n",
         server->teams[i].channel[k].thread[j].thread_id,
         server->clients[id].user_id, "10:00",

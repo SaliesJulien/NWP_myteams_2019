@@ -33,9 +33,15 @@ typedef struct channel_s {
 
 }channel_t;
 
+typedef struct members_s {
+
+    char name[DEFAULT_NAME_LENGTH];
+    char id[37];
+}members_t;
+
 typedef struct team_s {
 
-    char **members;
+    members_t *members;
     char team_name[DEFAULT_NAME_LENGTH];
     char team_desc[DEFAULT_DESCRIPTION_LENGTH];
     char team_id[37];

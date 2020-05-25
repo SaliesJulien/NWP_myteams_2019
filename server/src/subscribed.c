@@ -15,8 +15,9 @@ void list_user_sub(server_t *server, char *team_id, int id, int client)
     for (; strcmp(server->teams[i].team_id, "NULL"); i++) {
         if (!strcmp(server->teams[i].team_id, team_id)) {
             dprintf(client, "208 List of all user in this team\r\n");
-            for (int k = 0; server->teams[i].members[k] != NULL; k++)
-                dprintf(client, "%s.\r\n", server->teams[i].members[k]);
+            for (int k = 0; strcmp(server->teams[i].members[k].name, "NULL"); k++)
+                dprintf(client, "User name :%s.\r\n",
+                    server->teams[i].members[k].name);
             return;
         }
     }
@@ -30,8 +31,8 @@ void list_team_sub(server_t *server, int id, int client)
 
     dprintf(client, "207 List of teams that you are in\r\n");
     for (i = 0; strcmp(server->teams[i].team_id, "NULL"); i++) {
-        for (int k = 0; strcmp(server->teams[i].members[k], "NULL"); k++)
-            if (!strcmp(server->teams[i].members[k],
+        for (int k = 0; strcmp(server->teams[i].members[k].name, "NULL"); k++)
+            if (!strcmp(server->teams[i].members[k].name,
                 server->clients[id].user_name)) {
                 dprintf(client, "Team name -> \"%s\"    Team ID -> \"%s\"\r\n",
                     server->teams[i].team_name,
