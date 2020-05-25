@@ -12,12 +12,15 @@ void list_user_sub(server_t *server, char *team_id, int id, int client)
     int i = 0;
 
     (void)id;
-    dprintf(client, "208 List of all user in this team\r\n");
     for (; strcmp(server->teams[i].team_id, "NULL"); i++) {
-        if (!strcmp(server->teams[i].team_id, team_id))
+        if (!strcmp(server->teams[i].team_id, team_id)) {
+            dprintf(client, "208 List of all user in this team\r\n");
             for (int k = 0; server->teams[i].members[k] != NULL; k++)
                 dprintf(client, "%s.\r\n", server->teams[i].members[k]);
+            return;
+        }
     }
+    dprintf(client, "304 Team doesn't exist\r\n");
 }
 
 void list_team_sub(server_t *server, int id, int client)
@@ -47,6 +50,8 @@ void subscribed(server_t *server, int client, int id)
         dprintf(client, "515 User not logged\r\n");
         dprintf(client, "128|\r\n");
     }
+    if (count_args(server, 2))
+        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     else if (!strcmp(team_id, "Bad cmd") || strlen(team_id) < 1)
         list_team_sub(server, id, client);
     else

@@ -82,6 +82,8 @@ void info(server_t *server, int client, int id)
         dprintf(client, "515 User not logged\r\n");
         dprintf(client, "128|\r\n");
     }
+    else if (!count_args(server, 0))
+        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     else if (server->clients[id].use_state[2])
         list_thread_info(server, client, id);
     else if (server->clients[id].use_state[1] &&

@@ -99,8 +99,11 @@ void send_messages(server_t *server, int client, int id)
         dprintf(client, "515 User not logged\r\n");
         dprintf(client, "128|\r\n");
     }
-    if ((!strcmp(uuid_str, "Bad cmd") || strlen(uuid_str) < 1) ||
-        (!strcmp(message, "Bad cmd") || strlen(message) < 1)) {
+    if (!count_args(server, 2)) {
+        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
+        return;
+    }
+    if ((!strcmp(uuid_str, "Bad cmd")) || (!strcmp(message, "Bad cmd"))) {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
         return;
     }
