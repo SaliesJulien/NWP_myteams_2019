@@ -49,6 +49,7 @@ char *format_cmd(char *str)
     } else {
         cmd = strdup(temp);
         cmd[strlen(cmd)-2] = 0;
+        free(temp);
     }
     return (cmd);
 }
