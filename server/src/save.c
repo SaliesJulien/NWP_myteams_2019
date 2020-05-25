@@ -74,10 +74,10 @@ void save_struct(server_t *server)
     save_client(server);
     if (file_teams != NULL && server->teams != NULL)
         fwrite(server->teams, sizeof(team_t), server->nb_teams, file_teams);
-    if (members_teams != NULL)
-        save_members(server, members_teams);
     if (channel_teams != NULL)
         save_teams(server, channel_teams, thread_teams);
+    if (members_teams != NULL)
+        save_members(server, members_teams);
     fclose(file_teams);
     fclose(thread_teams);
 }
