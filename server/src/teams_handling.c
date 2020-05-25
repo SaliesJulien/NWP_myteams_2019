@@ -107,4 +107,6 @@ void create(server_t *server, int client, int id)
     else {
         dprintf(client, "515 User not logged\r\n");
     }
+    (strcmp(team_name, "Bad cmd") ? free(team_name) : (0));
+    (strcmp(team_desc, "Bad cmd") ? free(team_desc) : (0));
 }

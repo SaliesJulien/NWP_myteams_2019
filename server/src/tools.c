@@ -64,9 +64,33 @@ char *get_args(char *str, int wich_args)
 
 char *parse_args(server_t *server, int wich_args)
 {
-    char *uuid_str = get_args(server->command, wich_args);
+    char *cmd = NULL;
+    int k = 0;
+    int i = 0;
+    int quotes = 0;
 
-    return (uuid_str != NULL) ? (uuid_str) : ("Bad cmd");
+    cmd = malloc(sizeof(char) * 50);
+    for (; server->command[i]; i++) {
+        for (;server->command[i] && server->command[i] == ' '; i++);
+        if (server->command[i] == '"') {
+            quotes++;
+            if (quotes > wich_args) {
+                i++;
+                for (;server->command[i] && server->command[i] != '"'; i++)
+                    cmd[k++] = server->command[i];
+                if (server->command[i] != '"') {
+                    free(cmd);
+                    return ("Bad cmd");
+                }
+                else {
+                    cmd[k] = '\0';
+                    return (cmd);
+                }
+            }
+        }
+    }
+    free(cmd);
+    return ("Bad cmd");
 }
 
 bool count_args(server_t *server, int args_nb)

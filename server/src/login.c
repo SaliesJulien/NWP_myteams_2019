@@ -79,4 +79,5 @@ void login_user(server_t *server, int client, int id)
             dprintf(client,
                 "501 Error syntax in parameters or arguments\r\n");
     }
+    free(arg);
 }
