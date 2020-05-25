@@ -64,6 +64,8 @@ void login_user(server_t *server, int client, int id)
         dprintf(client, "530 Authentification failed, \
         name length longer than 32 characters\r\n");
     }
+    else if (!count_args(server, 1))
+        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     else {
         strcpy(server->clients[id].user_name, parse_args(server, 0));
         if (strcmp(server->clients[id].user_name, "Bad cmd") != 0)
