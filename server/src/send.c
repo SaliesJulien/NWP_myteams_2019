@@ -104,32 +104,24 @@ void send_messages(server_t *server, int client, int id)
     }
     if (!count_args(server, 2)) {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
-        if (strcmp(uuid_str, "Bad cmd"))
-            free(uuid_str);
-        if (strcmp(message, "Bad cmd"))
-            free(message);
+        free(uuid_str);
+        free(message);
         return;
     }
     if ((!strcmp(uuid_str, "Bad cmd")) || (!strcmp(message, "Bad cmd"))) {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
-        if (strcmp(uuid_str, "Bad cmd"))
-            free(uuid_str);
-        if (strcmp(message, "Bad cmd"))
-            free(message);
+        free(uuid_str);
+        free(message);
         return;
     }
     if (!uuid_exit(server, uuid_str)) {
         dprintf(client, "303 User doesn't exist\r\n");
         dprintf(client, "117|%s|\r\n", uuid_str);
-        if (strcmp(uuid_str, "Bad cmd"))
-            free(uuid_str);
-        if (strcmp(message, "Bad cmd"))
-            free(message);
+        free(uuid_str);
+        free(message);
         return;
     }
     succes_messages(server, id, uuid_str, message);
-    if (strcmp(uuid_str, "Bad cmd"))
-        free(uuid_str);
-    if (strcmp(message, "Bad cmd"))
-        free(message);
+    free(uuid_str);
+    free(message);
 }

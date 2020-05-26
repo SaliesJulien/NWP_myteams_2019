@@ -60,4 +60,5 @@ void subscribed(server_t *server, int client, int id)
         list_team_sub(server, id, client);
     else
         list_user_sub(server, team_id, id, client);
+    free(team_id);
 }
