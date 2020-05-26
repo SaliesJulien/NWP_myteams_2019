@@ -59,6 +59,12 @@ bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
     for (int i = 0; i < FD_SETSIZE; i++) {
         if (FD_ISSET(i, &set[READING]) == true) {
             signal(SIGINT, control_c);
+            signal(SIGHUP, terminal_killed);
+            if (oops == false) {
+                dprintf(sock, "/logout\r\n");
+                close(server_sock);
+                break;
+            }
             str = calloc(1150, sizeof(char));
             read(i, str, 1150);
             str[strlen(str)-1] = 0;
@@ -85,6 +91,7 @@ void main_loop(int sock, struct sockaddr_in name)
     char *str = calloc(256, sizeof(char));
     fd_set set[2];
     bool error = false;
+    oops = true;
 
     if ((server_sock = connect(sock, (struct sockaddr *)&name, size) == -1))
         exit(84);

@@ -11,3 +11,8 @@ void control_c(int __attribute__((unused)) contrl)
 {
     printf("\n");
 }
+
+void terminal_killed(int __attribute__((unused)) contrl)
+{
+    oops = false;
+}

@@ -29,6 +29,8 @@
 #define READING 0
 #define WRITING 1
 
+volatile bool oops;
+
 typedef struct simple_replies_s {
 
     char *reply_code;
@@ -47,6 +49,7 @@ void help(int, char **);
 void error_handling(int, char **);
 int client_side(char **);
 void control_c(int __attribute__((unused)));
+void terminal_killed(int __attribute__((unused)));
 void pointer_function(char *);
 char *get_args(char *command, int nb);
 
