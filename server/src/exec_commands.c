@@ -59,9 +59,9 @@ void RemoveChars(char *s, char c)
     int reader = 0;
 
     while (s[reader]) {
-        if (s[reader] != c)   
+        if (s[reader] != c)
             s[writer++] = s[reader];
-        reader++;       
+        reader++;
     }
     s[writer] = 0;
 }

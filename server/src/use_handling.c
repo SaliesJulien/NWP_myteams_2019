@@ -92,15 +92,14 @@ void use(server_t *server, int client, int id)
     if (!server->clients[id].logged) {
         dprintf(client, "515 User not logged\r\n");
         dprintf(client, "128|\r\n");
-        free(team);
     } else if (count_args(server, 1)) {
         if (strcmp(team, "Bad cmd")) {
             use_statement(server, client, id, team);
-            free(team);
         } else {
             dprintf(client, "501 Error syntax in parameters or arguments\r\n");
         }
     } else {
         use_back(server, client, id);
     }
+    free(team);
 }
