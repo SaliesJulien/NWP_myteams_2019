@@ -63,9 +63,14 @@ server_t *read_dimensionnal_array(server_t *server)
     bool first = false;
 
     server->fp = fopen("messages","r");
-    if (server->fp != NULL)
+    if (server->fp != NULL) {
         while (getline(&line, &len, server->fp) != -1)
             parse_messages(server, line);
+        if (line != NULL) {
+            for (int i = 0; i < server->nb_clients; i++)
+                server->clients[i].conversation = NULL;
+        }
+    }
     server->comments = fopen("comments","r");
     if (server->comments != NULL) {
         line = NULL;
