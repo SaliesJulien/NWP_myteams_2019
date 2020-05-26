@@ -78,20 +78,24 @@ void list_thread_info(server_t *server, int client, int id)
 
 void info(server_t *server, int client, int id)
 {
-    if (!server->clients[id].logged) {
-        dprintf(client, "515 User not logged\r\n");
-        dprintf(client, "128|\r\n");
-    }
-    else if (!count_args(server, 0))
+    if (strcmp(server->command, "/info") == 0) {
+        if (!server->clients[id].logged) {
+            dprintf(client, "515 User not logged\r\n");
+            dprintf(client, "128|\r\n");
+        }
+        else if (!count_args(server, 0))
+            dprintf(client, "501 Error syntax in parameters or arguments\r\n");
+        else if (server->clients[id].use_state[2])
+            list_thread_info(server, client, id);
+        else if (server->clients[id].use_state[1] &&
+            !server->clients[id].use_state[2])
+            list_channel_info(server, client, id);
+        else if (server->clients[id].use_state[0] &&
+            !server->clients[id].use_state[1])
+            list_team_info(server, client, id);
+        else if (!server->clients[id].use_state[0])
+            list_clients_logged(server, client, id);
+    } else {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
-    else if (server->clients[id].use_state[2])
-        list_thread_info(server, client, id);
-    else if (server->clients[id].use_state[1] &&
-        !server->clients[id].use_state[2])
-        list_channel_info(server, client, id);
-    else if (server->clients[id].use_state[0] &&
-        !server->clients[id].use_state[1])
-        list_team_info(server, client, id);
-    else if (!server->clients[id].use_state[0])
-        list_clients_logged(server, client, id);
+    }
 }

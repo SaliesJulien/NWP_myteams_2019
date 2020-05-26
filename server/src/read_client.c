@@ -44,10 +44,10 @@ void remove_client(server_t *server, int client, int id)
                 dprintf(server->clients[i].fd_client, "102|%s|%s|\r\n",
                     server->clients[i].user_id, server->clients[i].user_name);
         }
+        save_struct(server);
     } else {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     }
-    save_struct(server);
 }
 
 void old_clients(server_t *server, int client)
