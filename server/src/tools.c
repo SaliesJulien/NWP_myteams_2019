@@ -46,6 +46,7 @@ char *parse_args(server_t *server, int wich_args)
                 }
                 else {
                     cmd[k] = '\0';
+                    free(error_cmd);
                     return (cmd);
                 }
             }
