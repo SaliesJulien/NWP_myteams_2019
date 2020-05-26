@@ -89,6 +89,8 @@ void start_server(char **av)
     for (int i = 0; i < server->nb_clients; i++) {
         if (server->clients[i].conversation != NULL)
             free(server->clients[i].conversation);
+        for (int j = 0; j < 3; j++)
+            free(server->clients[i].use_state[j]);
         free(server->clients[i].use_state);
         for (int a = 0; a < server->clients[i].nb_conversation; a++) {
             free(server->clients[i].conversation[a].message);

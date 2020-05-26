@@ -29,7 +29,6 @@ bool check_exist(server_t *server, int client, int id, int i)
             dprintf(client, "230 Succesfull login\r\n");
             server_event_user_logged_in(server->clients[i].user_id);
             send_notification_login(server, i);
-            read_dimensionnal_array(server);
             return (true);
         } else {
             dprintf(client, "330 Client already connected\r\n");
