@@ -13,8 +13,9 @@ void send_notification_login(server_t *server, int id)
         if (server->clients[i].active == true)
             dprintf(server->clients[i].fd_client, "101|%s|%s|\r\n",
                 server->clients[id].user_id, server->clients[id].user_name);
+    server_event_user_logged_in(server->clients[id].user_id);
 }
-server_t *read_dimensionnal_array(server_t *server);
+
 bool check_exist(server_t *server, int client, int id, int i)
 {
     if ((strcmp(server->clients[i].user_name,
