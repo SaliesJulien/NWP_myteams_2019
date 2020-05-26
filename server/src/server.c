@@ -87,17 +87,17 @@ void start_server(char **av)
     fclose(server->fp);
     fclose(server->comments);
     for (int i = 0; i < server->nb_clients; i++) {
-        if (server->clients[i].conversation != NULL)
-            free(server->clients[i].conversation);
         for (int j = 0; j < 3; j++)
             free(server->clients[i].use_state[j]);
         free(server->clients[i].use_state);
         for (int a = 0; a < server->clients[i].nb_conversation; a++) {
-            free(server->clients[i].conversation[a].message);
             free(server->clients[i].conversation[a].client_id);
-            for (int j = 0; server->clients[i].conversation[a].message[j]; j++)
+            for (int j = 0; j < server->clients[i].conversation[a].nb_messages; j++)
                 free(server->clients[i].conversation[a].message[j]);
+            free(server->clients[i].conversation[a].message);
         }
+        if (server->clients[i].conversation != NULL)
+            free(server->clients[i].conversation);
     }
     for (int i = 0; i < server->nb_teams; i++) {
         free(server->teams[i].members);

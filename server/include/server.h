@@ -34,6 +34,7 @@ typedef struct messages_s {
 
     char *client_id;
     char **message;
+    int nb_messages;
 
 }messages_t;
 
