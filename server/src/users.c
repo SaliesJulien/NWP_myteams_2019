@@ -26,7 +26,7 @@ void get_list(server_t *server, int client)
 
 void users_list(server_t *server, int client, int id)
 {
-    if (strcmp(server->command, "/users\r\n") == 0)
+    if (strcmp(server->command, "/users") == 0)
         (server->clients[id].logged == true) ?
             get_list(server, client) : dprintf(client,
                 "515 User not logged\r\n");
