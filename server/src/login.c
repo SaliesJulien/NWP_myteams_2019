@@ -65,7 +65,6 @@ void login_user(server_t *server, int client, int id)
 {
     char *arg = parse_args(server, 0);
 
-    printf("%s\r\n", arg);
     if (strlen(arg) > 32) {
         dprintf(client, "530 Authentification failed, \
         name length longer than 32 characters\r\n");

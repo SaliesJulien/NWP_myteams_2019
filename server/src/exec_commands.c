@@ -48,10 +48,22 @@ char *format_cmd(char *str)
         cmd = strtok(temp, " ");
     } else {
         cmd = strdup(temp);
-        cmd[strlen(cmd)-2] = 0;
         free(temp);
     }
     return (cmd);
+}
+
+void RemoveChars(char *s, char c)
+{
+    int writer = 0;
+    int reader = 0;
+
+    while (s[reader]) {
+        if (s[reader] != c)   
+            s[writer++] = s[reader];
+        reader++;       
+    }
+    s[writer] = 0;
 }
 
 void exec_commands(server_t *server, int client, int id)
@@ -66,6 +78,8 @@ void exec_commands(server_t *server, int client, int id)
         {"/unsubscribe", unsubscribe}, {"/subscribed", subscribed},
         {"/subscribe", subscribe}};
 
+    RemoveChars(server->command, '\r');
+    RemoveChars(server->command, '\n');
     cmd = format_cmd(server->command);
     for (int i = 0; i < 14; i++) {
         if (strcmp(ptr_command[i].command, cmd) == 0) {
@@ -74,8 +88,10 @@ void exec_commands(server_t *server, int client, int id)
             break;
         }
     }
-    (found == false) ? command_not_found(server, client, id) : (0);
-    free(cmd);
+    if (strlen(cmd) != 0) {
+        (found == false) ? command_not_found(server, client, id) : (0);
+        free(cmd);
+    }
 }
 
 void control_c(int __attribute__((unused)) contrl)

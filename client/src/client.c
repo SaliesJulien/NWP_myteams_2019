@@ -63,7 +63,7 @@ bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
             if (oops == false) {
                 dprintf(sock, "/logout\r\n");
                 close(server_sock);
-                break;
+                return (true);
             }
             str = calloc(1150, sizeof(char));
             read(i, str, 1150);
@@ -73,7 +73,7 @@ bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
             if (strncmp(str, "221", 3) == 0) {
                 print_fd(server_sock, sock, str, i);
                 close(sock);
-                break;
+                return (true);
             } else if (strncmp(str, "1", 1) == 0) {
                 pointer_function(str);
             } else {
