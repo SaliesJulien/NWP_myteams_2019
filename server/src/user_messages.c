@@ -61,9 +61,13 @@ void client_mess(server_t *server, int client, int id)
     if (!server->clients[id].logged) {
         dprintf(client, "515 User not logged\r\n");
         dprintf(client, "128|\r\n");
+        if (strcmp(cmd_id, "Bad cmd"))
+            free(cmd_id);
     }
     else if (!strcmp(cmd_id, "Bad cmd") || strlen(cmd_id) < 1) {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
+        if (strcmp(cmd_id, "Bad cmd"))
+            free(cmd_id);
         return;
     }
     else {
@@ -76,5 +80,7 @@ void client_mess(server_t *server, int client, int id)
         }
         else
             print_messages(server, id, cmd_id, client);
+        if (strcmp(cmd_id, "Bad cmd"))
+            free(cmd_id);
     }
 }
