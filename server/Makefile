@@ -38,7 +38,7 @@ SRCSERVER =	$(SRCS)main.c 					\
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -I./include -I../libs/myteams -L../libs/myteams -lmyteams -luuid -g3
+CFLAGS = -Wall -Werror -Wextra -I./include -I../libs/myteams -L../libs/myteams -lmyteams -luuid
 
 BINARYNAME_SERVER = ../myteams_server
 

@@ -23,7 +23,7 @@ CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra -I./include -I../libs/myteams -L../libs/myteams -lmyteams
 
-BINARYNAME_CLIENT = ../myteams_client
+BINARYNAME_CLIENT = ../myteams_cli
 
 OBJCLIENT = $(SRCCLIENT:.c=.o)
 
