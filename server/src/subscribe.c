@@ -60,20 +60,25 @@ void subscribe(server_t *server, int client, int id)
         dprintf(client, "515 User not logged\r\n");
         dprintf(client, "128|\r\n");
     }
-    else if (!count_args(server, 1))
+    else if (!count_args(server, 1)) {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
-    else if (!strcmp(team_id, "Bad cmd"))
+        if (strcmp(team_id, "Bad cmd") != 0)
+            free(team_id);
+    } else if (!strcmp(team_id, "Bad cmd")) {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
-    else {
+    } else {
         if (!does_team_exist(server, team_id)) {
             dprintf(client, "304 Team doesn't exist\r\n");
             dprintf(client, "114|%s|\r\n", team_id);
+            free(team_id);
         }
         else if (user_in_team(server, team_id, id)) {
             dprintf(client, "You are already in this team.\r\n");
             dprintf(client, "129|\r\n");
-        }
-        else
+            free(team_id);
+        } else {
             sub_team(server, client, team_id, id);
+            free(team_id);
+        }
     }
 }
