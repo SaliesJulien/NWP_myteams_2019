@@ -72,4 +72,5 @@ void unsubscribe(server_t *server, int client, int id)
         else
             leave_team(server, team_id, id);
     }
+    free(team_id);
 }

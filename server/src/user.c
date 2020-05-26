@@ -40,4 +40,5 @@ void user(server_t *server, int client, int id)
     } else {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     }
+    free(user_id);
 }

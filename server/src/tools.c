@@ -27,11 +27,12 @@ char *parse_args(server_t *server, int wich_args)
 {
     char *cmd = NULL;
     int k = 0;
-    int i = 0;
     int quotes = 0;
+    char *error_cmd = malloc(sizeof(char) * strlen("Bad cmd") + 1);
 
+    error_cmd = strcpy(error_cmd, "Bad cmd");
     cmd = malloc(sizeof(char) * strlen(server->command));
-    for (; server->command[i]; i++) {
+    for (int i = 0; server->command[i]; i++) {
         for (;server->command[i] && server->command[i] == ' '; i++);
         if (server->command[i] == '"') {
             quotes++;
@@ -41,7 +42,7 @@ char *parse_args(server_t *server, int wich_args)
                     cmd[k++] = server->command[i];
                 if (server->command[i] != '"') {
                     free(cmd);
-                    return ("Bad cmd");
+                    return (error_cmd);
                 }
                 else {
                     cmd[k] = '\0';
@@ -51,7 +52,7 @@ char *parse_args(server_t *server, int wich_args)
         }
     }
     free(cmd);
-    return ("Bad cmd");
+    return (error_cmd);
 }
 
 bool count_args(server_t *server, int args_nb)
