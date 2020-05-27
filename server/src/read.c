@@ -111,6 +111,7 @@ server_t *read_struct(server_t *server)
         fclose(file_teams);
         fclose(channel_teams);
         fclose(thread_teams);
+        fclose(members_teams);
     }
     server = read_dimensionnal_array(server);
     return (server);
