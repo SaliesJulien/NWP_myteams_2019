@@ -40,8 +40,10 @@ void create_new_team(server_t *server, int id, char *team_name,
     int i = 0;
     char *id_generate = generate_id();
 
-    if (!team_already_exist(server, team_name, id))
+    if (!team_already_exist(server, team_name, id)) {
+        free(id_generate);
         return;
+    }
     for (; strcmp(server->teams[i].team_id, "NULL"); i++);
     server->teams = realloc(server->teams, sizeof(team_t) * (i + 2));
     memset(&server->teams[i], 0, sizeof(team_t));

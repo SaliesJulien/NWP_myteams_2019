@@ -67,6 +67,7 @@ server_t *read_dimensionnal_array(server_t *server)
         while (getline(&line, &len, server->fp) != -1)
             parse_messages(server, line);
     }
+    free(line);
     server->comments = fopen("comments","r");
     if (server->comments != NULL) {
         line = NULL;
@@ -77,6 +78,7 @@ server_t *read_dimensionnal_array(server_t *server)
                 first = !first;
         }
     }
+    free(line);
     return (server);
 }
 

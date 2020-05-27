@@ -73,7 +73,6 @@ server_t *read_server(server_t *server)
     FILE *file_server = fopen("server_log", "rb");
 
     if (file_server != NULL) {
-        server = malloc(sizeof(server_t));
         fread(server, sizeof(server_t), 1, file_server);
         fclose(file_server);
     }
@@ -89,12 +88,6 @@ server_t *read_client(server_t *server)
         fread(server->clients, sizeof(clients_t), server->nb_clients,
             file_client);
         fclose(file_client);
-    }
-    for (int i = 0; i < server->nb_clients; i++) {
-        server->clients[i].use_state = malloc(sizeof(char *) * 3);
-        server->clients[i].use_state[0] = NULL;
-        server->clients[i].use_state[1] = NULL;
-        server->clients[i].use_state[2] = NULL;
     }
     return (server);
 }
