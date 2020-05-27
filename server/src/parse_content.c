@@ -13,10 +13,14 @@ server_t *parse_messages(server_t *server, char *command)
     char *sender = strtok(NULL, "|");
     char *message = strtok(NULL, "|");
 
-    server->clients[uuid_index(server, sender)].conversation =
-        malloc(sizeof(messages_t));
-    server->clients[uuid_index(server, receiver)].conversation =
-        malloc(sizeof(messages_t));
+    if (uuid_index(server, sender) != uuid_index(server, receiver)) {
+        server->clients[uuid_index(server, sender)].conversation =
+            malloc(sizeof(messages_t));
+        server->clients[uuid_index(server, receiver)].conversation =
+            malloc(sizeof(messages_t));
+    } else
+        server->clients[uuid_index(server, sender)].conversation =
+            malloc(sizeof(messages_t));
     server->clients[uuid_index(server, receiver)].conversation[0].client_id = NULL;
     server->clients[uuid_index(server, sender)].conversation[0].client_id = NULL;
     fill_messages(server, uuid_index(server, sender), receiver, message);
