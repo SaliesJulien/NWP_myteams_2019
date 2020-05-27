@@ -25,7 +25,11 @@ void new_clients(server_t *server)
 void remove_client(server_t *server, int client, int id)
 {
     if (strcmp(server->command, "/logout") == 0) {
-        dprintf(client, "221 Service closing control connection\r\n");
+        for (int i = 0; i < server->nb_clients; i++) {
+            if (server->clients[i].active == true)
+                dprintf(server->clients[i].fd_client, "102|%s|%s|\r\n",
+                    server->clients[id].user_id, server->clients[id].user_name);
+        }
         if (server->clients[id].logged == false) {
             while (id + 1 < server->nb_clients) {
                 server->clients[id] = server->clients[id + 1];
@@ -38,11 +42,7 @@ void remove_client(server_t *server, int client, int id)
         }
         printf("Client disconnected\r\n");
         server_event_user_logged_out(server->clients[id].user_id);
-        for (int i = 0; i < server->nb_clients; i++) {
-            if (client != server->clients[i].fd_client && server->clients[i].active == true)
-                dprintf(server->clients[i].fd_client, "102|%s|%s|\r\n",
-                    server->clients[id].user_id, server->clients[id].user_name);
-        }
+        dprintf(client, "221 Service closing control connection\r\n");
     } else {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     }
