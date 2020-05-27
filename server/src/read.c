@@ -47,7 +47,7 @@ server_t *init_read(server_t *server)
     for (int j = 0; j < server->nb_clients; j++) {
         server_event_user_loaded(server->clients[j].user_id,
             server->clients[j].user_name);
-        server->clients[j].use_state = malloc(sizeof(char *) * 4);
+        server->clients[j].use_state = malloc(sizeof(char *) * 3);
         server->clients[j].use_state[0] = NULL;
         server->clients[j].use_state[1] = NULL;
         server->clients[j].use_state[2] = NULL;
