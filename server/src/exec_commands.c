@@ -55,15 +55,12 @@ char *format_cmd(char *str)
 
 void remove_chars(char *str, char c)
 {
-    int a = 0;
-    int b = 0;
+    int i = 0;
 
-    while (str[b]) {
-        if (str[b] != c)  
-            str[a++] = str[b];
-        b++;       
-    }
-    str[a] = 0;
+    for (int y = 0; str[y]; y++)
+        if (str[y] != c)
+            str[i++] = str[y];
+    str[i] = 0;
 }
 
 void exec_commands(server_t *server, int client, int id)
@@ -88,10 +85,8 @@ void exec_commands(server_t *server, int client, int id)
             break;
         }
     }
-    if (strlen(cmd) != 0) {
-        (found == false) ? command_not_found(server, client, id) : (0);
-        free(cmd);
-    }
+    (found == false) ? command_not_found(server, client, id) : (0);
+    free(cmd);
 }
 
 void control_c(int __attribute__((unused)) contrl)
