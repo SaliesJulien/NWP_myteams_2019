@@ -66,8 +66,8 @@ server_t *server_init(server_t *server, char **av)
     server->port = atoi(av[1]);
     start_connection(server);
     server = read_struct(server);
-    server->fp = fopen("messages","a+");
-    server->comments = fopen("comments","a+");
+    server->messages_write = fopen("messages","a+");
+    server->comment_write = fopen("comments","a+");
     return (server);
 }
 
@@ -88,8 +88,8 @@ void start_server(char **av)
             break;
         reading(server);
     }
-    fclose(server->fp);
-    fclose(server->comments);
+    fclose(server->messages_write);
+    fclose(server->comment_write);
     for (int i = 0; i < server->nb_clients; i++) {
         for (int j = 0; j < 3; j++)
             free(server->clients[i].use_state[j]);

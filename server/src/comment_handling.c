@@ -68,7 +68,7 @@ void create_new_comment(server_t *server, int id, char *name)
         server->teams[i].channel[k].thread[j].thread_id,
         server->clients[id].user_id, "10:00",
         server->teams[i].channel[k].thread[j].thread_content);
-    fprintf(server->comments, "%s|%s|%s|%s|\r\n", server->teams[i].team_id,
+    fprintf(server->comment_write, "%s|%s|%s|%s|\r\n", server->teams[i].team_id,
         server->teams[i].channel[k].channel_id,
         server->teams[i].channel[k].thread[j].thread_id, name);
     server_event_thread_new_message(

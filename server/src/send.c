@@ -82,7 +82,7 @@ void fill_messages(server_t *server, int id, char *uuid_str, char *message)
 
 void succes_messages(server_t *server, int id, char *uuid_str, char *message)
 {
-    fprintf(server->fp, "%s|%s|%s|\n", server->clients[id].user_id, uuid_str,
+    fprintf(server->messages_write, "%s|%s|%s|\n", server->clients[id].user_id, uuid_str,
         message);
     server_event_private_message_sended(server->clients[id].user_id, uuid_str,
         message);

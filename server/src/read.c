@@ -61,24 +61,28 @@ server_t *read_dimensionnal_array(server_t *server)
     char *line = NULL;
     size_t len = 0;
     bool first = false;
+    FILE *messages_write = fopen("messages","r");
+    FILE *comment_write = fopen("comments","r");
 
-    server->fp = fopen("messages","r");
-    if (server->fp != NULL) {
-        while (getline(&line, &len, server->fp) != -1)
+    if (messages_write != NULL) {
+        while (getline(&line, &len, messages_write) != -1)
             parse_messages(server, line);
     }
     free(line);
-    server->comments = fopen("comments","r");
-    if (server->comments != NULL) {
+    if (comment_write != NULL) {
         line = NULL;
         len = 0;
-        while (getline(&line, &len, server->comments) != -1) {
+        while (getline(&line, &len, comment_write) != -1) {
             parse_comments(server, line, first);
             if (first == false)
                 first = !first;
         }
     }
     free(line);
+    if (messages_write != NULL)
+        fclose(messages_write);
+    if (comment_write != NULL)
+        fclose(comment_write);
     return (server);
 }
 
