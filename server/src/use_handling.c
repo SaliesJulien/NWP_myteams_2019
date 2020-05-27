@@ -98,8 +98,9 @@ void use(server_t *server, int client, int id)
         } else {
             dprintf(client, "501 Error syntax in parameters or arguments\r\n");
         }
-    } else {
+    } else if (count_args(server, 0)) {
         use_back(server, client, id);
-    }
+    } else
+        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     free(team);
 }
