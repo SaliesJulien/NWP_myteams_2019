@@ -54,7 +54,8 @@ void create_new_comment(server_t *server, int id, char *name)
         realloc(server->teams[i].channel[k].thread[j].comment,
         sizeof(char *) * (count + 2));
     server->teams[i].channel[k].thread[j].comment[count] =
-        malloc(sizeof(char) * strlen(name) + 1);
+        realloc(server->teams[i].channel[k].thread[j].comment[count],
+            sizeof(char) * strlen(name) + 1);
     server->teams[i].channel[k].thread[j].comment[count + 1] =
         malloc(sizeof(char) * 5);
     strcpy(server->teams[i].channel[k].thread[j].comment[count], name);
@@ -74,6 +75,7 @@ void create_new_comment(server_t *server, int id, char *name)
         server->teams[i].channel[k].thread[j].thread_id,
         server->clients[id].user_id,
         server->teams[i].channel[k].thread[j].thread_content);
+    server->teams[i].channel[k].thread[j].nb_comments++;
     for (int a = 0; strcmp(server->teams[i].members[a].name, "NULL") != 0; a++) {
         for (count = 0; strcmp(server->clients[count].user_name,
             server->teams[i].members[a].name) != 0; count++);

@@ -19,6 +19,7 @@ typedef struct thread_s {
     char thread_title[DEFAULT_NAME_LENGTH];
     char thread_content[DEFAULT_BODY_LENGTH];
     char thread_id[37];
+    int nb_comments;
     char **comment;
 
 }thread_t;

@@ -102,6 +102,12 @@ void start_server(char **av)
     for (int i = 0; i < server->nb_teams; i++) {
         free(server->teams[i].members);
         for (int j = 0; j < server->teams[i].nb_channel; j++) {
+            for (int k = 0; k < server->teams[i].channel[j].nb_thread; k++) {
+                for (int m = 0;
+                    m < server->teams[i].channel[j].thread[k].nb_comments + 1; m++)
+                    free(server->teams[i].channel[j].thread[k].comment[m]);
+                free(server->teams[i].channel[j].thread[k].comment);
+            }
             free(server->teams[i].channel[j].thread);
         }
         free(server->teams[i].channel);
