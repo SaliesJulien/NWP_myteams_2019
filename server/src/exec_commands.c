@@ -53,17 +53,14 @@ char *format_cmd(char *str)
     return (cmd);
 }
 
-void RemoveChars(char *s, char c)
+void remove_chars(char *s, char c)
 {
-    int writer = 0;
-    int reader = 0;
+    int i = 0;
 
-    while (s[reader]) {
-        if (s[reader] != c)
-            s[writer++] = s[reader];
-        reader++;
-    }
-    s[writer] = 0;
+    for (int y = 0; s[y]; y++)
+        if (s[y] != c)
+            s[i++] = s[y];
+    s[i] = 0;
 }
 
 void exec_commands(server_t *server, int client, int id)
@@ -78,8 +75,8 @@ void exec_commands(server_t *server, int client, int id)
         {"/unsubscribe", unsubscribe}, {"/subscribed", subscribed},
         {"/subscribe", subscribe}};
 
-    RemoveChars(server->command, '\r');
-    RemoveChars(server->command, '\n');
+    remove_chars(server->command, '\r');
+    remove_chars(server->command, '\n');
     cmd = format_cmd(server->command);
     for (int i = 0; i < 14; i++) {
         if (strcmp(ptr_command[i].command, cmd) == 0) {
