@@ -89,5 +89,13 @@ server_t *read_client(server_t *server)
             file_client);
         fclose(file_client);
     }
+    for (int i = 0; i < server->nb_clients; i++) {
+        if (server->clients[i].nb_conversation == 0) {
+            server->clients[i].conversation =
+                malloc(sizeof(messages_t));
+            server->clients[i].conversation[0].client_id = NULL;
+            server->clients[i].conversation[0].message = NULL;
+        }
+    }
     return (server);
 }
