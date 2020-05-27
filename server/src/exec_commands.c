@@ -85,8 +85,10 @@ void exec_commands(server_t *server, int client, int id)
             break;
         }
     }
-    (found == false) ? command_not_found(server, client, id) : (0);
-    free(cmd);
+    if (strlen(cmd) != 0) {
+        (found == false) ? command_not_found(server, client, id) : (0);
+        free(cmd);
+    }
 }
 
 void control_c(int __attribute__((unused)) contrl)
