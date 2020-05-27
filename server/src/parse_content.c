@@ -100,6 +100,7 @@ server_t *read_client(server_t *server)
             server->clients[i].conversation[0].client_id = NULL;
             server->clients[i].conversation[0].message = NULL;
         }
+        server->clients[i].nb_conversation = 0;
     }
     return (server);
 }
