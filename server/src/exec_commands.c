@@ -53,14 +53,17 @@ char *format_cmd(char *str)
     return (cmd);
 }
 
-void remove_chars(char *s, char c)
+void remove_chars(char *str, char c)
 {
-    int i = 0;
+    int a = 0;
+    int b = 0;
 
-    for (int y = 0; s[y]; y++)
-        if (s[y] != c)
-            s[i++] = s[y];
-    s[i] = 0;
+    while (str[b]) {
+        if (str[b] != c)  
+            str[a++] = str[b];
+        b++;       
+    }
+    str[a] = 0;
 }
 
 void exec_commands(server_t *server, int client, int id)
