@@ -46,7 +46,6 @@ void init_sets(server_t *server)
 void init_teams(server_t *server)
 {
     if(access("teams_log", F_OK) == -1) {
-        dprintf(1, "Fichier existe\n");
         server->teams = malloc(sizeof(team_t));
         memset(server->teams, 0, sizeof(team_t));
         strcpy(server->teams[0].team_id, "NULL");
