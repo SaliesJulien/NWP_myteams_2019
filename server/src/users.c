@@ -8,14 +8,6 @@
 #include "server.h"
 #include <time.h>
 
-void delay(int number_of_seconds)
-{
-    int milli_seconds = 1000 * number_of_seconds;
-    clock_t start_time = clock();
-
-    while (clock() < start_time + milli_seconds);
-}
-
 void get_list(server_t *server, int client)
 {
     int i = 0;
@@ -27,7 +19,6 @@ void get_list(server_t *server, int client)
             server->clients[i].user_name,
             server->clients[i].user_id);
         logged = (server->clients[i].logged) ? 1 : 0;
-        delay(1);
         dprintf(client, "108|%s|%s|%d|\r\n",
             server->clients[i].user_id,
             server->clients[i].user_name, logged);

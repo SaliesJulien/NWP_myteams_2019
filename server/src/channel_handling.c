@@ -72,7 +72,6 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
         server->teams[i].channel[k].channel_id,
         server->teams[i].channel[k].channel_name,
         server->teams[i].channel[k].channel_desc);
-    delay(1);
     for (int a = 0; strcmp(server->teams[i].members[a].name, "NULL") != 0; a++) {
         for (count = 0; strcmp(server->clients[count].user_name,
             server->teams[i].members[a].name) != 0; count++);
@@ -81,7 +80,6 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
             server->teams[i].channel[k].channel_name,
             server->teams[i].channel[k].channel_desc);
     }
-    delay(1);
     dprintf(server->clients[id].fd_client,
         "226 You succesfully created the channel \"%s\"\r\n",
         server->teams[i].channel[k].channel_name);

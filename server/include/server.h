@@ -100,7 +100,6 @@ server_t *parse_comments(server_t *, char *, bool);
 server_t *read_server(server_t *);
 server_t *read_client(server_t *);
 server_t *read_dimensionnal_array(server_t *);
-void delay(int);
 
 //In user_messages.c
 char *get_command_id(server_t *);
