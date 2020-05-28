@@ -52,6 +52,7 @@ void subscribed(server_t *server, int client, int id)
 
     if (!server->clients[id].logged) {
         dprintf(client, "515 User not logged\r\n");
+        delay(1);
         dprintf(client, "128|\r\n");
     }
     if (count_args(server, 2))

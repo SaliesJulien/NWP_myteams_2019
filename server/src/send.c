@@ -88,6 +88,7 @@ void succes_messages(server_t *server, int id, char *uuid_str, char *message)
         message);
     dprintf(server->clients[uuid_index(server, uuid_str)].fd_client,
         "103|%s|%s|\r\n", server->clients[id].user_id, message);
+    delay(1);
     fill_messages(server, id, uuid_str, message);
     send_notif(server, id, uuid_str);
     dprintf(server->clients[id].fd_client, "204 sucessfully sent message\r\n");
@@ -100,6 +101,7 @@ void send_messages(server_t *server, int client, int id)
 
     if (!server->clients[id].logged) {
         dprintf(client, "515 User not logged\r\n");
+        delay(1);
         dprintf(client, "128|\r\n");
     }
     if (!count_args(server, 2)) {
@@ -116,6 +118,7 @@ void send_messages(server_t *server, int client, int id)
     }
     if (!uuid_exit(server, uuid_str)) {
         dprintf(client, "303 User doesn't exist\r\n");
+        delay(1);
         dprintf(client, "117|%s|\r\n", uuid_str);
         free(uuid_str);
         free(message);

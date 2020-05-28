@@ -15,10 +15,12 @@ void get_list(server_t *server, int client)
 
     dprintf(client, "202 List of all users existing on the server\r\n");
     for (; i < server->nb_clients; i++) {
+        delay(1);
         dprintf(client, "Username : %s    ID : %s\r\n",
             server->clients[i].user_name,
             server->clients[i].user_id);
         logged = (server->clients[i].logged) ? 1 : 0;
+        delay(1);
         dprintf(client, "108|%s|%s|%d|\r\n",
             server->clients[i].user_id,
             server->clients[i].user_name, logged);

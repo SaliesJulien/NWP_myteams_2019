@@ -70,17 +70,20 @@ void use_statement(server_t *server, int client, int id, char *team)
         server->clients[id].use_state[2] == NULL)
         if (!use_thread(server, client, id, team)) {
             dprintf(client, "306 Thread doesn't exist\r\n");
+            delay(1);
             dprintf(client, "116|%s|\r\n", team);
         }
     if (server->clients[id].use_state[0] != NULL &&
         server->clients[id].use_state[1] == NULL)
         if (!use_channel(server, client, id, team)) {
             dprintf(client, "305 Channel doesn't exist\r\n");
+            delay(1);
             dprintf(client, "115|%s|\r\n", team);
         }
     if (server->clients[id].use_state[0] == NULL)
         if (!use_team(server, client, id, team)) {
             dprintf(client, "304 Team doesn't exist\r\n");
+            delay(1);
             dprintf(client, "114|%s|\r\n", team);
         }
 }
@@ -91,6 +94,7 @@ void use(server_t *server, int client, int id)
 
     if (!server->clients[id].logged) {
         dprintf(client, "515 User not logged\r\n");
+        delay(1);
         dprintf(client, "128|\r\n");
     } else if (count_args(server, 1)) {
         if (strcmp(team, "Bad cmd")) {

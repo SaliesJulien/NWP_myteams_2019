@@ -22,6 +22,7 @@ void leave_team(server_t *server, char *team_id, int id)
         strcpy(server->teams[i].members[k].id, server->teams[i].members[k + 1].id);
     }
     server->teams[i].nb_members--;
+    delay(1);
     dprintf(server->clients[id].fd_client,
         "127|%s|%s|\r\n", server->clients[id].user_id,
         server->teams[i].team_id);
@@ -56,6 +57,7 @@ void unsubscribe(server_t *server, int client, int id)
 
     if (!server->clients[id].logged) {
         dprintf(client, "515 User not logged\r\n");
+        delay(1);
         dprintf(client, "128|\r\n");
     }
     else if (!count_args(server, 1))
@@ -65,6 +67,7 @@ void unsubscribe(server_t *server, int client, int id)
     else {
         if (!team_exist(server, team_id)) {
             dprintf(client, "304 Team doesn't exist\r\n");
+            delay(1);
             dprintf(client, "114|%s|\r\n", team_id);
         }
         else if (!user_is_in_team(server, team_id, id))

@@ -31,6 +31,7 @@ bool check_exist(server_t *server, char *arg, int id, int i)
             return (true);
         } else {
             dprintf(server->clients[id].fd_client, "330 Client already connected\r\n");
+            delay(1);
             dprintf(server->clients[id].fd_client, "129|\r\n");
             return (true);
         }
@@ -53,6 +54,7 @@ void find_uuid(server_t *server, int client, int id, char *arg)
         strcpy(server->clients[id].user_name, arg);
         strcpy(server->clients[id].user_id, id_generate);
         dprintf(client, "230 Succesfull login\r\n");
+        delay(1);
         server->clients[id].logged = true;
         server_event_user_created(server->clients[id].user_id,
             server->clients[id].user_name);

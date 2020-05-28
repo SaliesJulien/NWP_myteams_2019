@@ -63,6 +63,7 @@ void create_new_comment(server_t *server, int id, char *name)
     dprintf(server->clients[id].fd_client,
         "228 You succesfully posted a comment in \"%s\"\r\n",
         server->teams[i].channel[k].thread[j].thread_title);
+    delay(1);
     dprintf(server->clients[id].fd_client,
         "125|%s|%s|%s|%s|\r\n",
         server->teams[i].channel[k].thread[j].thread_id,

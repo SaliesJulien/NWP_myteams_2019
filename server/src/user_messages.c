@@ -31,10 +31,12 @@ void print(int client, int id, server_t *server, int i)
     char *id_sender = NULL;
 
     dprintf(client, "205 Conversation with \"username\"\r\n");
+    delay(1);
     for (int k = 0; server->clients[id].conversation[i].message[k]; k++) {
         message = get_user_id(server->clients[id].conversation[i].message[k], 0);
         id_sender = get_user_id(server->clients[id].conversation[i].message[k], 1);
         dprintf(client, "%s\r\n", message);
+        delay(1);
         dprintf(client, "113|%s|10:20|%s|\r\n", id_sender,
             server->clients[id].conversation[i].message[k]);
         free(message);
@@ -60,6 +62,7 @@ void client_mess(server_t *server, int client, int id)
 
     if (!server->clients[id].logged) {
         dprintf(client, "515 User not logged\r\n");
+        delay(1);
         dprintf(client, "128|\r\n");
     }
     else if (!strcmp(cmd_id, "Bad cmd") || strlen(cmd_id) < 1) {

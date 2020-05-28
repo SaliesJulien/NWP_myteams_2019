@@ -16,6 +16,7 @@ bool find_user(server_t *server, char *user_id, int id)
         if (strcmp(user_id, server->clients[i].user_id) == 0) {
             strcat(str, server->clients[i].user_name);
             dprintf(server->clients[id].fd_client, "%s\r\n", str);
+            delay(1);
             dprintf(server->clients[id].fd_client, "118|%s|%s|%d|\r\n",
                 server->clients[i].user_id,
                 server->clients[i].user_name,
@@ -35,6 +36,7 @@ void user(server_t *server, int client, int id)
     } else if (strcmp(user_id, "Bad cmd") != 0) {
         if ((find_user(server, user_id, id)) == false) {
             dprintf(client, "303 User doesn't exist\r\n");
+            delay(1);
             dprintf(client, "117|%s|\r\n", user_id);
         }
     } else {

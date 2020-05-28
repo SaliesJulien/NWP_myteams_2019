@@ -30,6 +30,7 @@ bool thread_already_exist(channel_t channel, char *name, server_t *server,
         if (!strcmp(channel.thread[j].thread_title, name)) {
             dprintf(server->clients[id].fd_client,
                 "512 This thread already exist\r\n");
+            delay(1);
             dprintf(server->clients[id].fd_client, "129|\r\n");
             return (false);
         }
@@ -73,6 +74,7 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
         server->clients[id].user_id, "10:00",
         server->teams[i].channel[k].thread[j].thread_title,
         server->teams[i].channel[k].thread[j].thread_content);
+    delay(1);
     for (int a = 0; a < server->nb_clients; a++)
         dprintf(server->clients[a].fd_client, "107|%s|%s|%s|%s|%s|\r\n",
             server->teams[i].channel[k].thread[j].thread_id,
@@ -90,6 +92,7 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
         server->teams[i].channel[k].thread[j].thread_content);
     }
     */
+    delay(1);
     dprintf(server->clients[id].fd_client,
         "227 You succesfully created the thread \"%s\"\r\n",
         server->teams[i].channel[k].thread[j].thread_title);

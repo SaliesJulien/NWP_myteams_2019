@@ -58,6 +58,7 @@ void subscribe(server_t *server, int client, int id)
 
     if (!server->clients[id].logged) {
         dprintf(client, "515 User not logged\r\n");
+        delay(1);
         dprintf(client, "128|\r\n");
     }
     else if (!count_args(server, 1)) {
@@ -67,10 +68,12 @@ void subscribe(server_t *server, int client, int id)
     } else {
         if (!does_team_exist(server, team_id)) {
             dprintf(client, "304 Team doesn't exist\r\n");
+            delay(1);
             dprintf(client, "114|%s|\r\n", team_id);
         }
         else if (user_in_team(server, team_id, id)) {
             dprintf(client, "You are already in this team.\r\n");
+            delay(1);
             dprintf(client, "129|\r\n");
         } else {
             sub_team(server, client, team_id, id);

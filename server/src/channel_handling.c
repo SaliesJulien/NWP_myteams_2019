@@ -39,6 +39,7 @@ bool channel_exist(server_t *server, int i, char *name, int id)
         if ((strcmp(server->teams[i].channel[k].channel_name, name) == 0)) {
             dprintf(server->clients[id].fd_client,
                 "511 This channel already exist\r\n");
+            delay(1);
             dprintf(server->clients[id].fd_client, "129|\r\n");
             return (false);
         }
@@ -72,6 +73,7 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
         server->teams[i].channel[k].channel_id,
         server->teams[i].channel[k].channel_name,
         server->teams[i].channel[k].channel_desc);
+    delay(1);
     for (int a = 0; a < server->nb_clients; a++)
         dprintf(server->clients[a].fd_client, "106|%s|%s|%s|\r\n",
             server->teams[i].channel[k].channel_id,
