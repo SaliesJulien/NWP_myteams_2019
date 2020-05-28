@@ -74,7 +74,8 @@ bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
             }
             str = calloc(1150, sizeof(char));
             read(i, str, 1150);
-            str[strlen(str) - 1] = 0;
+            if (strlen(str) > 1)
+                str[strlen(str) - 1] = 0;
             if (str[strlen(str) - 1] == '\r')
                 str[strlen(str) - 1] = 0;
             if (strncmp(str, "221", 3) == 0) {
