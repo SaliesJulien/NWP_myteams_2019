@@ -51,6 +51,13 @@ void print_fd(int server_sock, int sock, char *str, int i)
     }
 }
 
+void delay(int number_of_seconds)
+{
+    int milli_seconds = 1000 * number_of_seconds;
+    clock_t start_time = clock();
+    while (clock() < start_time + milli_seconds);
+}
+
 bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
 {
     init_fd(set, server_sock, sock);
@@ -62,8 +69,7 @@ bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
             signal(SIGHUP, terminal_killed);
             if (oops == false) {
                 dprintf(sock, "/logout\r\n");
-                close(server_sock);
-                return (true);
+                delay(1);
             }
             str = calloc(1150, sizeof(char));
             read(i, str, 1150);
