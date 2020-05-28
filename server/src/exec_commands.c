@@ -87,8 +87,9 @@ void exec_commands(server_t *server, int client, int id)
     }
     if (strlen(cmd) != 0) {
         (found == false) ? command_not_found(server, client, id) : (0);
-        free(cmd);
-    }
+    } else
+        command_not_found(server, client, id);
+    free(cmd);
 }
 
 void control_c(int __attribute__((unused)) contrl)
