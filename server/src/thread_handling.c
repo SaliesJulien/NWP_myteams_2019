@@ -73,6 +73,7 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
         server->clients[id].user_id, "10:00",
         server->teams[i].channel[k].thread[j].thread_title,
         server->teams[i].channel[k].thread[j].thread_content);
+    delay(1);
     for (int a = 0; strcmp(server->teams[i].members[a].name, "NULL") != 0; a++) {
         for (count = 0; strcmp(server->clients[count].user_name,
             server->teams[i].members[a].name) != 0; count++);
@@ -82,6 +83,7 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
         server->teams[i].channel[k].thread[j].thread_title,
         server->teams[i].channel[k].thread[j].thread_content);
     }
+    delay(1);
     dprintf(server->clients[id].fd_client,
         "227 You succesfully created the thread \"%s\"\r\n",
         server->teams[i].channel[k].thread[j].thread_title);
