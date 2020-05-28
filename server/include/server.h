@@ -133,5 +133,7 @@ void init_next_thread(server_t *, int, int, int);
 void unsubscribe(server_t *, int, int);
 void subscribed(server_t *, int, int);
 void subscribe(server_t *, int, int);
+void two_args(server_t *, int, int);
+void three_args(server_t *, int, bool, bool);
 
 #endif /* !SERVER_H_ */

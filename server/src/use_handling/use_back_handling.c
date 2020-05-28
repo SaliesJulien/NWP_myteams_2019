@@ -44,12 +44,8 @@ void back_channel(server_t *server, int client, int id)
 
 void use_back(server_t *server, int client, int id)
 {
-    if (server->clients[id].use_state[2])
-        back_channel(server, client, id);
-    else if (server->clients[id].use_state[1])
-        back_team(server, client, id);
-    else if (server->clients[id].use_state[0])
-        back_server(server, client, id);
-    else
-        dprintf(client, "542 You can't go deeper than the server home\r\n");
+    (void)client;
+    server->clients[id].use_state[0] = NULL;
+    server->clients[id].use_state[1] = NULL;
+    server->clients[id].use_state[2] = NULL;
 }

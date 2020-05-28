@@ -26,6 +26,8 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)comment_handling.c 		\
 			$(SRCS)/use_handling/use_handling.c 			\
 			$(SRCS)/use_handling/use_back_handling.c 		\
+			$(SRCS)/use_handling/use_two_id.c 				\
+			$(SRCS)/use_handling/use_three_id.c 			\
 			$(SRCS)list.c 					\
 			$(SRCS)info.c 					\
 			$(SRCS)unsubscribe.c 			\
