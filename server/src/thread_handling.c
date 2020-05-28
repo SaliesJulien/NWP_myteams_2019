@@ -51,7 +51,7 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
     int i = 0;
     int k = 0;
     int j = 0;
-    int count = 0;
+    //int count = 0;
 
     for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
@@ -73,6 +73,13 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
         server->clients[id].user_id, "10:00",
         server->teams[i].channel[k].thread[j].thread_title,
         server->teams[i].channel[k].thread[j].thread_content);
+    for (int a = 0; a < server->nb_clients; a++)
+        dprintf(server->clients[a].fd_client, "107|%s|%s|%s|%s|%s|\r\n",
+            server->teams[i].channel[k].thread[j].thread_id,
+            server->clients[id].user_id, "10:00",
+            server->teams[i].channel[k].thread[j].thread_title,
+            server->teams[i].channel[k].thread[j].thread_content);
+    /*
     for (int a = 0; strcmp(server->teams[i].members[a].name, "NULL") != 0; a++) {
         for (count = 0; strcmp(server->clients[count].user_name,
             server->teams[i].members[a].name) != 0; count++);
@@ -82,6 +89,7 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
         server->teams[i].channel[k].thread[j].thread_title,
         server->teams[i].channel[k].thread[j].thread_content);
     }
+    */
     dprintf(server->clients[id].fd_client,
         "227 You succesfully created the thread \"%s\"\r\n",
         server->teams[i].channel[k].thread[j].thread_title);
