@@ -60,12 +60,12 @@ void others_commands(char *code, char *str)
 
 }
 
-/*void free_content(char *third_arg, char *fourth_arg, char *fifth_arg)
+void free_content(char *third_arg, char *fourth_arg, char *fifth_arg)
 {
     free(third_arg);
     free(fourth_arg);
     free(fifth_arg);
-}*/
+}
 
 void find_function(simple_replies_t ptr_simple[20], time_replies_t ptr_time[6],
     char *code, char *str)
@@ -89,9 +89,7 @@ void find_function(simple_replies_t ptr_simple[20], time_replies_t ptr_time[6],
         }
     free(first_arg);
     free(second_arg);
-    free(third_arg);
-    free(fourth_arg);
-    free(fifth_arg);
+    free_content(third_arg, fourth_arg, fifth_arg);
 }
 
 void pointer_function(char *str)
