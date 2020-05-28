@@ -80,12 +80,14 @@ bool cmd_loop(int server_sock, int sock, char *str, fd_set *set)
             if (strncmp(str, "221", 3) == 0) {
                 print_fd(server_sock, sock, str, i);
                 close(sock);
+                free(str);
                 return (true);
             } else if (strncmp(str, "1", 1) == 0) {
                 pointer_function(str);
             } else {
                 print_fd(server_sock, sock, str, i);
             }
+        free(str);
         }
     }
     return (false);
@@ -100,10 +102,13 @@ void main_loop(int sock, struct sockaddr_in name)
     bool error = false;
     oops = true;
 
-    if ((server_sock = connect(sock, (struct sockaddr *)&name, size) == -1))
-        exit(84);
+    if ((server_sock = connect(sock, (struct sockaddr *)&name, size) == -1)) {
+        free(str);
+        return;
+    }
     while (error == false)
         error = cmd_loop(server_sock, sock, str, set);
+    free(str);
 }
 
 int client_side(char **argv)

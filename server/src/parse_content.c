@@ -33,7 +33,7 @@ void find_good_comments(thread_t *thread, char *message, bool first)
 
     if (first == false) {
         thread->comment = malloc(sizeof(char *) * 2);
-        thread->comment[0] = malloc(sizeof(char *) * strlen(message) + 1);
+        thread->comment[0] = malloc(sizeof(char) * strlen(message) + 1);
         thread->comment[1] = malloc(sizeof(char) * 5);
         strcpy(thread->comment[0], message);
         strcpy(thread->comment[1], "NULL");

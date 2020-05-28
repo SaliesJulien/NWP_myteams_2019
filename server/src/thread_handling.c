@@ -68,6 +68,7 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
     server->teams[i].channel[k].thread[j].comment = malloc(sizeof(char *));
     set_thread(&server->teams[i].channel[k].thread[j], name, desc);
     init_first_comment(server, i, k, j);
+    init_next_thread(server, i, k, j + 1);
     dprintf(server->clients[id].fd_client,
         "124|%s|%s|%s|%s|%s|\r\n",
         server->teams[i].channel[k].thread[j].thread_id,
@@ -96,8 +97,8 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
     dprintf(server->clients[id].fd_client,
         "227 You succesfully created the thread \"%s\"\r\n",
         server->teams[i].channel[k].thread[j].thread_title);
-    init_next_thread(server, i, k, j + 1);
     server->teams[i].channel[k].nb_thread++;
+    server->teams[i].channel[k].thread[j].nb_comments = 0;
     server_event_thread_created(server->teams[i].channel[k].channel_id,
         server->teams[i].channel[k].thread[j].thread_id,
         server->clients[id].user_id,

@@ -107,7 +107,8 @@ server_t *read_struct(server_t *server)
                 server = read_members(server, members_teams, i);
             }
     }
-    if (file_teams != NULL && channel_teams != NULL && thread_teams != NULL) {
+    if (file_teams != NULL && channel_teams != NULL && thread_teams != NULL
+        && members_teams != NULL) {
         fclose(file_teams);
         fclose(channel_teams);
         fclose(thread_teams);
