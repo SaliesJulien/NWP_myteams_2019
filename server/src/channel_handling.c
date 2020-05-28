@@ -89,12 +89,12 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
             server->teams[i].channel[k].channel_desc);
     }
     */
+    server->teams[i].nb_channel++;
+    server->teams[i].channel[k].nb_thread = 0;
     dprintf(server->clients[id].fd_client,
         "226 You succesfully created the channel \"%s\"\r\n",
         server->teams[i].channel[k].channel_name);
     server_event_channel_created(server->teams[i].team_id,
         server->teams[i].channel[k].channel_id,
         server->teams[i].channel[k].channel_name);
-    server->teams[i].nb_channel++;
-    server->teams[i].channel[k].nb_thread = 0;
 }
