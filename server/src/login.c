@@ -26,6 +26,7 @@ bool check_exist(server_t *server, char *arg, int id, int i)
             server->clients[i].fd_client = server->clients[id].fd_client;
             server->clients[id].fd_client = -1;
             server->clients[id].active = false;
+            server->nb_clients--;
             dprintf(server->clients[id].fd_client, "230 Succesfull login\r\n");
             send_notification_login(server, i);
             return (true);
