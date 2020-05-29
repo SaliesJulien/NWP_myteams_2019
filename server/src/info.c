@@ -51,12 +51,12 @@ void list_channel_info(server_t *server, int client, int id)
     dprintf(client, "243 Channel \"%s\" infos :\r\n",
         server->teams[i].channel[k].channel_name);
     delay(1);
-    dprintf(client, "120|%s|%s|%s|\r\n", server->teams[i].channel[k].channel_id,
-        server->teams[i].channel[k].channel_name,
+    dprintf(client, "120|%s|%s|%s|\r\n", server->teams[i].channel[k].channel_id
+        ,server->teams[i].channel[k].channel_name,
         server->teams[i].channel[k].channel_desc);
     delay(1);
-    dprintf(client, "Channel name : \"%s\"    Channel description : \"%s\"\r\n",
-        server->teams[i].channel[k].channel_name,
+    dprintf(client, "Channel name : \"%s\"    Channel description : \"%s\"\r\n"
+        ,server->teams[i].channel[k].channel_name,
         server->teams[i].channel[k].channel_desc);
 }
 
@@ -93,16 +93,14 @@ void info(server_t *server, int client, int id)
         }
         else if (!count_args(server, 0))
             dprintf(client, "501 Error syntax in parameters or arguments\r\n");
-        else if (server->clients[id].use_state[2])
-            list_thread_info(server, client, id);
-        else if (server->clients[id].use_state[1] &&
-            !server->clients[id].use_state[2])
-            list_channel_info(server, client, id);
-        else if (server->clients[id].use_state[0] &&
-            !server->clients[id].use_state[1])
-            list_team_info(server, client, id);
-        else if (!server->clients[id].use_state[0])
-            list_clients_logged(server, client, id);
+        (server->clients[id].use_state[2]) ?
+            list_thread_info(server, client, id) : (0);
+        (server->clients[id].use_state[1] && !server->clients[id].use_state[2])
+            ? list_channel_info(server, client, id): (0);
+        (server->clients[id].use_state[0] && !server->clients[id].use_state[1])
+            ? list_team_info(server, client, id): (0);
+        (!server->clients[id].use_state[0]) ?
+            list_clients_logged(server, client, id) : (0);
     } else {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     }
