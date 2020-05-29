@@ -7,6 +7,18 @@
 
 #include "server.h"
 
+void malloc_messages(server_t *server, char *sender, char *receiver)
+{
+    server->clients[uuid_index(server, sender)].conversation =
+        malloc(sizeof(messages_t));
+    server->clients[uuid_index(server, receiver)].conversation =
+        malloc(sizeof(messages_t));
+    server->clients[uuid_index(server, receiver)].conversation[0].client_id
+        = NULL;
+    server->clients[uuid_index(server, sender)].conversation[0].client_id
+        = NULL;
+}
+
 server_t *parse_messages(server_t *server, char *command)
 {
     char *receiver = strtok(command, "|");
@@ -14,19 +26,15 @@ server_t *parse_messages(server_t *server, char *command)
     char *message = strtok(NULL, "|");
 
     if (uuid_index(server, sender) != uuid_index(server, receiver) &&
-        server->clients[uuid_index(server, sender)].nb_conversation == 0) {
-        server->clients[uuid_index(server, sender)].conversation =
-            malloc(sizeof(messages_t));
-        server->clients[uuid_index(server, receiver)].conversation =
-            malloc(sizeof(messages_t));
-        server->clients[uuid_index(server, receiver)].conversation[0].client_id = NULL;
-        server->clients[uuid_index(server, sender)].conversation[0].client_id = NULL;
-    }
+        server->clients[uuid_index(server, sender)].nb_conversation == 0)
+        malloc_messages(server, sender, receiver);
     else if (uuid_index(server, sender) == uuid_index(server, receiver)) {
         server->clients[uuid_index(server, sender)].conversation =
             malloc(sizeof(messages_t));
-        server->clients[uuid_index(server, receiver)].conversation[0].client_id = NULL;
-        server->clients[uuid_index(server, sender)].conversation[0].client_id = NULL;
+        server->clients[uuid_index(server, receiver)].conversation[0].client_id
+            = NULL;
+        server->clients[uuid_index(server, sender)].conversation[0].client_id
+            = NULL;
     }
     fill_messages(server, uuid_index(server, sender), receiver, message);
     return (server);
@@ -59,21 +67,20 @@ server_t *parse_comments(server_t *server, char *command, bool first)
     char *channel = strtok(NULL, "|");
     char *thread = strtok(NULL, "|");
     char *message = strtok(NULL, "|");
-    int a = 0;
-    int b = 0;
-    int c = 0;
+    int a[3] = {0, 0, 0};
 
     for (int i = 0; i < server->nb_teams; i++)
         if (strcmp(server->teams[i].team_id, team) == 0)
-            a = i;
-    for (int i = 0; i < server->teams[a].nb_channel; i++)
-        if (strcmp(server->teams[a].channel[i].channel_id, channel) == 0)
-            b = i;
-    for (int i = 0; i < server->teams[a].channel[b].nb_thread; i++)
-        if (strcmp(server->teams[a].channel[b].thread[i].thread_id,
+            a[0] = i;
+    for (int i = 0; i < server->teams[a[0]].nb_channel; i++)
+        if (strcmp(server->teams[a[0]].channel[i].channel_id, channel) == 0)
+            a[1] = i;
+    for (int i = 0; i < server->teams[a[0]].channel[a[1]].nb_thread; i++)
+        if (strcmp(server->teams[a[0]].channel[a[1]].thread[i].thread_id,
             thread) == 0)
-            c = i;
-    find_good_comments(&server->teams[a].channel[b].thread[c], message, first);
+            a[2] = i;
+    find_good_comments(&server->teams[a[0]].channel[a[1]].thread[a[2]],
+        message, first);
     return (server);
 }
 
