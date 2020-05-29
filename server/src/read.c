@@ -15,15 +15,18 @@ server_t *read_teams(server_t *server, FILE *channel_teams, FILE *thread_teams,
             sizeof(channel_t));
         fread(server->teams[i].channel, sizeof(channel_t),
             server->teams[i].nb_channel, channel_teams);
-        strcpy(server->teams[i].channel[server->teams[i].nb_channel].channel_id, "NULL");
+        strcpy(server->teams[i].channel[server->teams[i].nb_channel].channel_id
+            , "NULL");
     }
     if (thread_teams != NULL) {
         for (int a = 0; a < server->teams[i].nb_channel; a++) {
             server->teams[i].channel[a].thread = malloc(
-                (server->teams[i].channel[a].nb_thread + 1) * sizeof(thread_t));
+                (server->teams[i].channel[a].nb_thread + 1) *
+                sizeof(thread_t));
             fread(server->teams[i].channel[a].thread, sizeof(thread_t),
                 server->teams[i].channel[a].nb_thread, thread_teams);
-            strcpy(server->teams[i].channel[a].thread[server->teams[i].channel[a].nb_thread].thread_id, "NULL");
+            strcpy(server->teams[i].channel[a].thread[server->teams[i].
+                channel[a].nb_thread].thread_id, "NULL");
         }
     }
     return (server);
@@ -36,8 +39,10 @@ server_t *read_members(server_t *server, FILE *members_teams, int i)
             sizeof(members_t));
         fread(server->teams[i].members, sizeof(members_t),
             server->teams[i].nb_members, members_teams);
-        strcpy(server->teams[i].members[server->teams[i].nb_members].name, "NULL");
-        strcpy(server->teams[i].members[server->teams[i].nb_members].id, "NULL");
+        strcpy(server->teams[i].members[server->teams[i].nb_members].name,
+            "NULL");
+        strcpy(server->teams[i].members[server->teams[i].nb_members].id,
+            "NULL");
     }
     return (server);
 }
@@ -56,19 +61,29 @@ server_t *init_read(server_t *server)
     return (server);
 }
 
-server_t *read_dimensionnal_array(server_t *server)
+server_t *read_messages(server_t *server)
 {
     char *line = NULL;
     size_t len = 0;
-    bool first = false;
     FILE *messages_write = fopen("messages","r");
-    FILE *comment_write = fopen("comments","r");
 
     if (messages_write != NULL) {
         while (getline(&line, &len, messages_write) != -1)
             parse_messages(server, line);
     }
     free(line);
+    if (messages_write != NULL)
+        fclose(messages_write);
+    return (server);
+}
+
+server_t *read_contents(server_t *server)
+{
+    char *line = NULL;
+    size_t len = 0;
+    bool first = false;
+    FILE *comment_write = fopen("comments","r");
+
     if (comment_write != NULL) {
         line = NULL;
         len = 0;
@@ -79,10 +94,31 @@ server_t *read_dimensionnal_array(server_t *server)
         }
     }
     free(line);
-    if (messages_write != NULL)
-        fclose(messages_write);
     if (comment_write != NULL)
         fclose(comment_write);
+    return (server);
+}
+
+server_t *read_opps(server_t *server, FILE *file_teams, FILE *channel_teams)
+{
+    FILE *thread_teams = fopen("thread_log", "rb");
+    FILE *members_teams = fopen("members_log", "rb");
+
+    if (file_teams != NULL && channel_teams != NULL && thread_teams != NULL
+        && members_teams != NULL) {
+        server->teams = malloc((server->nb_teams + 1) * sizeof(team_t));
+        fread(server->teams, sizeof(team_t), server->nb_teams,
+            file_teams);
+        strcpy(server->teams[server->nb_teams].team_id, "NULL");
+        for (int i = 0; i < server->nb_teams; i++) {
+            server = read_teams(server, channel_teams, thread_teams, i);
+            server = read_members(server, members_teams, i);
+        }
+    }
+    if (thread_teams != NULL && members_teams != NULL) {
+        fclose(thread_teams);
+        fclose(members_teams);
+    }
     return (server);
 }
 
@@ -90,30 +126,16 @@ server_t *read_struct(server_t *server)
 {
     FILE *file_teams = fopen("teams_log", "rb");
     FILE *channel_teams = fopen("channel_log", "rb");
-    FILE *thread_teams = fopen("thread_log", "rb");
-    FILE *members_teams = fopen("members_log", "rb");
 
     server = read_server(server);
     server = read_client(server);
     server = init_read(server);
-    if (file_teams != NULL) {
-        server->teams = malloc((server->nb_teams + 1) * sizeof(team_t));
-        fread(server->teams, sizeof(team_t), server->nb_teams,
-            file_teams);
-        strcpy(server->teams[server->nb_teams].team_id, "NULL");
-        if (channel_teams != NULL)
-            for (int i = 0; i < server->nb_teams; i++) {
-                server = read_teams(server, channel_teams, thread_teams, i);
-                server = read_members(server, members_teams, i);
-            }
-    }
-    if (file_teams != NULL && channel_teams != NULL && thread_teams != NULL
-        && members_teams != NULL) {
+    server = read_opps(server, file_teams, channel_teams);
+    if (file_teams != NULL && channel_teams != NULL) {
         fclose(file_teams);
         fclose(channel_teams);
-        fclose(thread_teams);
-        fclose(members_teams);
     }
-    server = read_dimensionnal_array(server);
+    server = read_messages(server);
+    server = read_contents(server);
     return (server);
 }
