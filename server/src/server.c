@@ -71,6 +71,47 @@ server_t *server_init(server_t *server, char **av)
     return (server);
 }
 
+void free_server(server_t *server, int i)
+{
+    for (int j = 0; j < 3; j++)
+        free(server->clients[i].use_state[j]);
+    free(server->clients[i].use_state);
+    for (int a = 0; a < server->clients[i].nb_conversation; a++) {
+        free(server->clients[i].conversation[a].client_id);
+        for (int j = 0; j < server->clients[i].conversation[a].nb_messages; j++)
+            free(server->clients[i].conversation[a].message[j]);
+        free(server->clients[i].conversation[a].message);
+    }
+    if (server->clients[i].nb_conversation > 0)
+        free(server->clients[i].conversation);
+}
+
+void free_thread(server_t *server, int i, int j)
+{
+    for (int k = 0; k < server->teams[i].channel[j].nb_thread; k++) {
+        for (int m = 0;
+            m < server->teams[i].channel[j].thread[k].nb_comments + 1; m++)
+            free(server->teams[i].channel[j].thread[k].comment[m]);
+        free(server->teams[i].channel[j].thread[k].comment);
+    }
+    free(server->teams[i].channel[j].thread);
+}
+
+void free_all(server_t *server)
+{
+    for (int i = 0; i < server->nb_clients; i++)
+        free_server(server, i);
+    for (int i = 0; i < server->nb_teams; i++) {
+        free(server->teams[i].members);
+        for (int j = 0; j < server->teams[i].nb_channel; j++)
+            free_thread(server, i, j);
+        free(server->teams[i].channel);
+    }
+    free(server->teams);
+    free(server->clients);
+    free(server);
+}
+
 void start_server(char **av)
 {
     server_t *server = malloc(sizeof(server_t));
@@ -90,33 +131,5 @@ void start_server(char **av)
     }
     fclose(server->messages_write);
     fclose(server->comment_write);
-    for (int i = 0; i < server->nb_clients; i++) {
-        for (int j = 0; j < 3; j++)
-            free(server->clients[i].use_state[j]);
-        free(server->clients[i].use_state);
-        for (int a = 0; a < server->clients[i].nb_conversation; a++) {
-            free(server->clients[i].conversation[a].client_id);
-            for (int j = 0; j < server->clients[i].conversation[a].nb_messages; j++)
-                free(server->clients[i].conversation[a].message[j]);
-            free(server->clients[i].conversation[a].message);
-        }
-        if (server->clients[i].nb_conversation > 0)
-            free(server->clients[i].conversation);
-    }
-    for (int i = 0; i < server->nb_teams; i++) {
-        free(server->teams[i].members);
-        for (int j = 0; j < server->teams[i].nb_channel; j++) {
-            for (int k = 0; k < server->teams[i].channel[j].nb_thread; k++) {
-                for (int m = 0;
-                    m < server->teams[i].channel[j].thread[k].nb_comments + 1; m++)
-                    free(server->teams[i].channel[j].thread[k].comment[m]);
-                free(server->teams[i].channel[j].thread[k].comment);
-            }
-            free(server->teams[i].channel[j].thread);
-        }
-        free(server->teams[i].channel);
-    }
-    free(server->teams);
-    free(server->clients);
-    free(server);
+    free_all(server);
 }
