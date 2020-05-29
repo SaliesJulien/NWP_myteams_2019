@@ -12,11 +12,12 @@ void send_notif(server_t *server, int id, char *uuid_str)
     int i = 0;
 
     for (; i < server->nb_clients; i++) {
-        if (!strcmp(server->clients[i].user_id, uuid_str))
-            break;
+        if (!strcmp(server->clients[i].user_id, uuid_str)
+            && server->clients[i].active == true)
+            dprintf(server->clients[i].fd_client,
+                "\"%s\" send you a message.\r\n",
+                server->clients[id].user_id);
     }
-    dprintf(server->clients[i].fd_client, "\"%s\" send you a message.\r\n",
-        server->clients[id].user_id);
 }
 
 void init_next_array(server_t *server, int id, int i)
@@ -86,8 +87,12 @@ void succes_messages(server_t *server, int id, char *uuid_str, char *message)
         message);
     server_event_private_message_sended(server->clients[id].user_id, uuid_str,
         message);
-    dprintf(server->clients[uuid_index(server, uuid_str)].fd_client,
-        "103|%s|%s|\r\n", server->clients[id].user_id, message);
+    
+    for (int i = 0; i < server->nb_clients; i++)
+        if (!strcmp(server->clients[i].user_id, uuid_str) &&
+            server->clients[i].active == true)
+            dprintf(server->clients[i].fd_client,
+                "103|%s|%s|\r\n", server->clients[id].user_id, message);
     delay(1);
     fill_messages(server, id, uuid_str, message);
     send_notif(server, id, uuid_str);
