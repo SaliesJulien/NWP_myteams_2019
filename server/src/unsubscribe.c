@@ -18,8 +18,10 @@ void leave_team(server_t *server, char *team_id, int id)
     dprintf(server->clients[id].fd_client,
         "209 You succesfully left this team\r\n");
     for (; strcmp(server->teams[i].members[k].name, "NULL"); k++) {
-        strcpy(server->teams[i].members[k].name, server->teams[i].members[k + 1].name);
-        strcpy(server->teams[i].members[k].id, server->teams[i].members[k + 1].id);
+        strcpy(server->teams[i].members[k].name,
+            server->teams[i].members[k + 1].name);
+        strcpy(server->teams[i].members[k].id,
+            server->teams[i].members[k + 1].id);
     }
     server->teams[i].nb_members--;
     delay(1);
@@ -51,18 +53,11 @@ bool user_is_in_team(server_t *server, char *team_id, int id)
     return (false);
 }
 
-void unsubscribe(server_t *server, int client, int id)
+void unsubscribe_user_logged_ok(server_t *server, int client, int id)
 {
     char *team_id = parse_args(server, 0);
 
-    if (!server->clients[id].logged) {
-        dprintf(client, "515 User not logged\r\n");
-        delay(1);
-        dprintf(client, "128|\r\n");
-    }
-    else if (!count_args(server, 1))
-        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
-    else if (!strcmp(team_id, "Bad cmd") || strlen(team_id) < 1)
+    if (!strcmp(team_id, "Bad cmd") || strlen(team_id) < 1)
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     else {
         if (!team_exist(server, team_id)) {
@@ -76,4 +71,17 @@ void unsubscribe(server_t *server, int client, int id)
             leave_team(server, team_id, id);
     }
     free(team_id);
+}
+
+void unsubscribe(server_t *server, int client, int id)
+{
+    if (!server->clients[id].logged) {
+        dprintf(client, "515 User not logged\r\n");
+        delay(1);
+        dprintf(client, "128|\r\n");
+    }
+    else if (!count_args(server, 1))
+        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
+    else
+        unsubscribe_user_logged_ok(server, client, id);
 }
