@@ -29,6 +29,7 @@ int send_notification_logout(server_t *server, int client, int id)
             dprintf(server->clients[i].fd_client, "102|%s|%s|\r\n",
                 server->clients[id].user_id, server->clients[id].user_name);
     }
+    delay(1);
     dprintf(client, "221 Service closing control connection\r\n");
     if (server->clients[id].logged == false) {
         while (id + 1 < server->nb_clients) {
