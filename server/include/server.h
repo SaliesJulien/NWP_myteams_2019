@@ -136,4 +136,10 @@ void subscribe(server_t *, int, int);
 void two_args(server_t *, int, int);
 void three_args(server_t *, int, bool, bool);
 
+//In use_one_id.c
+bool use_team(server_t *, int, int, char *);
+bool use_channel(server_t *, int, int, char *);
+bool use_thread(server_t *, int, int, char *);
+void use_in_thread(server_t *, int, int, char *);
+
 #endif /* !SERVER_H_ */
