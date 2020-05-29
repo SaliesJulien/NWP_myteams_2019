@@ -56,7 +56,7 @@ char *parse_args(server_t *server, int wich_args)
 {
     int *count = malloc(sizeof(int) * 2);
     char **cmd_array = malloc(sizeof(char *) * 2);
-    char *temp = malloc(sizeof(char) * strlen(server->command));
+    char *temp = NULL;
 
     cmd_array[0] = malloc(sizeof(char) * strlen(server->command));
     cmd_array[1] = malloc(sizeof(char) * strlen("Bad cmd") + 1);
