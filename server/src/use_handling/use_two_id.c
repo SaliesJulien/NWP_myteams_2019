@@ -21,6 +21,8 @@ void use_channel_with_two_args(server_t *server, int id, char *chan, char *threa
             server->clients[id].use_state[1] =
                 malloc(sizeof(char) * strlen(chan) + 1);
             strcpy(server->clients[id].use_state[1], chan);
+            dprintf(server->clients[id].fd_client, "211 You are now in the channel \"%s\"\n",
+                server->teams[i].channel[k].channel_name);
             channel_exist = true;
             break;
         }
@@ -35,6 +37,8 @@ void use_channel_with_two_args(server_t *server, int id, char *chan, char *threa
             server->clients[id].use_state[2] =
                 malloc(sizeof(char) * strlen(thread) + 1);
             strcpy(server->clients[id].use_state[2], thread);
+            dprintf(server->clients[id].fd_client, "212 You are now in the thread \"%s\"\n",
+                server->teams[i].channel[k].thread[j].thread_title);
             thread_exist = true;
             break;
         }
@@ -58,6 +62,8 @@ void use_team_with_two_args(server_t *server, int id, char *team, char *chan)
             server->clients[id].use_state[0] =
                 malloc(sizeof(char) * strlen(team) + 1);
             strcpy(server->clients[id].use_state[0], team);
+            dprintf(server->clients[id].fd_client, "210 You are now in the team \"%s\"\n",
+                server->teams[i].team_name);
             team_exist = true;
             break;
         }
@@ -73,6 +79,8 @@ void use_team_with_two_args(server_t *server, int id, char *team, char *chan)
             server->clients[id].use_state[1] =
                 malloc(sizeof(char) * strlen(chan) + 1);
             strcpy(server->clients[id].use_state[1], chan);
+            dprintf(server->clients[id].fd_client, "211 You are now in the channel \"%s\"\n",
+                server->teams[i].channel[k].channel_name);
             channel_exist = true;
             break;
         }

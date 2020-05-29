@@ -142,4 +142,9 @@ bool use_channel(server_t *, int, int, char *);
 bool use_thread(server_t *, int, int, char *);
 void use_in_thread(server_t *, int, int, char *);
 
+//In unknown_use_id.c
+void unknown_thread(clients_t *, char *);
+void unknown_channel(clients_t *, char *);
+void unknown_team(server_t *, char *, int);
+
 #endif /* !SERVER_H_ */
