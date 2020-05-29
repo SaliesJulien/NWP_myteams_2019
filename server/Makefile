@@ -24,8 +24,11 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)thread_handling.c 		\
 			$(SRCS)channel_handling.c 		\
 			$(SRCS)comment_handling.c 		\
-			$(SRCS)use_handling.c 			\
-			$(SRCS)use_back_handling.c 		\
+			$(SRCS)/use_handling/use_handling.c 			\
+			$(SRCS)/use_handling/use_without_id.c 			\
+			$(SRCS)/use_handling/use_one_id.c 				\
+			$(SRCS)/use_handling/use_two_id.c 				\
+			$(SRCS)/use_handling/use_three_id.c 			\
 			$(SRCS)list.c 					\
 			$(SRCS)info.c 					\
 			$(SRCS)unsubscribe.c 			\
