@@ -30,7 +30,9 @@ void print(int client, int id, server_t *server, int i)
     char *message = NULL;
     char *id_sender = NULL;
 
-    dprintf(client, "205 Conversation with \"username\"\r\n");
+    dprintf(client, "205 Conversation with \"%s\"\r\n",
+        server->clients[uuid_index(server,
+        server->clients[id].conversation[i].client_id)].user_name);
     delay(1);
     for (int k = 0; server->clients[id].conversation[i].message[k]; k++) {
         message = get_user_id(server->clients[id].conversation[i].message[k], 0);
