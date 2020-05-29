@@ -12,6 +12,7 @@ SRCCLIENT =	$(SRCS)main.c 					\
 			$(SRCS)arguments.c 				\
 			$(SRCS)catch_sigint.c 			\
 			$(SRCS)function_handling.c 		\
+			$(SRCS)handle_commands.c 		\
 			$(SRCS)code_101_105.c 			\
 			$(SRCS)code_106_110.c 			\
 			$(SRCS)code_111_115.c 			\

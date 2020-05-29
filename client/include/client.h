@@ -51,7 +51,20 @@ int client_side(char **);
 void control_c(int __attribute__((unused)));
 void terminal_killed(int __attribute__((unused)));
 void pointer_function(char *);
-char *get_args(char *command, int nb);
+char *get_args(char *, int);
+int count_arg_length(char *, int);
+int create_client_socket(void);
+void init_struct_sockaddr(struct sockaddr_in *, int, const char *);
+int count_arg_length(char *, int);
+void delay(int);
+char *catch_signals(int, char *, int);
+bool check_commands(int, int, char *, int);
+bool cmd_loop(int, int, char *, fd_set *);
+void init_fd(fd_set *, int, int);
+void print_fd(int, int, char *, int);
+int client_side(char **);
+void main_loop(int, struct sockaddr_in);
+
 
 // code functions
 

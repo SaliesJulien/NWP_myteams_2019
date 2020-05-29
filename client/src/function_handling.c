@@ -7,15 +7,6 @@
 
 #include "client.h"
 
-int count_arg_length(char *command, int i)
-{
-    int k = 0;
-
-    for (;command[i] && command[i] != '|'; i++)
-        k++;
-    return (k);
-}
-
 char *get_args(char *command, int nb)
 {
     int i = 0;
@@ -47,17 +38,15 @@ void others_commands(char *code, char *str)
     char *second_arg = get_args(str, 2);
     char *third_arg = get_args(str, 3);
 
-    if (strncmp("108", code, 3) == 0) {
+    if (strncmp("108", code, 3) == 0)
         code_108(first_arg, second_arg, atoi(third_arg));
-    } else if (strncmp("118", code, 3) == 0) {
+    if (strncmp("118", code, 3) == 0)
         code_118(first_arg, second_arg, atoi(third_arg));
-    } else if (strncmp("113", code, 3) == 0)
+    if (strncmp("113", code, 3) == 0)
         code_113(first_arg, NULL, time(NULL), third_arg, NULL);
-
     free(first_arg);
     free(second_arg);
     free(third_arg);
-
 }
 
 void free_content(char *third_arg, char *fourth_arg, char *fifth_arg)
