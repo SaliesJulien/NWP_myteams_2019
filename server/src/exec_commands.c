@@ -63,21 +63,11 @@ void remove_chars(char *str, char c)
     str[i] = 0;
 }
 
-void exec_commands(server_t *server, int client, int id)
+void wich_commands(server_t *server, int client, int id, cmds_t *ptr_command)
 {
-    char *cmd = NULL;
+    char *cmd = format_cmd(server->command);
     bool found = false;
-    cmds_t ptr_command[14] = {{"/logout", remove_client},
-        {"/help", help_client}, {"/messages", client_mess},
-        {"/login", login_user}, {"/users", users_list},
-        {"/send", send_messages}, {"/user", user}, {"/create", create},
-        {"/use", use}, {"/list", list}, {"/info", info},
-        {"/unsubscribe", unsubscribe}, {"/subscribed", subscribed},
-        {"/subscribe", subscribe}};
 
-    remove_chars(server->command, '\r');
-    remove_chars(server->command, '\n');
-    cmd = format_cmd(server->command);
     for (int i = 0; i < 14; i++) {
         if (strcmp(ptr_command[i].command, cmd) == 0) {
             ptr_command[i].ptr(server, client, id);
@@ -90,6 +80,21 @@ void exec_commands(server_t *server, int client, int id)
     } else
         command_not_found(server, client, id);
     free(cmd);
+}
+
+void exec_commands(server_t *server, int client, int id)
+{
+    cmds_t ptr_command[14] = {{"/logout", remove_client},
+        {"/help", help_client}, {"/messages", client_mess},
+        {"/login", login_user}, {"/users", users_list},
+        {"/send", send_messages}, {"/user", user}, {"/create", create},
+        {"/use", use}, {"/list", list}, {"/info", info},
+        {"/unsubscribe", unsubscribe}, {"/subscribed", subscribed},
+        {"/subscribe", subscribe}};
+
+    remove_chars(server->command, '\r');
+    remove_chars(server->command, '\n');
+    wich_commands(server, client, id, ptr_command);
 }
 
 void control_c(int __attribute__((unused)) contrl)
