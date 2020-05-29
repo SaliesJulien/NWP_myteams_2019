@@ -8,6 +8,36 @@
 #include "server.h"
 #include <time.h>
 
+void print_user_list(server_t *server, int i, bool check, int client)
+{
+    int logged = 0;
+
+    if (check == false) {
+        dprintf(client, "Username : %s    ID : %s\r\n",
+            server->clients[i].user_name,
+            server->clients[i].user_id);
+        logged = (server->clients[i].logged) ? 1 : 0;
+        delay(1);
+        dprintf(client, "108|%s|%s|%d|\r\n",
+        server->clients[i].user_id,
+        server->clients[i].user_name, logged);
+    }
+}
+
+bool check_user_list(server_t *server, int client, int i, bool check)
+{
+    for (int j = 0; j < server->nb_clients; j++) {
+        if (strcmp(server->clients[j].user_name, server->clients[i].user_name)
+            == 0 && j != i) {
+            print_user_list(server, i, check, client);
+            check = true;
+            break;
+        }
+        check = false;
+    }
+    return (check);
+}
+
 void get_list(server_t *server, int client)
 {
     int i = 0;
@@ -16,24 +46,7 @@ void get_list(server_t *server, int client)
 
     dprintf(client, "202 List of all users existing on the server\r\n");
     for (; i < server->nb_clients; i++) {
-        for (int j = 0; j < server->nb_clients; j++) {
-            if (strcmp(server->clients[j].user_name, server->clients[i].user_name) == 0 && j != i) {
-                if (check == false) {
-                    delay(1);
-                    dprintf(client, "Username : %s    ID : %s\r\n",
-                        server->clients[i].user_name,
-                        server->clients[i].user_id);
-                    logged = (server->clients[i].logged) ? 1 : 0;
-                    delay(1);
-                    dprintf(client, "108|%s|%s|%d|\r\n",
-                    server->clients[i].user_id,
-                    server->clients[i].user_name, logged);
-                }
-                check = true;
-                break;
-            }
-            check = false;
-        }
+        check = check_user_list(server, client, i, check);
         if (check == false) {
             delay(1);
             dprintf(client, "Username : %s    ID : %s\r\n",
