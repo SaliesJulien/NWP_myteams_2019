@@ -110,13 +110,11 @@ void succes_messages(server_t *server, int id, char *uuid_str, char *message)
     send_notif(server, id, uuid_str);
     dprintf(server->clients[id].fd_client, "204 sucessfully sent message\r\n");
     for (int y = 0; y < 2; y++) {
-        if (doubles_nbs(server, id) > 0) {
-            for (int i = 0; i < server->nb_clients; i++) {
+        if (doubles_nbs(server, id) > 0)
+            for (int i = 0; i < server->nb_clients; i++)
                 if (!strcmp(server->clients[i].user_id, server->clients[id].user_id)
                     && server->clients[i].active == true)
                     server->clients[i].conversation = server->clients[id].conversation;
-            }
-        }
         id = uuid_index(server, uuid_str);
     }
 }

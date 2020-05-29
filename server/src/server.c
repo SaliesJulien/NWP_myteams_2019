@@ -100,7 +100,7 @@ void start_server(char **av)
                 free(server->clients[i].conversation[a].message[j]);
             free(server->clients[i].conversation[a].message);
         }
-        if (server->clients[i].conversation != NULL)
+        if (server->clients[i].nb_conversation > 0)
             free(server->clients[i].conversation);
     }
     for (int i = 0; i < server->nb_teams; i++) {
