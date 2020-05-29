@@ -101,6 +101,7 @@ server_t *read_server(server_t *);
 server_t *read_client(server_t *);
 server_t *read_dimensionnal_array(server_t *);
 void delay(int);
+bool user_subscribed(server_t *, int, int, char *);
 
 //In user_messages.c
 char *get_command_id(server_t *);
@@ -141,5 +142,10 @@ bool use_team(server_t *, int, int, char *);
 bool use_channel(server_t *, int, int, char *);
 bool use_thread(server_t *, int, int, char *);
 void use_in_thread(server_t *, int, int, char *);
+
+//In unknown_use_id.c
+void unknown_thread(clients_t *, char *);
+void unknown_channel(clients_t *, char *);
+void unknown_team(server_t *, char *, int);
 
 #endif /* !SERVER_H_ */

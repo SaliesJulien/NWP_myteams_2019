@@ -91,6 +91,8 @@ void create_new_comment(server_t *server, int id, char *name)
     int j = thread_nb(server, id, i, k);
     int count = comment_nb(server, i, k, j);
 
+    if (!user_subscribed(server, i, id, "comment"))
+        return;
     server->teams[i].channel[k].thread[j].comment =
         realloc(server->teams[i].channel[k].thread[j].comment,
         sizeof(char *) * (count + 2));
