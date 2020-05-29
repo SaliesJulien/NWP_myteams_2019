@@ -22,7 +22,13 @@ char *get_user_id(char *message, int arg)
     for (; message[i]; i++)
         id[k++] = message[i];
     id[k] = 0;
-    return (arg == 0 ? content : id);
+    if (arg == 0) {
+        free(id);
+        return (content);
+    } else {
+        free(content);
+        return (id);
+    }
 }
 
 void print(int client, int id, server_t *server, int i)
