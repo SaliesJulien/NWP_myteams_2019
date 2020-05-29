@@ -34,7 +34,9 @@ bool user_subscribed(server_t *server, int i, int id)
 
 bool channel_exist(server_t *server, int i, char *name, int id)
 {
-    for (int k = 0; (strcmp(server->teams[i].channel[k].channel_id, "NULL") != 0);
+    int k = 0;
+
+    for (; (strcmp(server->teams[i].channel[k].channel_id, "NULL") != 0);
         k++)
         if ((strcmp(server->teams[i].channel[k].channel_name, name) == 0)) {
             dprintf(server->clients[id].fd_client,
@@ -46,26 +48,8 @@ bool channel_exist(server_t *server, int i, char *name, int id)
     return (true);
 }
 
-void create_new_channel(server_t *server, int id, char *name, char *desc)
+void init_new_channel(server_t *server, int i, int id, int k)
 {
-    int i = 0;
-    int k = 0;
-    int count = 0;
-    char *id_generate = generate_id();
-
-    for (i = 0; strcmp(server->teams[i].team_id,
-        server->clients[id].use_state[0]); i++);
-    if (!channel_exist(server, i, name, id) || !user_subscribed(server, i, id))
-        return;
-    for (; strcmp(server->teams[i].channel[k].channel_id, "NULL"); k++);
-    server->teams[i].channel = realloc(server->teams[i].channel,
-        sizeof(channel_t) * (k + 2));
-    memset(&server->teams[i].channel[k], 0, sizeof(channel_t));
-    server->teams[i].channel[k].thread = malloc(sizeof(thread_t));
-    strcpy(server->teams[i].channel[k].channel_name, name);
-    strcpy(server->teams[i].channel[k].channel_id, id_generate);
-    free(id_generate);
-    strcpy(server->teams[i].channel[k].channel_desc, desc);
     init_first_thread(server, i, k);
     init_next_channel(server, i, k + 1);
     dprintf(server->clients[id].fd_client,
@@ -73,6 +57,12 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
         server->teams[i].channel[k].channel_id,
         server->teams[i].channel[k].channel_name,
         server->teams[i].channel[k].channel_desc);
+}
+
+void send_notif_channel(server_t *server, int i, int id, int k)
+{
+    int count = 0;
+
     delay(1);
     for (int a = 0; strcmp(server->teams[i].members[a].name, "NULL") != 0; a++) {
         for (count = 0; strcmp(server->clients[count].user_name,
@@ -90,4 +80,27 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
     server_event_channel_created(server->teams[i].team_id,
         server->teams[i].channel[k].channel_id,
         server->teams[i].channel[k].channel_name);
+}
+
+void create_new_channel(server_t *server, int id, char *name, char *desc)
+{
+    int i = 0;
+    int k = 0;
+    char *id_generate = generate_id();
+
+    for (i = 0; strcmp(server->teams[i].team_id,
+        server->clients[id].use_state[0]); i++);
+    if (!channel_exist(server, i, name, id) || !user_subscribed(server, i, id))
+        return;
+    for (; strcmp(server->teams[i].channel[k].channel_id, "NULL"); k++);
+    server->teams[i].channel = realloc(server->teams[i].channel,
+        sizeof(channel_t) * (k + 2));
+    memset(&server->teams[i].channel[k], 0, sizeof(channel_t));
+    server->teams[i].channel[k].thread = malloc(sizeof(thread_t));
+    strcpy(server->teams[i].channel[k].channel_name, name);
+    strcpy(server->teams[i].channel[k].channel_id, id_generate);
+    free(id_generate);
+    strcpy(server->teams[i].channel[k].channel_desc, desc);
+    init_new_channel(server, i, id, k);
+    send_notif_channel(server, i, id, k);
 }
