@@ -35,8 +35,10 @@ void print(int client, int id, server_t *server, int i)
         server->clients[id].conversation[i].client_id)].user_name);
     delay(1);
     for (int k = 0; server->clients[id].conversation[i].message[k]; k++) {
-        message = get_user_id(server->clients[id].conversation[i].message[k], 0);
-        id_sender = get_user_id(server->clients[id].conversation[i].message[k], 1);
+        message = get_user_id(server->clients[id].conversation[i].message[k],
+            0);
+        id_sender = get_user_id(server->clients[id].conversation[i].message[k],
+            1);
         dprintf(client, "%s\r\n", message);
         delay(1);
         dprintf(client, "113|%s|10:20|%s|\r\n", id_sender,
@@ -48,7 +50,8 @@ void print(int client, int id, server_t *server, int i)
 
 void print_messages(server_t *server, int id, char *cmd_id, int client)
 {
-    for (int i = 0; server->clients[id].conversation[i].client_id != NULL; i++) {
+    for (int i = 0; server->clients[id].conversation[i].client_id != NULL;
+        i++) {
         if (!strcmp(server->clients[id].conversation[i].client_id, cmd_id)) {
             print(client, id, server, i);
             return;
@@ -57,9 +60,24 @@ void print_messages(server_t *server, int id, char *cmd_id, int client)
     dprintf(client, "517 You don't have conversation with this user\r\n");
 }
 
-void client_mess(server_t *server, int client, int id)
+void client_good_message(server_t *server, int client, int id, char *cmd_id)
 {
     bool id_exist = false;
+
+    for (int i = 0; i < server->nb_clients; i++)
+        if (strcmp(cmd_id, server->clients[i].user_id) == 0)
+            id_exist = true;
+    if (!id_exist) {
+        dprintf(client, "303 User doesn't exist\r\n");
+        dprintf(client, "117|%s|\r\n", cmd_id);
+    }
+    else
+        print_messages(server, id, cmd_id, client);
+
+}
+
+void client_mess(server_t *server, int client, int id)
+{
     char *cmd_id = parse_args(server, 0);
 
     if (!server->clients[id].logged) {
@@ -72,16 +90,7 @@ void client_mess(server_t *server, int client, int id)
         free(cmd_id);
         return;
     }
-    else {
-        for (int i = 0; i < server->nb_clients; i++)
-            if (strcmp(cmd_id, server->clients[i].user_id) == 0)
-                id_exist = true;
-        if (!id_exist) {
-            dprintf(client, "303 User doesn't exist\r\n");
-            dprintf(client, "117|%s|\r\n", cmd_id);
-        }
-        else
-            print_messages(server, id, cmd_id, client);
-    }
+    else
+        client_good_message(server, client, id, cmd_id);
     free(cmd_id);
 }
