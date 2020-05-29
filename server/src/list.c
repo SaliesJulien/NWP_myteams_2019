@@ -35,7 +35,8 @@ void list_channel(server_t *server, int client, int id)
         server->clients[id].use_state[0]) != 0; i++);
     dprintf(client, "232 List of channels that exist on this team\r\n");
     delay(1);
-    for (k = 0; strcmp(server->teams[i].channel[k].channel_id, "NULL") != 0; k++) {
+    for (k = 0; strcmp(server->teams[i].channel[k].channel_id, "NULL") != 0;
+        k++) {
         dprintf(client, "Channel name -> \"%s\"    Channel ID -> \"%s\"\r\n",
             server->teams[i].channel[k].channel_name,
             server->teams[i].channel[k].channel_id);
@@ -46,6 +47,26 @@ void list_channel(server_t *server, int client, int id)
             server->teams[i].channel[k].channel_desc);
     }
     (k == 0) ? dprintf(client, "There is no channel in this team.\r\n") : (0);
+}
+
+void display_list_thread(server_t *server, int client, int id, int j)
+{
+    int i = 0;
+    int k = 0;
+
+    for (i = 0; strcmp(server->teams[i].team_id,
+        server->clients[id].use_state[0]) != 0; i++);
+    for (k = 0; strcmp(server->teams[i].channel[k].channel_id,
+        server->clients[id].use_state[1]) != 0; k++);
+    dprintf(client, "Thread title -> \"%s\"    Thread ID -> \"%s\"\r\n",
+        server->teams[i].channel[k].thread[j].thread_title,
+        server->teams[i].channel[k].thread[j].thread_id);
+    delay(1);
+    dprintf(client, "111|%s|%s|10:20|%s|%s|\r\n",
+        server->teams[i].channel[k].thread[j].thread_id,
+        server->clients[id].user_id,
+        server->teams[i].channel[k].thread[j].thread_title,
+        server->teams[i].channel[k].thread[j].thread_content);
 }
 
 void list_thread(server_t *server, int client, int id)
@@ -60,20 +81,34 @@ void list_thread(server_t *server, int client, int id)
         server->clients[id].use_state[1]) != 0; k++);
     dprintf(client, "233 List of threads that exist on this channel\r\n");
     delay(1);
-    for (; strcmp(server->teams[i].channel[k].thread[j].thread_id, "NULL") != 0;
-        j++) {
-        dprintf(client, "Thread title -> \"%s\"    Thread ID -> \"%s\"\r\n",
-            server->teams[i].channel[k].thread[j].thread_title,
-            server->teams[i].channel[k].thread[j].thread_id);
-        delay(1);
-        dprintf(client, "111|%s|%s|10:20|%s|%s|\r\n",
-            server->teams[i].channel[k].thread[j].thread_id,
-            server->clients[id].user_id,
-            server->teams[i].channel[k].thread[j].thread_title,
-            server->teams[i].channel[k].thread[j].thread_content);
-        }
-    (j == 0) ? dprintf(client, "There is no thread in this channel.\r\n") : (0);
+    for (; strcmp(server->teams[i].channel[k].thread[j].thread_id, "NULL") !=
+        0; j++)
+        display_list_thread(server, client, id, j);
+    (j == 0) ? dprintf(client, "There is no thread in this channel.\r\n") :
+        (0);
 }
+
+void display_list_replies(server_t *server, int client, int id, int c)
+{
+    int i = 0;
+    int k = 0;
+    int j = 0;
+
+    for (i = 0; strcmp(server->teams[i].team_id,
+        server->clients[id].use_state[0]) != 0; i++);
+    for (k = 0; strcmp(server->teams[i].channel[k].channel_id,
+        server->clients[id].use_state[1]) != 0; k++);
+    for (; strcmp(server->teams[i].channel[k].thread[j].thread_id,
+        server->clients[id].use_state[2]) != 0; j++);
+    dprintf(client, "Reply -> \"%s\"\r\n",
+        server->teams[i].channel[k].thread[j].comment[c]);
+    delay(1);
+    dprintf(client, "112|%s|%s|10:20|%s\r\n",
+        server->teams[i].channel[k].thread[j].thread_id,
+        server->clients[id].user_id,
+        server->teams[i].channel[k].thread[j].comment[c]);
+}
+
 
 void list_replies(server_t *server, int client, int id)
 {
@@ -90,17 +125,11 @@ void list_replies(server_t *server, int client, int id)
         server->clients[id].use_state[2]) != 0; j++);
     dprintf(client, "234 List of comment that are posted on this thread\r\n");
     delay(1);
-    for (; strcmp(server->teams[i].channel[k].thread[j].comment[c], "NULL") != 0
-        ; c++) {
-        dprintf(client, "Reply -> \"%s\"\r\n",
-            server->teams[i].channel[k].thread[j].comment[c]);
-        delay(1);
-        dprintf(client, "112|%s|%s|10:20|%s\r\n",
-            server->teams[i].channel[k].thread[j].thread_id,
-            server->clients[id].user_id,
-            server->teams[i].channel[k].thread[j].comment[c]);
-        }
-    (c == 0) ? dprintf(client, "There is no comment in this thread.\r\n") : (0);
+    for (; strcmp(server->teams[i].channel[k].thread[j].comment[c], "NULL") !=
+        0; c++)
+        display_list_replies(server, client, id, c);
+    (c == 0) ? dprintf(client, "There is no comment in this thread.\r\n") :
+        (0);
 }
 
 void list(server_t *server, int client, int id)
@@ -113,16 +142,14 @@ void list(server_t *server, int client, int id)
         }
         else if (!count_args(server, 0))
             dprintf(client, "501 Error syntax in parameters or arguments\r\n");
-        else if (server->clients[id].use_state[2])
-            list_replies(server, client, id);
-        else if (server->clients[id].use_state[1] &&
-            !server->clients[id].use_state[2])
-            list_thread(server, client, id);
-        else if (server->clients[id].use_state[0] &&
-            !server->clients[id].use_state[1])
-            list_channel(server, client, id);
-        else if (!server->clients[id].use_state[0])
-            list_teams(server, client);
+        (server->clients[id].use_state[2]) ?
+            list_replies(server, client, id) : (0);
+        (server->clients[id].use_state[1] && !server->clients[id].use_state[2])
+            ? list_thread(server, client, id): (0);
+        (server->clients[id].use_state[0] && !server->clients[id].use_state[1])
+            ? list_channel(server, client, id): (0);
+        (!server->clients[id].use_state[0]) ?
+            list_teams(server, client) : (0);
     } else {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     }
