@@ -9,24 +9,29 @@
 
 void one_args_bis(server_t *server, int client, int id, char *team)
 {
+    char *user_id_null = "00000000-0000-0000-0000-000000000000";
+
     if (server->clients[id].use_state[0] != NULL &&
         server->clients[id].use_state[1] == NULL) {
         if (!use_channel(server, client, id, team)) {
             dprintf(client, "305 Channel doesn't exist\r\n");
             delay(1);
-            dprintf(client, "115|%s|\r\n", team);
+            dprintf(client, "115|%s|\r\n",
+                (!strcmp(team, "Bad cmd")) ? user_id_null : team);
         }
     } else if (server->clients[id].use_state[0] == NULL)
         if (!use_team(server, client, id, team)) {
             dprintf(client, "304 Team doesn't exist\r\n");
             delay(1);
-            dprintf(client, "114|%s|\r\n", team);
+            dprintf(client, "114|%s|\r\n",
+                (!strcmp(team, "Bad cmd")) ? user_id_null : team);
         }
 }
 
 void one_args(server_t *server, int client, int id)
 {
     char *team = parse_args(server, 0);
+    char *user_id_null = "00000000-0000-0000-0000-000000000000";
 
     if (server->clients[id].use_state[2] != NULL)
         use_in_thread(server, client, id, team);
@@ -35,7 +40,8 @@ void one_args(server_t *server, int client, int id)
         if (!use_thread(server, client, id, team)) {
             dprintf(client, "306 Thread doesn't exist\r\n");
             delay(1);
-            dprintf(client, "116|%s|\r\n", team);
+            dprintf(client, "116|%s|\r\n",
+                (!strcmp(team, "Bad cmd")) ? user_id_null : team);
         }
     } else
         one_args_bis(server, client, id, team);

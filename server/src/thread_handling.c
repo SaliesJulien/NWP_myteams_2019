@@ -58,7 +58,8 @@ void create_new_thread(server_t *server, int id, char *name, char *desc)
         server->clients[id].use_state[0]); i++);
     for (k = 0; strcmp(server->teams[i].channel[k].channel_id,
         server->clients[id].use_state[1]); k++);
-    if (!thread_already_exist(server->teams[i].channel[k], name, server, id))
+    if (!thread_already_exist(server->teams[i].channel[k], name, server, id) ||
+        !user_subscribed(server, i, id, "thread"))
         return;
     for (j = 0; strcmp(server->teams[i].channel[k].thread[j].thread_id,
         "NULL"); j++);

@@ -21,14 +21,16 @@ void init_first_thread(server_t *server, int i, int k)
     strcpy(server->teams[i].channel[k].thread[0].thread_id, "NULL");
 }
 
-bool user_subscribed(server_t *server, int i, int id)
+bool user_subscribed(server_t *server, int i, int id, char *state)
 {
     for (int k = 0; strcmp(server->teams[i].members[k].name, "NULL"); k++)
         if (!strcmp(server->teams[i].members[k].name,
             server->clients[id].user_name))
             return (true);
     dprintf(server->clients[id].fd_client,
-        "533 You can't create a channel if you aren't in the team\r\n");
+        "533 You can't create a %s if you aren't in the team\r\n", state);
+    delay(1);
+    dprintf(server->clients[id].fd_client, "128|\r\n");
     return (false);
 }
 
@@ -55,7 +57,8 @@ void create_new_channel(server_t *server, int id, char *name, char *desc)
 
     for (i = 0; strcmp(server->teams[i].team_id,
         server->clients[id].use_state[0]); i++);
-    if (!channel_exist(server, i, name, id) || !user_subscribed(server, i, id))
+    if (!channel_exist(server, i, name, id) ||
+        !user_subscribed(server, i, id, "channel"))
         return;
     for (; strcmp(server->teams[i].channel[k].channel_id, "NULL"); k++);
     server->teams[i].channel = realloc(server->teams[i].channel,
