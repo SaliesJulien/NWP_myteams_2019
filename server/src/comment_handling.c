@@ -77,13 +77,6 @@ void create_new_comment(server_t *server, int id, char *name)
         server->clients[id].user_id,
         server->teams[i].channel[k].thread[j].thread_content);
     server->teams[i].channel[k].thread[j].nb_comments++;
-    for (int a = 0; a < server->nb_clients; a++)
-        dprintf(server->clients[a].fd_client,
-            "104|%s|%s|%s|%s|\r\n", server->teams[i].team_id,
-            server->teams[i].channel[k].thread[j].thread_id,
-            server->clients[id].user_id,
-            server->teams[i].channel[k].thread[j].thread_content);
-    /*
     for (int a = 0; strcmp(server->teams[i].members[a].name, "NULL") != 0; a++) {
         for (count = 0; strcmp(server->clients[count].user_name,
             server->teams[i].members[a].name) != 0; count++);
@@ -93,7 +86,6 @@ void create_new_comment(server_t *server, int id, char *name)
             server->clients[id].user_id,
             server->teams[i].channel[k].thread[j].thread_content);
     }
-    */
 }
 
 void comment_error(server_t *server, char *team_name, int id)
