@@ -79,13 +79,9 @@ char *parse_args(server_t *server, int wich_args)
 
 int count_quotes(server_t *server, int i, int count, bool name)
 {
-    if (server->command[i] == ' ') {
-        if (!name)
-            count++;
-        for (;server->command[i] && server->command[i] == ' '; i++);
-    }
-    if (server->command[i] == '"')
-        name = !name;
+    if (!name)
+        count++;
+    for (;server->command[i] && server->command[i] == ' '; i++);
     return (count);
 }
 
@@ -96,8 +92,14 @@ bool count_args(server_t *server, int args_nb)
     int count = 0;
 
     for (; server->command[i]; i++) {
-        count = count_quotes(server, i, count, name);
+        if (server->command[i] == ' ') {
+            count = count_quotes(server, i, count, name);
+        }
+        if (server->command[i] == '"')
+            name = !name;
     }
+    for (i = i - 1; server->command[i] == ' '; i--)
+        count--;
     return ((count == args_nb) ? true : false);
 }
 
