@@ -31,9 +31,12 @@ bool check_exist(server_t *server, char *arg, int id, int i)
             send_notification_login(server, i);
             return (true);
         } else {
-            dprintf(server->clients[id].fd_client, "330 Client already connected\r\n");
+            strcpy(server->clients[id].user_name, arg);
+            strcpy(server->clients[id].user_id, server->clients[i].user_id);
+            dprintf(server->clients[id].fd_client, "230 Succesfull login\r\n");
             delay(1);
-            dprintf(server->clients[id].fd_client, "129|\r\n");
+            server->clients[id].logged = true;
+            send_notification_login(server, id);
             return (true);
         }
     }
