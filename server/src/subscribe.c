@@ -52,18 +52,9 @@ bool user_in_team(server_t *server, char *team_id, int id)
     return (false);
 }
 
-void subscribe(server_t *server, int client, int id)
+void subscribe_next_step(server_t *server, int client, int id, char *team_id)
 {
-    char *team_id = parse_args(server, 0);
-
-    if (!server->clients[id].logged) {
-        dprintf(client, "515 User not logged\r\n");
-        delay(1);
-        dprintf(client, "128|\r\n");
-    }
-    else if (!count_args(server, 1)) {
-        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
-    } else if (!strcmp(team_id, "Bad cmd")) {
+    if (!strcmp(team_id, "Bad cmd")) {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
     } else {
         if (!does_team_exist(server, team_id)) {
@@ -79,5 +70,20 @@ void subscribe(server_t *server, int client, int id)
             sub_team(server, client, team_id, id);
         }
     }
+}
+
+void subscribe(server_t *server, int client, int id)
+{
+    char *team_id = parse_args(server, 0);
+
+    if (!server->clients[id].logged) {
+        dprintf(client, "515 User not logged\r\n");
+        delay(1);
+        dprintf(client, "128|\r\n");
+    }
+    else if (!count_args(server, 1)) {
+        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
+    } else
+        subscribe_next_step(server, client, id, team_id);
     free(team_id);
 }
