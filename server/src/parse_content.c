@@ -13,16 +13,21 @@ server_t *parse_messages(server_t *server, char *command)
     char *sender = strtok(NULL, "|");
     char *message = strtok(NULL, "|");
 
-    if (uuid_index(server, sender) != uuid_index(server, receiver)) {
+    if (uuid_index(server, sender) != uuid_index(server, receiver) &&
+        server->clients[uuid_index(server, sender)].nb_conversation == 0) {
         server->clients[uuid_index(server, sender)].conversation =
             malloc(sizeof(messages_t));
         server->clients[uuid_index(server, receiver)].conversation =
             malloc(sizeof(messages_t));
-    } else
+        server->clients[uuid_index(server, receiver)].conversation[0].client_id = NULL;
+        server->clients[uuid_index(server, sender)].conversation[0].client_id = NULL;
+    }
+    else if (uuid_index(server, sender) == uuid_index(server, receiver)) {
         server->clients[uuid_index(server, sender)].conversation =
             malloc(sizeof(messages_t));
-    server->clients[uuid_index(server, receiver)].conversation[0].client_id = NULL;
-    server->clients[uuid_index(server, sender)].conversation[0].client_id = NULL;
+        server->clients[uuid_index(server, receiver)].conversation[0].client_id = NULL;
+        server->clients[uuid_index(server, sender)].conversation[0].client_id = NULL;
+    }
     fill_messages(server, uuid_index(server, sender), receiver, message);
     return (server);
 }
@@ -99,6 +104,7 @@ server_t *read_client(server_t *server)
                 malloc(sizeof(messages_t));
             server->clients[i].conversation[0].client_id = NULL;
             server->clients[i].conversation[0].message = NULL;
+            server->clients[i].conversation[0].nb_messages = 0;
         }
         server->clients[i].nb_conversation = 0;
     }
