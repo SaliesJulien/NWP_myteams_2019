@@ -17,10 +17,10 @@ void help_client(server_t *server, int client, int id)
             /users : get the list of all users that exist on the domain\n\
             /user [“user_uuid”] : get information about a user\n\
             /send [“user_uuid”] [“message_body”] : send a message to a user\n\
-            /messages [“user_uuid”] : list all messages exchange with an user\n\
-            /subscribe [“team_uuid”] : subscribe to the event of a team and its\n\
+            /messages [“user_uuid”]: list all messages exchange with an user\n\
+            /subscribe[“team_uuid”]:subscribe to the event of a team and its\n\
             sub directories\n\
-            /subscribed ?[“team_uuid”] : list all subscribed teams or list all\n\
+            /subscribed ?[“team_uuid”]:list all subscribed teams or list all\n\
             users subscribed to a team\n\
             /unsubscribe [“team_uuid”] : unsubscribe from a team\n\
             /use ?[“team_uuid”] ?[“channel_uuid”] ?[“thread_uuid”] : use\n\
