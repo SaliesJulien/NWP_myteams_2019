@@ -16,14 +16,19 @@ void send_notification_login(server_t *server, int id)
     server_event_user_logged_in(server->clients[id].user_id);
 }
 
+void desactivate_client(server_t *server, int i, int id)
+{
+    server->clients[i].active = true;
+    server->clients[i].logged = true;
+    server->clients[i].fd_client = server->clients[id].fd_client;
+}
+
 bool check_exist(server_t *server, char *arg, int id, int i)
 {
     if ((strcmp(server->clients[i].user_name,
         arg) == 0) && (i != id)) {
         if (server->clients[i].active == false) {
-            server->clients[i].active = true;
-            server->clients[i].logged = true;
-            server->clients[i].fd_client = server->clients[id].fd_client;
+            desactivate_client(server, i, id);
             server->clients[id].fd_client = -1;
             server->clients[id].active = false;
             server->nb_clients--;
