@@ -64,7 +64,8 @@ void send_notif_channel(server_t *server, int i, int id, int k)
     int count = 0;
 
     delay(1);
-    for (int a = 0; strcmp(server->teams[i].members[a].name, "NULL") != 0; a++) {
+    for (int a = 0; strcmp(server->teams[i].members[a].name, "NULL") != 0;
+        a++) {
         for (count = 0; strcmp(server->clients[count].user_name,
             server->teams[i].members[a].name) != 0; count++);
         dprintf(server->clients[count].fd_client, "106|%s|%s|%s|\r\n",
