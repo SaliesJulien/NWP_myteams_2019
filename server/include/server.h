@@ -148,4 +148,11 @@ void unknown_thread(clients_t *, char *);
 void unknown_channel(clients_t *, char *);
 void unknown_team(server_t *, char *, int);
 
+//In conversation_exist.c
+void conversation_exist(server_t *, int, char *, int);
+bool if_conversation_exist(server_t *, int, char *, char *);
+void conversation_not_exist(server_t *, int, char *, char *);
+void fill_messages(server_t *, int, char *, char *);
+void step_succes_messages(server_t *, int);
+
 #endif /* !SERVER_H_ */

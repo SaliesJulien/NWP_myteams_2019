@@ -14,7 +14,8 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)exec_commands.c 			\
 			$(SRCS)new_client.c 			\
 			$(SRCS)generate_id.c 			\
-			$(SRCS)send.c 					\
+			$(SRCS)/send/send.c 					\
+			$(SRCS)/send/conversation_exist.c 		\
 			$(SRCS)login.c					\
 			$(SRCS)users.c					\
 			$(SRCS)tools.c					\
