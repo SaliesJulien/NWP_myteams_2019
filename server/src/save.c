@@ -7,33 +7,6 @@
 
 #include "server.h"
 
-void save_server(server_t *server)
-{
-    FILE *file_server = fopen("server_log", "wb");
-
-    for (int j = 0; j < server->nb_clients; j++) {
-        if (server->clients[j].active == true) {
-            dprintf(server->clients[j].fd_client,
-                "221 Service closing control connection\r\n");
-            server->clients[j].active = false;
-        }
-    }
-    if (file_server != NULL)
-        fwrite(server, sizeof(server_t), 1, file_server);
-    fclose(file_server);
-}
-
-void save_client(server_t *server)
-{
-    FILE *file_client = fopen("client_log", "wb");
-
-    if (file_client != NULL) {
-        fwrite(server->clients, sizeof(clients_t),
-            server->nb_clients, file_client);
-        fclose(file_client);
-    }
-}
-
 void save_thread(server_t *server, FILE *thread_teams, int i)
 {
     for (int a = 0; a < server->teams[i].nb_channel; a++) {

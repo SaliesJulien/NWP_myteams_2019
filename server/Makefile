@@ -45,6 +45,7 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)read.c 					\
 			$(SRCS)parse_content.c 			\
 			$(SRCS)args_gesture.c 			\
+			$(SRCS)init_server.c 			\
 
 
 CC = gcc

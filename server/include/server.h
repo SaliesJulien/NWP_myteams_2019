@@ -121,6 +121,12 @@ char *parse_args(server_t *, int);
 char *find_arg(server_t *, int, char **, int *);
 void display_list_thread(server_t *, int, int, int);
 void display_list_replies(server_t *, int, int, int);
+void init_sets(server_t *);
+void init_teams(server_t *);
+server_t *server_init(server_t *, char **);
+void save_server(server_t *);
+void save_client(server_t *);
+void start_connection(server_t *);
 
 //In user_messages.c
 char *get_command_id(server_t *);
