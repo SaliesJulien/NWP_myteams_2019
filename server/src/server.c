@@ -36,7 +36,8 @@ void free_server(server_t *server, int i)
     free(server->clients[i].use_state);
     for (int a = 0; a < server->clients[i].nb_conversation; a++) {
         free(server->clients[i].conversation[a].client_id);
-        for (int j = 0; j < server->clients[i].conversation[a].nb_messages; j++)
+        for (int j = 0; j < server->clients[i].conversation[a].nb_messages;
+            j++)
             free(server->clients[i].conversation[a].message[j]);
         free(server->clients[i].conversation[a].message);
     }
