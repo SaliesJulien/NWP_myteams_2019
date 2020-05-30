@@ -24,6 +24,7 @@ void sub_team(server_t *server, int client, char *team_id, int id)
     strcpy(server->teams[k].members[i + 1].id, "NULL");
     server->teams[i].nb_members++;
     dprintf(client, "206 You succesfully subscribed to the team\r\n");
+    delay(1);
     dprintf(client, "126|%s|%s|\r\n", server->clients[id].user_id,
         server->teams[k].team_id);
     server_event_user_join_a_team(server->teams[k].team_id,
