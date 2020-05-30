@@ -127,6 +127,8 @@ server_t *server_init(server_t *, char **);
 void save_server(server_t *);
 void save_client(server_t *);
 void start_connection(server_t *);
+void malloc_messages(server_t *, char *, char *);
+server_t *parse_messages(server_t *, char *);
 
 //In user_messages.c
 char *get_command_id(server_t *);
