@@ -37,13 +37,14 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)/use/unknown_use_id.c 					\
 			$(SRCS)/list/list.c 							\
 			$(SRCS)/list/display_list.c 					\
-			$(SRCS)info.c 					\
-			$(SRCS)unsubscribe.c 			\
-			$(SRCS)subscribe.c 				\
-			$(SRCS)subscribed.c 			\
-			$(SRCS)save.c 					\
-			$(SRCS)read.c 					\
-			$(SRCS)parse_content.c 			\
+			$(SRCS)info.c 									\
+			$(SRCS)unsubscribe.c 							\
+			$(SRCS)subscribe.c 								\
+			$(SRCS)subscribed.c 							\
+			$(SRCS)save.c 									\
+			$(SRCS)read.c 									\
+			$(SRCS)parse_content.c 							\
+			$(SRCS)parse_messages.c 						\
 
 
 CC = gcc

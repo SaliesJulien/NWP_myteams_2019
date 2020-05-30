@@ -115,6 +115,8 @@ void init_first_thread(server_t *, int, int);
 void init_next_channel(server_t *, int, int);
 void display_list_thread(server_t *, int, int, int);
 void display_list_replies(server_t *, int, int, int);
+void malloc_messages(server_t *, char *, char *);
+server_t *parse_messages(server_t *, char *);
 
 //In user_messages.c
 char *get_command_id(server_t *);
