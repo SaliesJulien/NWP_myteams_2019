@@ -10,7 +10,8 @@
 void send_notification_login(server_t *server, int id)
 {
     for (int i = 0; i < server->nb_clients; i++)
-        if (server->clients[i].active == true)
+        if (server->clients[i].active == true &&
+            server->clients[i].logged == true)
             dprintf(server->clients[i].fd_client, "101|%s|%s|\r\n",
                 server->clients[id].user_id, server->clients[id].user_name);
     server_event_user_logged_in(server->clients[id].user_id);
