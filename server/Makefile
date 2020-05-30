@@ -29,12 +29,12 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)/create/channel_infos.c 					\
 			$(SRCS)/create/comment_handling.c 				\
 			$(SRCS)/create/comment_infos.c	 				\
-			$(SRCS)/use_handling/use_handling.c 			\
-			$(SRCS)/use_handling/use_without_id.c 			\
-			$(SRCS)/use_handling/use_one_id.c 				\
-			$(SRCS)/use_handling/use_two_id.c 				\
-			$(SRCS)/use_handling/use_three_id.c 			\
-			$(SRCS)/use_handling/unknown_use_id.c 			\
+			$(SRCS)/use/use_handling.c 						\
+			$(SRCS)/use/use_without_id.c 					\
+			$(SRCS)/use/use_one_id.c 						\
+			$(SRCS)/use/use_two_id.c 						\
+			$(SRCS)/use/use_three_id.c 						\
+			$(SRCS)/use/unknown_use_id.c 					\
 			$(SRCS)/list/list.c 							\
 			$(SRCS)/list/display_list.c 					\
 			$(SRCS)info.c 					\
