@@ -102,6 +102,17 @@ server_t *read_client(server_t *);
 server_t *read_dimensionnal_array(server_t *);
 void delay(int);
 bool user_subscribed(server_t *, int, int, char *);
+void set_thread(thread_t *, char *, char *);
+void init_first_comment(server_t *, int, int, int);
+void init_next_thread(server_t *, int, int, int);
+void init_first_channel(server_t *, int);
+void init_next_team(server_t *, int);
+int team_nb(server_t *, int);
+int channel_nb(server_t *, int, int);
+int thread_nb(server_t *, int, int, int);
+int comment_nb(server_t *, int, int, int);
+void init_first_thread(server_t *, int, int);
+void init_next_channel(server_t *, int, int);
 
 //In user_messages.c
 char *get_command_id(server_t *);

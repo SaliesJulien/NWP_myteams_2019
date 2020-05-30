@@ -14,17 +14,21 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)exec_commands.c 			\
 			$(SRCS)new_client.c 			\
 			$(SRCS)generate_id.c 			\
-			$(SRCS)/send/send.c 					\
-			$(SRCS)/send/conversation_exist.c 		\
-			$(SRCS)login.c					\
-			$(SRCS)users.c					\
-			$(SRCS)tools.c					\
-			$(SRCS)user_messages.c			\
-			$(SRCS)user.c					\
-			$(SRCS)teams_handling.c  		\
-			$(SRCS)thread_handling.c 		\
-			$(SRCS)channel_handling.c 		\
-			$(SRCS)comment_handling.c 		\
+			$(SRCS)/send/send.c 							\
+			$(SRCS)/send/conversation_exist.c 				\
+			$(SRCS)login.c									\
+			$(SRCS)users.c									\
+			$(SRCS)tools.c									\
+			$(SRCS)user_messages.c							\
+			$(SRCS)user.c									\
+			$(SRCS)/create/teams_handling.c  				\
+			$(SRCS)/create/teams_infos.c  					\
+			$(SRCS)/create/thread_infos.c 					\
+			$(SRCS)/create/thread_handling.c 				\
+			$(SRCS)/create/channel_handling.c 				\
+			$(SRCS)/create/channel_infos.c 					\
+			$(SRCS)/create/comment_handling.c 				\
+			$(SRCS)/create/comment_infos.c	 				\
 			$(SRCS)/use_handling/use_handling.c 			\
 			$(SRCS)/use_handling/use_without_id.c 			\
 			$(SRCS)/use_handling/use_one_id.c 				\
