@@ -119,6 +119,8 @@ bool count_args(server_t *, int);
 int count_quotes(server_t *, int, int, bool);
 char *parse_args(server_t *, int);
 char *find_arg(server_t *, int, char **, int *);
+void display_list_thread(server_t *, int, int, int);
+void display_list_replies(server_t *, int, int, int);
 
 //In user_messages.c
 char *get_command_id(server_t *);
