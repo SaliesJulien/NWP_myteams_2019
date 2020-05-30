@@ -35,7 +35,8 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)/use_handling/use_two_id.c 				\
 			$(SRCS)/use_handling/use_three_id.c 			\
 			$(SRCS)/use_handling/unknown_use_id.c 			\
-			$(SRCS)list.c 					\
+			$(SRCS)/list/list.c 							\
+			$(SRCS)/list/display_list.c 					\
 			$(SRCS)info.c 					\
 			$(SRCS)unsubscribe.c 			\
 			$(SRCS)subscribe.c 				\

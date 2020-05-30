@@ -113,6 +113,8 @@ int thread_nb(server_t *, int, int, int);
 int comment_nb(server_t *, int, int, int);
 void init_first_thread(server_t *, int, int);
 void init_next_channel(server_t *, int, int);
+void display_list_thread(server_t *, int, int, int);
+void display_list_replies(server_t *, int, int, int);
 
 //In user_messages.c
 char *get_command_id(server_t *);
