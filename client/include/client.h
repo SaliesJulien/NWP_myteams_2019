@@ -74,7 +74,7 @@ void code_103(char const *, char const *, char const *, char const *);
 void code_104(char const *, char const *, char const *, char const *);
 void code_105(char const *, char const *, char const *, char const *);
 void code_106(char const *, char const *, char const *, char const *);
-void code_107(char const *, char const *, time_t ,char const *, char const *);
+void code_107(char const *, char const *, time_t, char const *, char const *);
 void code_108(char const *, char const *, int);
 void code_109(char const *, char const *, char const *, char const *);
 void code_110(char const *, char const *, char const *, char const *);

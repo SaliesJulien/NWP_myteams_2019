@@ -52,11 +52,11 @@ void list_channel_info(server_t *server, int client, int id)
         server->teams[i].channel[k].channel_name);
     delay(1);
     dprintf(client, "120|%s|%s|%s|\r\n", server->teams[i].channel[k].channel_id
-        ,server->teams[i].channel[k].channel_name,
+        , server->teams[i].channel[k].channel_name,
         server->teams[i].channel[k].channel_desc);
     delay(1);
     dprintf(client, "Channel name : \"%s\"    Channel description : \"%s\"\r\n"
-        ,server->teams[i].channel[k].channel_name,
+        , server->teams[i].channel[k].channel_name,
         server->teams[i].channel[k].channel_desc);
 }
 

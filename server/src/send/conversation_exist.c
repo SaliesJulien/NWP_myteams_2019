@@ -7,7 +7,6 @@
 
 #include "server.h"
 
-
 void conversation_exist(server_t *server, int id, char *message, int i)
 {
     int a = 0;

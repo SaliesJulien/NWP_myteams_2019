@@ -7,7 +7,8 @@
 
 #include "client.h"
 
-void code_101(char const *first, char const *second, char const *third, char const *four)
+void code_101(char const *first, char const *second,
+    char const *third, char const *four)
 {
     (void)third;
     (void)four;

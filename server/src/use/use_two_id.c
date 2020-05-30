@@ -63,7 +63,8 @@ void good_team_now_chan(team_t *teams, char *chan, clients_t *clients)
             clients->use_state[1] =
                 malloc(sizeof(char) * strlen(chan) + 1);
             strcpy(clients->use_state[1], chan);
-            dprintf(clients->fd_client, "211 You are now in the channel \"%s\"\n",
+            dprintf(clients->fd_client,
+                "211 You are now in the channel \"%s\"\n",
                 teams->channel[k].channel_name);
             channel_exist = true;
             break;

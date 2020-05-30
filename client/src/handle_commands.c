@@ -7,7 +7,6 @@
 
 #include "client.h"
 
-
 void delay(int number_of_seconds)
 {
     int milli_seconds = 1000 * number_of_seconds;

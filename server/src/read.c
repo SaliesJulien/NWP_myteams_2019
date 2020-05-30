@@ -25,7 +25,7 @@ server_t *read_messages(server_t *server)
 {
     char *line = NULL;
     size_t len = 0;
-    FILE *messages_write = fopen("messages","r");
+    FILE *messages_write = fopen("messages", "r");
 
     if (messages_write != NULL) {
         while (getline(&line, &len, messages_write) != -1)
@@ -42,7 +42,7 @@ server_t *read_contents(server_t *server)
     char *line = NULL;
     size_t len = 0;
     bool first = false;
-    FILE *comment_write = fopen("comments","r");
+    FILE *comment_write = fopen("comments", "r");
 
     if (comment_write != NULL) {
         line = NULL;

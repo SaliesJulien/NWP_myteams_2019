@@ -23,14 +23,14 @@ void init_sets(server_t *server)
 
 void init_teams(server_t *server)
 {
-    if(access("teams_log", F_OK) == -1) {
+    if (access("teams_log", F_OK) == -1) {
         server->teams = malloc(sizeof(team_t));
         memset(server->teams, 0, sizeof(team_t));
         strcpy(server->teams[0].team_id, "NULL");
         strcpy(server->teams[0].team_desc, "NULL");
         strcpy(server->teams[0].team_name, "NULL");
     }
-    if(access("client_log", F_OK) == -1) {
+    if (access("client_log", F_OK) == -1) {
         server->clients = malloc(sizeof(clients_t));
         memset(server->clients, 0, sizeof(clients_t));
     }
@@ -44,8 +44,8 @@ server_t *server_init(server_t *server, char **av)
     server->port = atoi(av[1]);
     start_connection(server);
     server = read_struct(server);
-    server->messages_write = fopen("messages","a+");
-    server->comment_write = fopen("comments","a+");
+    server->messages_write = fopen("messages", "a+");
+    server->comment_write = fopen("comments", "a+");
     return (server);
 }
 

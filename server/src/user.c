@@ -24,7 +24,7 @@ bool find_user(server_t *server, char *user_id, int id)
             return (true);
         }
     }
-    return(false);
+    return (false);
 }
 
 void user(server_t *server, int client, int id)

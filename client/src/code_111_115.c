@@ -22,7 +22,7 @@ void code_112(char const *thread_id, char const *user_id, time_t time,
 }
 
 void code_113(char const *first, char const *second, time_t time,
-    char const *third,char const *fourth)
+    char const *third, char const *fourth)
 {
     (void)second;
     (void)fourth;

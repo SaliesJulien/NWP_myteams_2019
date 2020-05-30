@@ -11,7 +11,6 @@ _documentation that explain how to use commands aviable on this server and the d
 **description : set the username used by client**
 
     <- 230 Succesfull login
-    <- 330 Client already connected
     <- 530 Authentification failed, name length longer than 32 characters
     <- 501 Error syntax in parameters or arguments
 ***
