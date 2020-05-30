@@ -113,6 +113,12 @@ int thread_nb(server_t *, int, int, int);
 int comment_nb(server_t *, int, int, int);
 void init_first_thread(server_t *, int, int);
 void init_next_channel(server_t *, int, int);
+void remove_chars(char *, char);
+char *format_cmd(char *);
+bool count_args(server_t *, int);
+int count_quotes(server_t *, int, int, bool);
+char *parse_args(server_t *, int);
+char *find_arg(server_t *, int, char **, int *);
 
 //In user_messages.c
 char *get_command_id(server_t *);

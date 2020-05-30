@@ -39,30 +39,6 @@ void command_not_found(server_t *server, int client, int id)
     dprintf(client, "500 Syntax error, command unrecognized.\r\n");
 }
 
-char *format_cmd(char *str)
-{
-    char *cmd = NULL;
-    char *temp = strdup(str);
-
-    if (index(temp, ' ') != NULL) {
-        cmd = strtok(temp, " ");
-    } else {
-        cmd = strdup(temp);
-        free(temp);
-    }
-    return (cmd);
-}
-
-void remove_chars(char *str, char c)
-{
-    int i = 0;
-
-    for (int y = 0; str[y]; y++)
-        if (str[y] != c)
-            str[i++] = str[y];
-    str[i] = 0;
-}
-
 void wich_commands(server_t *server, int client, int id, cmds_t *ptr_command)
 {
     char *cmd = format_cmd(server->command);
