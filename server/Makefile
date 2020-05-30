@@ -43,6 +43,7 @@ SRCSERVER =	$(SRCS)main.c 					\
 			$(SRCS)subscribed.c 							\
 			$(SRCS)save.c 									\
 			$(SRCS)read.c 									\
+			$(SRCS)read_teams.c 							\
 			$(SRCS)parse_content.c 							\
 			$(SRCS)parse_messages.c 						\
 			$(SRCS)args_gesture.c 			\

@@ -44,16 +44,6 @@ int send_notification_logout(server_t *server, int client, int id)
     return (id);
 }
 
-void remove_client(server_t *server, int client, int id)
-{
-    if (strcmp(server->command, "/logout") == 0) {
-        id = send_notification_logout(server, client, id);
-        printf("Client disconnected\r\n");
-        server_event_user_logged_out(server->clients[id].user_id);
-    } else
-        dprintf(client, "501 Error syntax in parameters or arguments\r\n");
-}
-
 void old_clients(server_t *server, int client)
 {
     for (int i = 0; i < server->nb_clients; i++) {

@@ -129,6 +129,10 @@ void save_client(server_t *);
 void start_connection(server_t *);
 void malloc_messages(server_t *, char *, char *);
 server_t *parse_messages(server_t *, char *);
+server_t *read_members(server_t *, FILE *, int);
+server_t *read_teams(server_t *, FILE *, FILE *, int);
+void remove_client(server_t *, int, int);
+int send_notification_logout(server_t *, int, int);
 
 //In user_messages.c
 char *get_command_id(server_t *);
