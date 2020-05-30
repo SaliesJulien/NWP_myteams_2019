@@ -63,10 +63,16 @@ void get_list(server_t *server, int client)
 
 void users_list(server_t *server, int client, int id)
 {
-    if (strcmp(server->command, "/users") == 0)
-        (server->clients[id].logged == true) ?
-            get_list(server, client) : dprintf(client,
+    if (strcmp(server->command, "/users") == 0) {
+        if (server->clients[id].logged == true) {
+            get_list(server, client);
+        } else {
+            dprintf(client,
                 "515 User not logged\r\n");
-    else
+            delay(1);
+            dprintf(server->clients[id].fd_client, "128|\r\n");
+        }
+    } else {
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
+    }
 }

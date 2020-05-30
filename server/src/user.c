@@ -33,6 +33,8 @@ void user(server_t *server, int client, int id)
 
     if (server->clients[id].logged == false) {
         dprintf(client, "515 User not logged\r\n");
+        delay(1);
+        dprintf(server->clients[id].fd_client, "128|\r\n");
     } else if (strcmp(user_id, "Bad cmd") != 0) {
         if ((find_user(server, user_id, id)) == false) {
             dprintf(client, "303 User doesn't exist\r\n");

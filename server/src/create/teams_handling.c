@@ -103,6 +103,8 @@ void create(server_t *server, int client, int id)
     }
     else {
         dprintf(client, "515 User not logged\r\n");
+        delay(1);
+        dprintf(server->clients[id].fd_client, "128|\r\n");
     }
     free(team_name);
     free(team_desc);
