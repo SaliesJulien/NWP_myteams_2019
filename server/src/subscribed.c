@@ -66,6 +66,8 @@ void subscribed(server_t *server, int client, int id)
         dprintf(client, "515 User not logged\r\n");
         delay(1);
         dprintf(client, "128|\r\n");
+        free(team_id);
+        return;
     }
     if (count_args(server, 2))
         dprintf(client, "501 Error syntax in parameters or arguments\r\n");
