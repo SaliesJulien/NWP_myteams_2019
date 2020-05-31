@@ -32,10 +32,12 @@ void send_notif_team(server_t *server, int id, int i, char *team_name)
         "122|%s|%s|%s|\r\n", server->teams[i].team_id,
         server->teams[i].team_name, server->teams[i].team_desc);
     delay(1);
-    for (int a = 0; a < server->nb_clients; a++)
-        dprintf(server->clients[a].fd_client, "105|%s|%s|%s|\r\n",
-            server->teams[i].team_id,
-            server->teams[i].team_name, server->teams[i].team_desc);
+    for (int a = 0; a < server->nb_clients; a++) {
+        if (server->clients[a].logged == true)
+            dprintf(server->clients[a].fd_client, "105|%s|%s|%s|\r\n",
+                server->teams[i].team_id,
+                server->teams[i].team_name, server->teams[i].team_desc);
+    }
     server->nb_teams++;
     server->teams[i].nb_members = 0;
     server->teams[i].nb_channel = 0;
