@@ -64,7 +64,8 @@ void init_fd(fd_set *, int, int);
 void print_fd(int, int, char *, int);
 int client_side(char **);
 void main_loop(int, struct sockaddr_in);
-
+void free_all(char *, char *, char *, char *);
+void to_long_arg_command(char *, char *);
 
 // code functions
 
@@ -74,12 +75,9 @@ void code_103(char const *, char const *, char const *, char const *);
 void code_104(char const *, char const *, char const *, char const *);
 void code_105(char const *, char const *, char const *, char const *);
 void code_106(char const *, char const *, char const *, char const *);
-void code_107(char const *, char const *, time_t, char const *, char const *);
 void code_108(char const *, char const *, int);
 void code_109(char const *, char const *, char const *, char const *);
 void code_110(char const *, char const *, char const *, char const *);
-void code_111(char const *, char const *, time_t, char const *, char const *);
-void code_112(char const *, char const *, time_t, char const *, char const *);
 void code_113(char const *, char const *, time_t, char const *, char const *);
 void code_114(char const *, char const *, char const *, char const *);
 void code_115(char const *, char const *, char const *, char const *);
@@ -88,11 +86,8 @@ void code_117(char const *, char const *, char const *, char const *);
 void code_118(char const *, char const *, int);
 void code_119(char const *, char const *, char const *, char const *);
 void code_120(char const *, char const *, char const *, char const *);
-void code_121(char const *, char const *, time_t, char const *, char const *);
 void code_122(char const *, char const *, char const *, char const *);
 void code_123(char const *, char const *, char const *, char const *);
-void code_124(char const *, char const *, time_t, char const *, char const *);
-void code_125(char const *, char const *, time_t, char const *, char const *);
 void code_126(char const *, char const *, char const *, char const *);
 void code_127(char const *, char const *, char const *, char const *);
 void code_128(char const *, char const *, char const *, char const *);
