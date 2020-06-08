@@ -38,7 +38,7 @@ int comment_nb(server_t *server, int i, int k, int j)
 {
     int count = 0;
 
-    for (; strcmp(server->teams[i].channel[k].thread[j].comment[count], "NULL")
-        ; count++);
+    for (; strcmp(server->teams[i].channel[k].thread[j].comment[count],
+        "NULL"); count++);
     return (count);
 }
