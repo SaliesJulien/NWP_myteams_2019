@@ -47,21 +47,11 @@ void save_members(server_t *server, FILE *members_teams)
 
 void save_struct(server_t *server)
 {
-    FILE *file_teams = fopen("teams_log", "wb");
-    FILE *channel_teams = fopen("channel_log", "wb");
-    FILE *thread_teams = fopen("thread_log", "wb");
-    FILE *members_teams = fopen("members_log", "wb");
-
-    save_server(server);
-    save_client(server);
-    if (file_teams != NULL && server->teams != NULL)
-        fwrite(server->teams, sizeof(team_t), server->nb_teams, file_teams);
-    if (channel_teams != NULL)
-        save_teams(server, channel_teams, thread_teams);
-    if (members_teams != NULL)
-        save_members(server, members_teams);
-    fclose(file_teams);
-    fclose(thread_teams);
-    fclose(channel_teams);
-    fclose(members_teams);
+    for (int j = 0; j < server->nb_clients; j++) {
+        if (server->clients[j].active == true) {
+            dprintf(server->clients[j].fd_client,
+                "221 Service closing control connection\r\n");
+            server->clients[j].active = false;
+        }
+    }
 }

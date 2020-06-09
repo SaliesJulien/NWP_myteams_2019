@@ -43,7 +43,6 @@ server_t *server_init(server_t *server, char **av)
     keepRunning = true;
     server->port = atoi(av[1]);
     start_connection(server);
-    server = read_struct(server);
     server->messages_write = fopen("messages", "a+");
     server->comment_write = fopen("comments", "a+");
     return (server);
