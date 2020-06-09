@@ -56,8 +56,7 @@ void free_content(char *third_arg, char *fourth_arg, char *fifth_arg)
     free(fifth_arg);
 }
 
-void find_function(simple_replies_t ptr_simple[20], time_replies_t ptr_time[6],
-    char *code, char *str)
+void find_function(simple_replies_t ptr_simple[20], char *code, char *str)
 {
     char *first_arg = get_args(str, 1);
     char *second_arg = get_args(str, 2);
@@ -68,12 +67,6 @@ void find_function(simple_replies_t ptr_simple[20], time_replies_t ptr_time[6],
     for (int i = 0; i < 20; i++)
         if (strncmp(ptr_simple[i].reply_code, code, 3) == 0) {
             ptr_simple[i].ptr(first_arg, second_arg, third_arg, fourth_arg);
-            break;
-        }
-    for (int y = 0; y < 6; y++)
-        if (strncmp(ptr_time[y].reply_code, code, 3) == 0) {
-            ptr_time[y].ptr(first_arg, second_arg, time(NULL), fourth_arg,
-                fifth_arg);
             break;
         }
     free(first_arg);
@@ -91,12 +84,10 @@ void pointer_function(char *str)
         {"117", code_117}, {"119", code_119}, {"120", code_120},
         {"122", code_122}, {"123", code_123}, {"126", code_126},
         {"127", code_127}, {"128", code_128}, {"129", code_129}};
-    time_replies_t ptr_time[6] = {{"107", code_107}, {"111", code_111},
-        {"112", code_112}, {"121", code_121}, {"124", code_124},
-        {"125", code_125}};
 
     code = get_args(str, 0);
-    find_function(ptr_simple, ptr_time, code, str);
+    find_function(ptr_simple, code, str);
     others_commands(code, str);
+    to_long_arg_command(code, str);
     free(code);
 }
